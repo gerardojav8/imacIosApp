@@ -15,9 +15,10 @@ namespace icom
 			base.ViewDidLoad ();
 
 			btnMaquinaria.TouchUpInside += delegate {
-				Maquinaria viewmaq = new Maquinaria();
-				viewmaq.Title = "Maquinaria";
+				//Maquinaria viewmaq = new Maquinaria();
+				//viewmaq.Title = "Maquinaria";
 
+				MaquinasController viewmaq = new MaquinasController();
 
 				this.NavigationController.PushViewController(viewmaq, false);
 				UIView.BeginAnimations(null);
