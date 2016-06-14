@@ -33,6 +33,7 @@ namespace icom
 				//viewmaq.Title = "Maquinaria";
 
 				MaquinasController viewmaq = new MaquinasController();
+				viewmaq.token = token;
 
 				this.NavigationController.PushViewController(viewmaq, false);
 				UIView.BeginAnimations(null);
@@ -98,7 +99,7 @@ namespace icom
 
 			client = new HttpClient();
 			string url = Consts.ulrserv + "usuarios/getUsuarioByuserAndpass";
-			var uri = new Uri(string.Format(Consts.urltoken));
+			var uri = new Uri(string.Format(url));
 
 			LoginUsuario objlog = new LoginUsuario();
 			objlog.usuario = strusuario;
@@ -106,27 +107,14 @@ namespace icom
 			var json = JsonConvert.SerializeObject(objlog);
 
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-			HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, url);
-			request.Headers.Clear();
-			try
-			{
-				//request.Headers.Add("Content-Type", "application/json");
-				request.Headers.Add("Authorization", "Bearer " + token);
-			}
-			catch (Exception e)
-			{
-				funciones.MessageBox("Error", e.ToString());
-			}
-
-
-			request.Content = content;
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
 
 			HttpResponseMessage response = null;
 
 			try
 			{
-				response = await client.SendAsync(request);
+				response = await client.PostAsync(uri, content);
+				//response = await client.SendAsync(request);
 			}
 			catch (Exception e)
 			{
@@ -142,8 +130,6 @@ namespace icom
 
 			string responseString = string.Empty;
 			responseString = await response.Content.ReadAsStringAsync();
-			responseString = responseString.Replace("\\", "");
-			responseString = responseString.Substring(1, responseString.Length-2);
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];

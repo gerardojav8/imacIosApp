@@ -3,6 +3,13 @@
 using UIKit;
 using System.Collections.Generic;
 using Foundation;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using icom.globales;
+using System.Text;
+using Newtonsoft.Json;
+using System.Json;
 
 namespace icom
 {
@@ -11,6 +18,15 @@ namespace icom
 		public MaquinasController() : base("MaquinasController", null)
 		{
 		}
+
+		HttpClient client;
+		List<clsMaquinas> lstMaqServ;
+		public string token
+		{
+			get;
+			set;
+		}
+
 		List<String> lstItems = new List<String>();
 		public override void ViewDidLoad()
 		{
@@ -29,6 +45,35 @@ namespace icom
 			{
 				WillBeginTableEditing(lstMaquinas);
 			};
+
+			clsMaquinas obj1 = new clsMaquinas();
+			obj1.noserie = "1234568";
+			obj1.noeconomico = 1234;
+			obj1.marca = "mercedes venz";
+			obj1.modelo = 1234;
+			obj1.aniofabricacion = 2015;
+			obj1.idequipo = -1;
+			obj1.imagen = "";
+
+			clsMaquinas obj2 = new clsMaquinas();
+			obj2.noserie = "45678";
+			obj2.noeconomico = 6789;
+			obj2.marca = "Toyota";
+			obj2.modelo = 3654;
+			obj2.aniofabricacion = 2012;
+			obj2.idequipo = -1;
+			obj2.imagen = "";
+
+			clsMaquinas obj3 = new clsMaquinas();
+			obj3.noserie = "987654";
+			obj3.noeconomico = 9871;
+			obj3.marca = "Volvo";
+			obj3.modelo = 8798;
+			obj3.aniofabricacion = 2017;
+			obj3.idequipo = -1;
+			obj3.imagen = "";
+
+			//await getAllMaquinas();
 
 		}
 
@@ -50,6 +95,90 @@ namespace icom
 		{
 			base.DidReceiveMemoryWarning();
 			// Release any cached data, images, etc that aren't in use.
+		}
+
+		public async Task<Boolean> getAllMaquinas()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "maquinas/getTodasMaquinas";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return false;
+			}
+
+			if (response == null)
+			{
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer maquinas del servidor";
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+
+			lstMaqServ = new List<clsMaquinas>();
+
+			foreach(var maquina in jrarray)
+			{
+				clsMaquinas objm = getobjMaquina(maquina);
+				lstMaqServ.Add(objm);
+			}
+
+			funciones.MessageBox("Aviso", "Maquinas cargadas");
+			return true;
+		}
+
+		public clsMaquinas getobjMaquina(Object varjson)
+		{
+			clsMaquinas objmaq = new clsMaquinas();
+			JObject json = (JObject)varjson;
+
+			objmaq.noserie = json["noserie"].ToString();
+			objmaq.noeconomico = Int32.Parse(json["noeconomico"].ToString());
+			objmaq.marca = json["marca"].ToString();
+			objmaq.modelo = Int32.Parse(json["modelo"].ToString());
+			objmaq.aniofabricacion = Int32.Parse(json["aniofabricacion"].ToString());
+			objmaq.idequipo = Int32.Parse(json["idequipo"].ToString());
+			objmaq.imagen = json["imagen"].ToString();
+
+			return objmaq;
 		}
 	}
 
