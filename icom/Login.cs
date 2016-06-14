@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Text;
 using System.IO;
+using icom.globales;
 namespace icom
 {
 	public partial class Login : UIViewController
@@ -14,7 +15,7 @@ namespace icom
 		{
 		}
 		HttpClient client;
-
+		string token;
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -28,7 +29,12 @@ namespace icom
 
 			if (resp)
 			{
+				
 				Principal viewprin = new Principal();
+				viewprin.strusuario = txtUsuario.Text;
+				viewprin.strpass = txtPass.Text;
+				viewprin.token = token;
+
 				viewprin.Title = "I.C.O.M";
 				this.NavigationController.PushViewController(viewprin, false);
 				UIView.BeginAnimations(null);
@@ -45,26 +51,40 @@ namespace icom
 
 			if (usuario.Equals(""))
 			{
-				MessageBox("Error", "Debe de ingresar usuario");
+				funciones.MessageBox("Error", "Debe de ingresar usuario");
 				return false;
 			}
 
 			if (pass.Equals(""))
 			{
-				MessageBox("Error", "Debe de ingresar password");
+				funciones.MessageBox("Error", "Debe de ingresar password");
 				return false;
 			}
 
 			client = new HttpClient();
-			String RestUrl = "http://192.168.0.32/icomtoken/oauth2/token";
-			var uri = new Uri(string.Format(RestUrl));
+
+			var uri = new Uri(string.Format(Consts.urltoken));
 
 
             var content = new StringContent("username="+usuario+"&password="+pass+"&grant_type=password&client_id=099153c2625149bc8ecb3e85e03f0022", Encoding.UTF8, "application/x-www-form-urlencoded");
 
 			HttpResponseMessage response = null;
 
-			response = await client.PostAsync(uri, content);
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return false;
+			}
+
+			if (response == null)
+			{
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return false;
+			}
 
 			string responseString = string.Empty;
 			responseString = await response.Content.ReadAsStringAsync();
@@ -77,12 +97,15 @@ namespace icom
 			if (jtokenerror != null)
 			{
 				string error = jtokenerror.ToString();
-				MessageBox("Error", error);
+				funciones.MessageBox("Error", error);
 				return false;
 			}
 
+			token = jsonrequest["access_token"].ToString();
 			return true;
 		}
+
+
 
 		public override void DidReceiveMemoryWarning ()
 		{
@@ -90,16 +113,7 @@ namespace icom
 			// Release any cached data, images, etc that aren't in use.
 		}
 
-		private void MessageBox(string titulo, string mensaje)
-		{
-			using (UIAlertView Alerta = new UIAlertView())
-			{
-				Alerta.Title = titulo;
-				Alerta.Message = mensaje;
-				Alerta.AddButton("Enterado");
-				Alerta.Show();
-			};
-		}
+
 	}
 }
 

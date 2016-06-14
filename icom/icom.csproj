@@ -149,6 +149,9 @@
     <Compile Include="MaquinasController.designer.cs">
       <DependentUpon>MaquinasController.cs</DependentUpon>
     </Compile>
+    <Compile Include="globales\Const.cs" />
+    <Compile Include="globales\funciones.cs" />
+    <Compile Include="Entidades\LoginUsuario.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -169,5 +172,9 @@
       <Version>7.0.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="globales\" />
+    <Folder Include="Entidades\" />
   </ItemGroup>
 </Project>
