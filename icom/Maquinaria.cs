@@ -24,7 +24,7 @@ namespace icom
 				this.NavigationController.PushViewController(viewro, false);
 				UIView.BeginAnimations(null);
 				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View,true);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View, true);
 				UIView.CommitAnimations();
 			};
 

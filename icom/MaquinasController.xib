@@ -7,8 +7,9 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MaquinasController">
             <connections>
-                <outlet property="btnTest" destination="ENd-37-wcj" id="T5X-Am-Au6"/>
+                <outlet property="btnbusqueda" destination="o5c-M5-VwE" id="idy-4G-o6P"/>
                 <outlet property="lstMaquinas" destination="Jdo-gA-ySt" id="hhN-J1-nqQ"/>
+                <outlet property="txtbusqueda" destination="lfz-UN-dVd" id="UiO-hn-FYW"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -16,13 +17,19 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <subviews>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
-                    <rect key="frame" x="27" y="103" width="321" height="299"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
+                    <rect key="frame" x="8" y="124" width="359" height="535"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="separatorColor" red="0.58729418570000003" green="0.68028762760000006" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ENd-37-wcj">
-                    <rect key="frame" x="154" y="486" width="46" height="30"/>
-                    <state key="normal" title="Button"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lfz-UN-dVd">
+                    <rect key="frame" x="8" y="106" width="293" height="30"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-M5-VwE">
+                    <rect key="frame" x="309" y="98" width="51" height="45"/>
+                    <state key="normal" image="search_button.png"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -30,4 +37,7 @@
             <point key="canvasLocation" x="412.5" y="406.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="search_button.png" width="128" height="128"/>
+    </resources>
 </document>

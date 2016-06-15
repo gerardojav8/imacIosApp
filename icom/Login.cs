@@ -19,7 +19,21 @@ namespace icom
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			btnLogin.TouchUpInside += loginboton;
+			//btnLogin.TouchUpInside += loginboton;
+
+			btnLogin.TouchUpInside += delegate {
+				Principal viewprin = new Principal();
+				viewprin.strusuario = txtUsuario.Text;
+				viewprin.strpass = txtPass.Text;
+				viewprin.token = "";
+
+				viewprin.Title = "I.C.O.M";
+				this.NavigationController.PushViewController(viewprin, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
 
 		}
 

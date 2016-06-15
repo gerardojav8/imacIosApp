@@ -24,7 +24,7 @@ namespace icom
 
 		public string token { get; set;}
 
-		public async override void ViewDidLoad ()
+		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -82,12 +82,13 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			Boolean resp = await TraeUsuario();
+			/*Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
 				this.NavigationController.PopToRootViewController(true);
 			}
+			*/
 
 
 

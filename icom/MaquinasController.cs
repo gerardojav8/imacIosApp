@@ -10,6 +10,8 @@ using icom.globales;
 using System.Text;
 using Newtonsoft.Json;
 using System.Json;
+using System.Linq;
+using CoreGraphics;
 
 namespace icom
 {
@@ -20,36 +22,43 @@ namespace icom
 		}
 
 		HttpClient client;
-		List<clsMaquinas> lstMaqServ;
+		public static List<clsMaquinas> lstMaqServ = new List<clsMaquinas>();
 		public string token
 		{
 			get;
 			set;
 		}
 
-		List<String> lstItems = new List<String>();
+
 		public override void ViewDidLoad()
 		{
+			
 			base.ViewDidLoad();
 
 
-			lstItems.Add("Maquina 1");
-			lstItems.Add("Maquina 2");
-			lstItems.Add("Maquina 3");
-
-			fuentetabla source = new fuentetabla(lstItems.ToArray());
-			lstMaquinas.Source = source;
 
 
-			btnTest.TouchUpInside += delegate
-			{
-				WillBeginTableEditing(lstMaquinas);
-			};
+			lstMaquinas.Source = new FuenteTablaExpandible(this);
+
+
+			lstMaquinas.SeparatorColor = UIColor.Blue;
+			lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.DoubleLineEtched;
+
+			// blur effect
+			//lstMaquinas.SeparatorEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark);
+
+			//vibrancy effect
+			//var effect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Light);
+			//lstMaquinas.SeparatorEffect = UIVibrancyEffect.FromBlurEffect(effect);
+
+
+
+			//await getAllMaquinas();
 
 			clsMaquinas obj1 = new clsMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
-			obj1.marca = "mercedes venz";
+			obj1.marca = "Mercedes venz";
 			obj1.modelo = 1234;
 			obj1.aniofabricacion = 2015;
 			obj1.idequipo = -1;
@@ -73,22 +82,11 @@ namespace icom
 			obj3.idequipo = -1;
 			obj3.imagen = "";
 
-			//await getAllMaquinas();
+			lstMaqServ.Add(obj1);
+			lstMaqServ.Add(obj2);
+			lstMaqServ.Add(obj3);
 
-		}
 
-		public void WillBeginTableEditing(UITableView tableView)
-		{
-			tableView.BeginUpdates();
-			// insert the 'ADD NEW' row at the end of table display
-			tableView.InsertRows(new NSIndexPath[] {
-			NSIndexPath.FromRowSection (tableView.NumberOfRowsInSection (0), 0)
-			}, UITableViewRowAnimation.Fade);
-			// create a new item and add it to our underlying data (it is not intended to be permanent)
-			lstItems.Add("(add new)");
-			fuentetabla source = new fuentetabla(lstItems.ToArray());
-			lstMaquinas.Source = source;
-			tableView.EndUpdates(); // applies the changes
 		}
 
 		public override void DidReceiveMemoryWarning()
@@ -99,7 +97,6 @@ namespace icom
 
 		public async Task<Boolean> getAllMaquinas()
 		{
-
 
 			client = new HttpClient();
 			string url = Consts.ulrserv + "maquinas/getTodasMaquinas";
@@ -182,68 +179,43 @@ namespace icom
 		}
 	}
 
-	public class fuentetabla : TableSource
-	{
-		private string[] lstItems;
-		public fuentetabla(string[] items) : base(items) {
-			lstItems = items;
-		}
-		public override nint NumberOfSections(UITableView tableView)
-		{
-			return lstItems.Length;
-		}
 
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			//return base.RowsInSection(tableview, section);
-			return 2;
-		}
-
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			var cell = base.GetCell(tableView, indexPath);
-			cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
-			return cell;
-		}
-
-		public override void AccessoryButtonTapped(UITableView tableView, NSIndexPath indexPath)
-		{
-			new UIAlertView(lstItems[indexPath.Row].ToString(), "prueba",null, "Aceptar", null ).Show ();
-
-			tableView.DeselectRow(indexPath, true);
-
-		}
-	}
-	public class ExpandableTableSource<T> : UITableViewSource
-	{
-		public IReadOnlyList<T> Items;
-		protected readonly Action<T> TSelected;
+	public class FuenteTablaExpandible : UITableViewSource
+	{		
+		static readonly string idPersonaje = "Celda";
 		protected readonly string ParentCellIdentifier = "ParentCell";
 		protected readonly string ChildCellIndentifier = "ChildCell";
 		protected int currentExpandedIndex = -1;
+		protected UIViewController viewparent;
 
-		public ExpandableTableSource() { }
-
-
-		public ExpandableTableSource(Action<T> TSelected)
-		{
-			this.TSelected = TSelected;
-
+		public FuenteTablaExpandible(UIViewController view) {
+			viewparent = view;
 		}
+
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return Items.Count + ((currentExpandedIndex > -1) ? 1 : 0);
+			if (currentExpandedIndex > -1) {
+				return icom.MaquinasController.lstMaqServ.Count + 3;
+			}
+
+			return icom.MaquinasController.lstMaqServ.Count;
 		}
+
+
 
 		void collapseSubItemsAtIndex(UITableView tableView, int index)
 		{
 			tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(index + 1, 0) }, UITableViewRowAnimation.Fade);
+			tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(index + 2, 0) }, UITableViewRowAnimation.Fade);
+			tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(index + 3, 0) }, UITableViewRowAnimation.Fade);
 		}
 
 		void expandItemAtIndex(UITableView tableView, int index)
 		{
 			int insertPos = index + 1;
+			tableView.InsertRows(new[] { NSIndexPath.FromRowSection(insertPos++, 0) }, UITableViewRowAnimation.Fade);
+			tableView.InsertRows(new[] { NSIndexPath.FromRowSection(insertPos++, 0) }, UITableViewRowAnimation.Fade);
 			tableView.InsertRows(new[] { NSIndexPath.FromRowSection(insertPos++, 0) }, UITableViewRowAnimation.Fade);
 		}
 
@@ -251,7 +223,7 @@ namespace icom
 		{
 			return currentExpandedIndex > -1 &&
 				   indexPath.Row > currentExpandedIndex &&
-				   indexPath.Row <= currentExpandedIndex + 1;
+				   indexPath.Row <= currentExpandedIndex + 3;
 		}
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -259,10 +231,47 @@ namespace icom
 			if (isChild(indexPath))
 			{
 				//Handle selection of child cell
-				Console.WriteLine("You touched a child!");
-				tableView.DeselectRow(indexPath, true);
-				return;
+
+
+				if (indexPath.Row == currentExpandedIndex + 1)
+				{
+					ReporteOperador viewro = new ReporteOperador();
+					viewro.Title = "Reporte Operador";
+
+
+					viewparent.NavigationController.PushViewController(viewro, false);
+					UIView.BeginAnimations(null);
+					UIView.SetAnimationDuration(0.7);
+					UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
+					UIView.CommitAnimations();
+					//funciones.MessageBox("Aviso", "Reporte de Operador de Maquina");
+					tableView.DeselectRow(indexPath, true);
+					return;
+				}
+				else {
+					if (indexPath.Row == currentExpandedIndex + 2)
+					{
+						ReporteServicio viewrs = new ReporteServicio();
+						viewrs.Title = "Reporte Servicio";
+
+
+						viewparent.NavigationController.PushViewController(viewrs, false);
+						UIView.BeginAnimations(null);
+						UIView.SetAnimationDuration(0.7);
+						UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
+						UIView.CommitAnimations();
+						//funciones.MessageBox("Aviso", "Reporte de Servicio de Maquina");
+						tableView.DeselectRow(indexPath, true);
+						return;
+					}
+					else {
+						funciones.MessageBox("Aviso", "Ficha tecnica de maquina");
+						tableView.DeselectRow(indexPath, true);
+						return;
+					}
+				}
 			}
+
 			tableView.BeginUpdates();
 			if (currentExpandedIndex == indexPath.Row)
 			{
@@ -275,17 +284,130 @@ namespace icom
 				{
 					this.collapseSubItemsAtIndex(tableView, currentExpandedIndex);
 				}
-				currentExpandedIndex = (shouldCollapse && indexPath.Row > currentExpandedIndex) ? indexPath.Row - 1 : indexPath.Row;
+				currentExpandedIndex = (shouldCollapse && indexPath.Row > currentExpandedIndex) ? indexPath.Row - 3 : indexPath.Row;
 				this.expandItemAtIndex(tableView, currentExpandedIndex);
 			}
 			tableView.EndUpdates();
 			tableView.DeselectRow(indexPath, true);
 		}
 
-		//TODO: implement this here?
+
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			throw new NotImplementedException();
+			
+
+							
+
+			if (isChild(indexPath))
+			{
+				var cell = tableView.DequeueReusableCell(idPersonaje);
+				if (cell == null)
+				{
+					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, idPersonaje);
+				}
+
+				if (indexPath.Row == currentExpandedIndex + 1)
+				{
+					cell.TextLabel.Text = "Reporte de Operador";
+				}
+				else {
+					if (indexPath.Row == currentExpandedIndex + 2)
+					{
+						cell.TextLabel.Text = "Reporte de Servicio";
+					}else{
+						cell.TextLabel.Text = "Ficha de Maquina";
+					}
+				}
+
+				//cell.DetailTextLabel.Text = "Fila Expandida";
+				cell.ImageView.Image = null;
+				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+				return cell;
+			}
+			else {
+				var cell = tableView.DequeueReusableCell(idPersonaje) as CustomVegeCell;
+
+				if (cell == null)
+				{
+					cell = new CustomVegeCell((NSString)idPersonaje);
+				}
+
+				var maquina = icom.MaquinasController.lstMaqServ.ElementAt(indexPath.Row);
+
+				cell.UpdateCell( maquina.marca,
+			                      "Modelo: " + maquina.modelo,
+			 					  null);
+				
+
+				/*string uri = personaje.RutaImagen;
+
+				string filename = uri.Replace("https://dl.dropboxusercontent.com/u/106676747/", "");
+				string documentspath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+				string localpath = Path.Combine(documentspath, filename);
+
+				if (File.Exists(localpath))
+				{
+					cell.ImageView.Image = UIImage.FromFile(localpath);
+				}
+				else {
+					var url = new NSUrl(uri);
+					var data = NSData.FromUrl(url);
+
+					byte[] dataBytes = new byte[data.Length];
+					System.Runtime.InteropServices.Marshal.Copy(data.Bytes, dataBytes, 0, Convert.ToInt32(data.Length));
+					File.WriteAllBytes(localpath, dataBytes);
+
+					cell.ImageView.Image = UIImage.LoadFromData(data);
+				}*/
+
+				cell.Accessory = UITableViewCellAccessory.None;
+
+				return cell;
+			}
+
+
+		}
+	}
+
+	public class CustomVegeCell : UITableViewCell
+	{
+		UILabel headingLabel, subheadingLabel;
+		UIImageView imageView;
+
+		public CustomVegeCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
+		{
+			SelectionStyle = UITableViewCellSelectionStyle.Gray;
+			ContentView.BackgroundColor = UIColor.FromRGB(234, 217, 136);
+			imageView = new UIImageView();
+			headingLabel = new UILabel()
+			{
+				Font = UIFont.FromName("Cochin-Bold", 22f),
+				TextColor = UIColor.FromRGB(127, 51, 0),
+				BackgroundColor = UIColor.Clear
+			};
+			subheadingLabel = new UILabel()
+			{
+				Font = UIFont.FromName("AmericanTypewriter", 12f),
+				TextColor = UIColor.FromRGB(136, 117, 28),
+				TextAlignment = UITextAlignment.Right,
+				BackgroundColor = UIColor.Clear
+			};
+			ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel, imageView });
+			//ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel });
+
+		}
+		public void UpdateCell(string caption, string subtitle, UIImage image)
+		{
+			imageView.Image = image;
+			headingLabel.Text = caption;
+			subheadingLabel.Text = subtitle;
+		}
+		public override void LayoutSubviews()
+		{
+			base.LayoutSubviews();
+			imageView.Frame = new CGRect(ContentView.Bounds.Width - 63, 5, 0, 33);
+			headingLabel.Frame = new CGRect(5, 4, ContentView.Bounds.Width - 63, 25);
+			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);
 		}
 	}
 

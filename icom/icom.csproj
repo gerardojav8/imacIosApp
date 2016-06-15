@@ -164,6 +164,7 @@
     <Content Include="tracto.png" />
     <Content Include="home2.jpg" />
     <Content Include="down.png" />
+    <Content Include="search_button.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
