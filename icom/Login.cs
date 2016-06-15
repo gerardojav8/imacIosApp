@@ -14,14 +14,16 @@ namespace icom
 		public Login () : base ("Login", null)
 		{
 		}
+
+		LoadingOverlay loadPop;
 		HttpClient client;
 		string token;
-		public override void ViewDidLoad ()
+		public override void ViewDidLoad()
 		{
-			base.ViewDidLoad ();
-			//btnLogin.TouchUpInside += loginboton;
+			base.ViewDidLoad();
+			btnLogin.TouchUpInside += loginboton;
 
-			btnLogin.TouchUpInside += delegate {
+			/* btnLogin.TouchUpInside += delegate {
 				Principal viewprin = new Principal();
 				viewprin.strusuario = txtUsuario.Text;
 				viewprin.strpass = txtPass.Text;
@@ -33,16 +35,21 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
-			};
+			};*/
 
 		}
 
 		async void loginboton(object sender, EventArgs e)
 		{
+			var bounds = UIScreen.MainScreen.Bounds;
+
+			loadPop = new LoadingOverlay(bounds, "Ingresando al Sistema...");
+			View.Add(loadPop);
 			Boolean resp = await login();
 
 			if (resp)
 			{
+				loadPop.Hide();
 				
 				Principal viewprin = new Principal();
 				viewprin.strusuario = txtUsuario.Text;
@@ -65,12 +72,14 @@ namespace icom
 
 			if (usuario.Equals(""))
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "Debe de ingresar usuario");
 				return false;
 			}
 
 			if (pass.Equals(""))
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "Debe de ingresar password");
 				return false;
 			}
@@ -90,12 +99,14 @@ namespace icom
 			}
 			catch (Exception e)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
 
 			if (response == null)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
@@ -110,6 +121,7 @@ namespace icom
 
 			if (jtokenerror != null)
 			{
+				loadPop.Hide();
 				string error = jtokenerror.ToString();
 				funciones.MessageBox("Error", error);
 				return false;

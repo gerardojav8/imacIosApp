@@ -21,6 +21,7 @@ namespace icom
 		{
 		}
 
+		LoadingOverlay loadPop;
 		HttpClient client;
 		public static List<clsMaquinas> lstMaqServ = new List<clsMaquinas>();
 		public string token
@@ -30,7 +31,7 @@ namespace icom
 		}
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			
 			base.ViewDidLoad();
@@ -38,8 +39,8 @@ namespace icom
 
 
 
-			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
+			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
 			lstMaquinas.SeparatorColor = UIColor.Blue;
 			lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.DoubleLineEtched;
@@ -53,9 +54,15 @@ namespace icom
 
 
 
-			//await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
-			clsMaquinas obj1 = new clsMaquinas();
+			if (resp)
+			{
+				loadPop.Hide();
+				lstMaquinas.ReloadData();
+			}
+
+			/*clsMaquinas obj1 = new clsMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -84,7 +91,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 
 		}
@@ -97,6 +104,9 @@ namespace icom
 
 		public async Task<Boolean> getAllMaquinas()
 		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Maquinas ...");
+			View.Add(loadPop);
 
 			client = new HttpClient();
 			string url = Consts.ulrserv + "maquinas/getTodasMaquinas";
@@ -113,12 +123,14 @@ namespace icom
 			}
 			catch (Exception e)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
 
 			if (response == null)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
@@ -135,6 +147,7 @@ namespace icom
 			}
 			catch (Exception e)
 			{
+				loadPop.Hide();
 				var jsonresponse = JObject.Parse(responseString);
 
 				string mensaje = "error al traer maquinas del servidor";
@@ -158,7 +171,7 @@ namespace icom
 				lstMaqServ.Add(objm);
 			}
 
-			funciones.MessageBox("Aviso", "Maquinas cargadas");
+
 			return true;
 		}
 
@@ -365,7 +378,6 @@ namespace icom
 				return cell;
 			}
 
-
 		}
 	}
 
@@ -409,6 +421,8 @@ namespace icom
 			headingLabel.Frame = new CGRect(5, 4, ContentView.Bounds.Width - 63, 25);
 			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);
 		}
+
+
 	}
 
 }

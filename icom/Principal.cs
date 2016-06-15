@@ -17,6 +17,7 @@ namespace icom
 		}
 
 		HttpClient client;
+		LoadingOverlay loadPop;
 
 		public string strusuario{ get; set; }
 
@@ -24,7 +25,7 @@ namespace icom
 
 		public string token { get; set;}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -82,13 +83,16 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			/*Boolean resp = await TraeUsuario();
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
 				this.NavigationController.PopToRootViewController(true);
 			}
-			*/
+			else {
+				loadPop.Hide();
+			}
+
 
 
 
@@ -97,6 +101,9 @@ namespace icom
 		public async Task<Boolean> TraeUsuario()
 		{
 
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de usuario...");
+			View.Add(loadPop);
 
 			client = new HttpClient();
 			string url = Consts.ulrserv + "usuarios/getUsuarioByuserAndpass";
@@ -115,16 +122,18 @@ namespace icom
 			try
 			{
 				response = await client.PostAsync(uri, content);
-				//response = await client.SendAsync(request);
+
 			}
 			catch (Exception e)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
 
 			if (response == null)
 			{
+				loadPop.Hide();
 				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
 				return false;
 			}
@@ -138,6 +147,7 @@ namespace icom
 
 			if (jtokenerror != null)
 			{
+				loadPop.Hide();
 				string error = jtokenerror.ToString();
 				funciones.MessageBox("Error", error);
 				return false;
@@ -147,6 +157,7 @@ namespace icom
 			string apepaterno = jsonresponse["apepaterno"].ToString();
 			string apematerno = jsonresponse["apematerno"].ToString();
 			lblUsuario.Text = nombre + " " + apepaterno + " " + apematerno;
+
 			return true;
 		}
 
