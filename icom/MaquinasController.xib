@@ -17,20 +17,29 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <subviews>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zes-MP-rjm">
+                    <rect key="frame" x="0.0" y="87" width="375" height="62"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-M5-VwE">
+                            <rect key="frame" x="324" y="8" width="51" height="45"/>
+                            <state key="normal" image="search_button.png"/>
+                            <connections>
+                                <action selector="Btnbusqueda_TouchUpInside:" destination="-1" id="9" eventType="touchUpInside"/>
+                            </connections>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Busqueda" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lfz-UN-dVd">
+                            <rect key="frame" x="0.0" y="20" width="316" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
-                    <rect key="frame" x="8" y="124" width="359" height="535"/>
+                    <rect key="frame" x="0.0" y="149" width="375" height="518"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" red="0.58729418570000003" green="0.68028762760000006" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lfz-UN-dVd">
-                    <rect key="frame" x="8" y="106" width="293" height="30"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits"/>
-                </textField>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-M5-VwE">
-                    <rect key="frame" x="309" y="98" width="51" height="45"/>
-                    <state key="normal" image="search_button.png"/>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
@@ -39,5 +48,12 @@
     </objects>
     <resources>
         <image name="search_button.png" width="128" height="128"/>
+        <image name="factory.png" width="256" height="256"/>
+        <image name="ICOM.png" width="589" height="704"/>
+        <image name="man.png" width="300" height="188"/>
+        <image name="search.png" width="537" height="537"/>
+        <image name="tracto.png" width="256" height="250"/>
+        <image name="home2.jpg" width="159" height="170"/>
+        <image name="down.png" width="32" height="32"/>
     </resources>
 </document>

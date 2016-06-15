@@ -33,17 +33,14 @@ namespace icom
 
 		public async override void ViewDidLoad()
 		{
-			
+
 			base.ViewDidLoad();
-
-
-
-
 
 			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
 			lstMaquinas.SeparatorColor = UIColor.Blue;
-			lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.DoubleLineEtched;
+			lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine;
+
 
 			// blur effect
 			//lstMaquinas.SeparatorEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark);
@@ -51,8 +48,6 @@ namespace icom
 			//vibrancy effect
 			//var effect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Light);
 			//lstMaquinas.SeparatorEffect = UIVibrancyEffect.FromBlurEffect(effect);
-
-
 
 			Boolean resp = await getAllMaquinas();
 
@@ -200,6 +195,7 @@ namespace icom
 		protected readonly string ChildCellIndentifier = "ChildCell";
 		protected int currentExpandedIndex = -1;
 		protected UIViewController viewparent;
+		protected Boolean sec = false;
 
 		public FuenteTablaExpandible(UIViewController view) {
 			viewparent = view;
@@ -307,8 +303,6 @@ namespace icom
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			
-
 							
 
 			if (isChild(indexPath))
@@ -335,6 +329,7 @@ namespace icom
 				//cell.DetailTextLabel.Text = "Fila Expandida";
 				cell.ImageView.Image = null;
 				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
+				cell.ContentView.BackgroundColor = UIColor.FromRGB(217, 215, 213);
 				return cell;
 			}
 			else {
@@ -342,7 +337,7 @@ namespace icom
 
 				if (cell == null)
 				{
-					cell = new CustomVegeCell((NSString)idPersonaje);
+					cell = new CustomVegeCell((NSString)idPersonaje, sec);
 				}
 
 				var maquina = icom.MaquinasController.lstMaqServ.ElementAt(indexPath.Row);
@@ -350,7 +345,8 @@ namespace icom
 				cell.UpdateCell( maquina.marca,
 			                      "Modelo: " + maquina.modelo,
 			 					  null);
-				
+
+
 
 				/*string uri = personaje.RutaImagen;
 
@@ -374,7 +370,7 @@ namespace icom
 				}*/
 
 				cell.Accessory = UITableViewCellAccessory.None;
-
+				sec = !sec;
 				return cell;
 			}
 
@@ -386,10 +382,16 @@ namespace icom
 		UILabel headingLabel, subheadingLabel;
 		UIImageView imageView;
 
-		public CustomVegeCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
+		public CustomVegeCell(NSString cellId, Boolean sec) : base(UITableViewCellStyle.Default, cellId)
 		{
 			SelectionStyle = UITableViewCellSelectionStyle.Gray;
-			ContentView.BackgroundColor = UIColor.FromRGB(234, 217, 136);
+			if (sec)
+			{
+				ContentView.BackgroundColor = UIColor.FromRGB(234, 217, 136);
+			}
+			else { 
+				ContentView.BackgroundColor = UIColor.FromRGB(237, 215, 189);
+			}
 			imageView = new UIImageView();
 			headingLabel = new UILabel()
 			{
@@ -421,6 +423,8 @@ namespace icom
 			headingLabel.Frame = new CGRect(5, 4, ContentView.Bounds.Width - 63, 25);
 			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);
 		}
+
+
 
 
 	}
