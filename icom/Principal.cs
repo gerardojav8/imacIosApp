@@ -25,7 +25,7 @@ namespace icom
 
 		public string token { get; set;}
 
-		public async override void ViewDidLoad ()
+		public  override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -83,7 +83,7 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			Boolean resp = await TraeUsuario();
+			/*Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -91,7 +91,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}
+			}*/
 
 
 
@@ -106,6 +106,8 @@ namespace icom
 			View.Add(loadPop);
 
 			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
 			string url = Consts.ulrserv + "usuarios/getUsuarioByuserAndpass";
 			var uri = new Uri(string.Format(url));
 

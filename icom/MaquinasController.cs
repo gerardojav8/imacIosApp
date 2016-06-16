@@ -23,7 +23,7 @@ namespace icom
 
 		LoadingOverlay loadPop;
 		HttpClient client;
-		public static List<clsMaquinas> lstMaqServ = new List<clsMaquinas>();
+		public static List<clsListadoMaquinas> lstMaqServ;
 		public string token
 		{
 			get;
@@ -31,15 +31,14 @@ namespace icom
 		}
 
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
 
 			lstMaquinas.Source = new FuenteTablaExpandible(this);
-
-			lstMaquinas.SeparatorColor = UIColor.Blue;
-			lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine;
+			//lstMaquinas.SeparatorColor = UIColor.Blue;
+			//lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine;
 
 
 			// blur effect
@@ -49,44 +48,43 @@ namespace icom
 			//var effect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Light);
 			//lstMaquinas.SeparatorEffect = UIVibrancyEffect.FromBlurEffect(effect);
 
-			Boolean resp = await getAllMaquinas();
+			lstMaqServ = new List<clsListadoMaquinas>();
+
+			/*Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}
+			}*/
 
-			/*clsMaquinas obj1 = new clsMaquinas();
+			clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
 			obj1.modelo = 1234;
-			obj1.aniofabricacion = 2015;
-			obj1.idequipo = -1;
-			obj1.imagen = "";
+			obj1.IdTipoMaquina = 1;
 
-			clsMaquinas obj2 = new clsMaquinas();
+
+			clsListadoMaquinas obj2 = new clsListadoMaquinas();
 			obj2.noserie = "45678";
 			obj2.noeconomico = 6789;
 			obj2.marca = "Toyota";
 			obj2.modelo = 3654;
-			obj2.aniofabricacion = 2012;
-			obj2.idequipo = -1;
-			obj2.imagen = "";
+			obj2.IdTipoMaquina = 2;
 
-			clsMaquinas obj3 = new clsMaquinas();
+
+			clsListadoMaquinas obj3 = new clsListadoMaquinas();
 			obj3.noserie = "987654";
 			obj3.noeconomico = 9871;
 			obj3.marca = "Volvo";
 			obj3.modelo = 8798;
-			obj3.aniofabricacion = 2017;
-			obj3.idequipo = -1;
-			obj3.imagen = "";
+			obj3.IdTipoMaquina = 3;
+
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);*/
+			lstMaqServ.Add(obj3);
 
 
 		}
@@ -158,11 +156,11 @@ namespace icom
 			}
 
 
-			lstMaqServ = new List<clsMaquinas>();
+
 
 			foreach(var maquina in jrarray)
 			{
-				clsMaquinas objm = getobjMaquina(maquina);
+				clsListadoMaquinas objm = getobjMaquina(maquina);
 				lstMaqServ.Add(objm);
 			}
 
@@ -170,18 +168,17 @@ namespace icom
 			return true;
 		}
 
-		public clsMaquinas getobjMaquina(Object varjson)
+		public clsListadoMaquinas getobjMaquina(Object varjson)
 		{
-			clsMaquinas objmaq = new clsMaquinas();
+			clsListadoMaquinas objmaq = new clsListadoMaquinas();
 			JObject json = (JObject)varjson;
 
 			objmaq.noserie = json["noserie"].ToString();
 			objmaq.noeconomico = Int32.Parse(json["noeconomico"].ToString());
 			objmaq.marca = json["marca"].ToString();
 			objmaq.modelo = Int32.Parse(json["modelo"].ToString());
-			objmaq.aniofabricacion = Int32.Parse(json["aniofabricacion"].ToString());
-			objmaq.idequipo = Int32.Parse(json["idequipo"].ToString());
-			objmaq.imagen = json["imagen"].ToString();
+			objmaq.IdTipoMaquina = Int32.Parse(json["IdTipoMaquina"].ToString());
+
 
 			return objmaq;
 		}
@@ -300,6 +297,21 @@ namespace icom
 			tableView.DeselectRow(indexPath, true);
 		}
 
+		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
+		{
+			return (nfloat)0.0;
+		}
+
+		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+		{
+			if (isChild(indexPath))
+			{
+				return (nfloat)40.0;
+			}
+			else {
+				return (nfloat)70.0;
+			}
+		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
@@ -325,8 +337,7 @@ namespace icom
 						cell.TextLabel.Text = "Ficha de Maquina";
 					}
 				}
-
-				//cell.DetailTextLabel.Text = "Fila Expandida";
+				cell.TextLabel.TextColor = UIColor.FromRGB(54, 74, 97);
 				cell.ImageView.Image = null;
 				cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 				cell.ContentView.BackgroundColor = UIColor.FromRGB(217, 215, 213);
@@ -340,34 +351,35 @@ namespace icom
 					cell = new CustomVegeCell((NSString)idPersonaje, sec);
 				}
 
-				var maquina = icom.MaquinasController.lstMaqServ.ElementAt(indexPath.Row);
+				clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(indexPath.Row);
 
-				cell.UpdateCell( maquina.marca,
-			                      "Modelo: " + maquina.modelo,
-			 					  null);
+				UIImage imgmaq = null;
+				String strtipomaq = "";
 
-
-
-				/*string uri = personaje.RutaImagen;
-
-				string filename = uri.Replace("https://dl.dropboxusercontent.com/u/106676747/", "");
-				string documentspath = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-				string localpath = Path.Combine(documentspath, filename);
-
-				if (File.Exists(localpath))
+				if (maquina.IdTipoMaquina == Consts.Excabadora)
 				{
-					cell.ImageView.Image = UIImage.FromFile(localpath);
+					imgmaq = UIImage.FromFile("excabadora.png");
+					strtipomaq = "Excabadora";
+				}
+				else if (maquina.IdTipoMaquina == Consts.Revolvedora)
+				{
+					imgmaq = UIImage.FromFile("revolvedora.png");
+					strtipomaq = "Revolvedora";
+				}
+				else if (maquina.IdTipoMaquina == Consts.Trascabo)
+				{
+					imgmaq = UIImage.FromFile("trascabo.png");
+					strtipomaq = "Trascabo";
 				}
 				else {
-					var url = new NSUrl(uri);
-					var data = NSData.FromUrl(url);
+					imgmaq = null;
+					strtipomaq = "";
+				}
 
-					byte[] dataBytes = new byte[data.Length];
-					System.Runtime.InteropServices.Marshal.Copy(data.Bytes, dataBytes, 0, Convert.ToInt32(data.Length));
-					File.WriteAllBytes(localpath, dataBytes);
+				String leyenda = "No. Eco.: " + maquina.noeconomico + "   Marca: " + maquina.marca ;
 
-					cell.ImageView.Image = UIImage.LoadFromData(data);
-				}*/
+				cell.UpdateCell( strtipomaq, leyenda, imgmaq);
+
 
 				cell.Accessory = UITableViewCellAccessory.None;
 				sec = !sec;
@@ -384,26 +396,27 @@ namespace icom
 
 		public CustomVegeCell(NSString cellId, Boolean sec) : base(UITableViewCellStyle.Default, cellId)
 		{
+			
 			SelectionStyle = UITableViewCellSelectionStyle.Gray;
 			if (sec)
 			{
-				ContentView.BackgroundColor = UIColor.FromRGB(234, 217, 136);
+				ContentView.BackgroundColor = UIColor.FromRGB(237, 242, 248);
 			}
 			else { 
-				ContentView.BackgroundColor = UIColor.FromRGB(237, 215, 189);
+				ContentView.BackgroundColor = UIColor.FromRGB(216, 223, 231);
 			}
 			imageView = new UIImageView();
 			headingLabel = new UILabel()
 			{
-				Font = UIFont.FromName("Cochin-Bold", 22f),
-				TextColor = UIColor.FromRGB(127, 51, 0),
+				Font = UIFont.FromName("Arial", 22f),
+				TextColor = UIColor.FromRGB(54, 74, 97),
 				BackgroundColor = UIColor.Clear
 			};
 			subheadingLabel = new UILabel()
 			{
-				Font = UIFont.FromName("AmericanTypewriter", 12f),
-				TextColor = UIColor.FromRGB(136, 117, 28),
-				TextAlignment = UITextAlignment.Right,
+				Font = UIFont.FromName("Arial", 15f),
+				TextColor = UIColor.FromRGB(54, 74, 97),
+				TextAlignment = UITextAlignment.Left,
 				BackgroundColor = UIColor.Clear
 			};
 			ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel, imageView });
@@ -419,13 +432,14 @@ namespace icom
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
-			imageView.Frame = new CGRect(ContentView.Bounds.Width - 63, 5, 0, 33);
+			/*imageView.Frame = new CGRect(ContentView.Bounds.Width - 63, 5, 33, 33);
 			headingLabel.Frame = new CGRect(5, 4, ContentView.Bounds.Width - 63, 25);
-			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);
+			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);*/
+
+			imageView.Frame = new CGRect(5, 5, 55, 55);
+			headingLabel.Frame = new CGRect(80, 4, ContentView.Bounds.Width - 63, 25);
+			subheadingLabel.Frame = new CGRect(80, 32, 500, 20);
 		}
-
-
-
 
 	}
 

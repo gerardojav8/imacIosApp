@@ -155,6 +155,7 @@
     <Compile Include="Entidades\LoginUsuario.cs" />
     <Compile Include="Entidades\clsMaquinas.cs" />
     <Compile Include="LoadingOverlay.cs" />
+    <Compile Include="Entidades\clsListadoMaquinas.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -166,6 +167,9 @@
     <Content Include="home2.jpg" />
     <Content Include="down.png" />
     <Content Include="search_button.png" />
+    <Content Include="Resources\excabadora.png" />
+    <Content Include="Resources\revolvedora.png" />
+    <Content Include="Resources\trascabo.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

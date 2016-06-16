@@ -38,7 +38,6 @@ namespace icom
 			TableSource source = new TableSource(lstItems.ToArray()); 
 			lstRefacciones.Source = source;
 
-
 		}
 
 		public override void DidReceiveMemoryWarning ()
