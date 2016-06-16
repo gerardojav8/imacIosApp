@@ -7,7 +7,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MaquinasController">
             <connections>
-                <outlet property="btnbusqueda" destination="o5c-M5-VwE" id="idy-4G-o6P"/>
                 <outlet property="lstMaquinas" destination="Jdo-gA-ySt" id="hhN-J1-nqQ"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -16,14 +15,6 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5c-M5-VwE">
-                    <rect key="frame" x="324" y="63" width="51" height="46"/>
-                    <color key="backgroundColor" red="0.90397223793363501" green="0.56460555113217492" blue="0.3289350003450075" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" image="search_button.png"/>
-                    <connections>
-                        <action selector="Btnbusqueda_TouchUpInside:" destination="-1" eventType="touchUpInside" id="9"/>
-                    </connections>
-                </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Busqueda" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4e6-zI-U0l">
                     <rect key="frame" x="0.0" y="63" width="325" height="46"/>
                     <color key="backgroundColor" red="0.90980392156862744" green="0.9137254901960784" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
@@ -36,6 +27,11 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" red="0.80512820512820504" green="0.80512820512820504" blue="0.80512820512820504" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
+                    <rect key="frame" x="325" y="63" width="50" height="46"/>
+                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="Button" image="search_button.png"/>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>

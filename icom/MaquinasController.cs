@@ -31,34 +31,25 @@ namespace icom
 		}
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
 
 			lstMaquinas.Source = new FuenteTablaExpandible(this);
-			//lstMaquinas.SeparatorColor = UIColor.Blue;
-			//lstMaquinas.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine;
 
-
-			// blur effect
-			//lstMaquinas.SeparatorEffect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Dark);
-
-			//vibrancy effect
-			//var effect = UIBlurEffect.FromStyle(UIBlurEffectStyle.Light);
-			//lstMaquinas.SeparatorEffect = UIVibrancyEffect.FromBlurEffect(effect);
 
 			lstMaqServ = new List<clsListadoMaquinas>();
 
-			/*Boolean resp = await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}*/
+			}
 
-			clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -84,7 +75,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 
 		}
@@ -177,7 +168,7 @@ namespace icom
 			objmaq.noeconomico = Int32.Parse(json["noeconomico"].ToString());
 			objmaq.marca = json["marca"].ToString();
 			objmaq.modelo = Int32.Parse(json["modelo"].ToString());
-			objmaq.IdTipoMaquina = Int32.Parse(json["IdTipoMaquina"].ToString());
+			objmaq.IdTipoMaquina = Int32.Parse(json["idtipomaquina"].ToString());
 
 
 			return objmaq;
