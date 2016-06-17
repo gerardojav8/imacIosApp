@@ -154,19 +154,12 @@
     <Compile Include="globales\funciones.cs" />
     <Compile Include="Entidades\LoginUsuario.cs" />
     <Compile Include="Entidades\clsMaquinas.cs" />
-    <Compile Include="LoadingOverlay.cs" />
     <Compile Include="Entidades\clsListadoMaquinas.cs" />
+    <Compile Include="globales\LoadingOverlay.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Content Include="factory.png" />
-    <Content Include="ICOM.png" />
     <Content Include="man.png" />
-    <Content Include="search.png" />
-    <Content Include="tracto.png" />
-    <Content Include="home2.jpg" />
-    <Content Include="down.png" />
-    <Content Include="search_button.png" />
     <Content Include="Resources\excabadora.png" />
     <Content Include="Resources\revolvedora.png" />
     <Content Include="Resources\trascabo.png" />
@@ -184,5 +177,14 @@
   <ItemGroup>
     <Folder Include="globales\" />
     <Folder Include="Entidades\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\down.png" />
+    <BundleResource Include="Resources\factory.png" />
+    <BundleResource Include="Resources\ICOM.png" />
+    <BundleResource Include="Resources\home2.jpg" />
+    <BundleResource Include="Resources\search.png" />
+    <BundleResource Include="Resources\search_button.png" />
+    <BundleResource Include="Resources\tracto.png" />
   </ItemGroup>
 </Project>

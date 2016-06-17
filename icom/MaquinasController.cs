@@ -31,7 +31,7 @@ namespace icom
 		}
 
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -41,15 +41,15 @@ namespace icom
 
 			lstMaqServ = new List<clsListadoMaquinas>();
 
-			Boolean resp = await getAllMaquinas();
+			/*Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}
+			}*/
 
-			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -75,7 +75,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);*/
+			lstMaqServ.Add(obj3);
 
 
 		}
@@ -108,14 +108,14 @@ namespace icom
 			catch (Exception e)
 			{
 				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI "+ e.HResult );
 				return false;
 			}
 
 			if (response == null)
 			{
 				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
 				return false;
 			}
 
@@ -134,7 +134,7 @@ namespace icom
 				loadPop.Hide();
 				var jsonresponse = JObject.Parse(responseString);
 
-				string mensaje = "error al traer maquinas del servidor";
+				string mensaje = "error al traer maquinas del servidor: " + e.HResult;
 
 				var jtokenerror = jsonresponse["error"];
 				if (jtokenerror != null)

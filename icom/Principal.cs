@@ -25,7 +25,7 @@ namespace icom
 
 		public string token { get; set;}
 
-		public async override void ViewDidLoad ()
+		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -83,7 +83,7 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			Boolean resp = await TraeUsuario();
+			/*Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -91,7 +91,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}
+			}*/
 
 
 
@@ -129,7 +129,7 @@ namespace icom
 			catch (Exception e)
 			{
 				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
 				return false;
 			}
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using UIKit;
 using CoreGraphics;
-namespace icom
+namespace icom.globales
 {
 	public class LoadingOverlay : UIView
 	{

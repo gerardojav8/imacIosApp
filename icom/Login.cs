@@ -21,9 +21,9 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			btnLogin.TouchUpInside += loginboton;
+			//btnLogin.TouchUpInside += loginboton;
 
-			 /*btnLogin.TouchUpInside += delegate {
+			 btnLogin.TouchUpInside += delegate {
 				Principal viewprin = new Principal();
 				viewprin.strusuario = txtUsuario.Text;
 				viewprin.strpass = txtPass.Text;
@@ -35,7 +35,7 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
-			};*/
+			};
 
 		}
 
@@ -100,7 +100,7 @@ namespace icom
 			catch (Exception e)
 			{
 				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
 				return false;
 			}
 
