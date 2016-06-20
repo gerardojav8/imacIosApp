@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9532" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ReporteOperador">
@@ -10,9 +10,7 @@
                 <outlet property="ContentView" destination="201-sk-BJm" id="LaK-lc-MKb"/>
                 <outlet property="ScrView" destination="wgw-J7-T1F" id="x0X-8b-jJ9"/>
                 <outlet property="btnAtiende" destination="4hl-kg-nsA" id="qFH-6K-Ww1"/>
-                <outlet property="btnEquipo" destination="jIs-mH-BWQ" id="FpM-n8-uvn"/>
                 <outlet property="btnGuardar" destination="8Bj-IU-wfl" id="xq8-iC-e7O"/>
-                <outlet property="btnModelo" destination="SKM-BS-HuA" id="Aeh-4u-q7I"/>
                 <outlet property="btnReporto" destination="9Dx-wY-gUO" id="AAa-f2-ADf"/>
                 <outlet property="btnTipoFalla" destination="fg2-na-d6N" id="Ovc-0c-YWo"/>
                 <outlet property="txtDescripcion" destination="uIS-z9-qnK" id="YXZ-6z-dT4"/>
@@ -21,9 +19,9 @@
                 <outlet property="txtequipo" destination="tH7-t7-5zw" id="ajc-06-cl5"/>
                 <outlet property="txtfechahora" destination="cjl-xg-Wsr" id="cif-Sw-HbZ"/>
                 <outlet property="txtfipofalla" destination="xBP-u1-arA" id="syV-te-vCA"/>
-                <outlet property="txtkmhorometro" destination="gB7-ru-VOR" id="GKh-Ko-ZHx"/>
+                <outlet property="txtkmho" destination="meG-Zd-c0t" id="MsL-uJ-OSX"/>
                 <outlet property="txtmodelo" destination="lJZ-bc-9R9" id="YVX-Mq-EpE"/>
-                <outlet property="txtnoserie" destination="gB7-ru-VOR" id="2B6-DS-cGQ"/>
+                <outlet property="txtnoserie" destination="ewP-a9-MEi" id="I8s-0a-2aZ"/>
                 <outlet property="txtreporto" destination="RG2-3W-CTQ" id="Ige-cp-iKK"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -129,33 +127,23 @@
                                     <color key="shadowColor" red="0.14442154930000001" green="0.19305678870000001" blue="0.39097267670000002" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="2" height="1"/>
                                 </label>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Mr-COe">
-                                    <rect key="frame" x="149" y="47" width="190" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Mr-COe">
+                                    <rect key="frame" x="166" y="47" width="173" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cjl-xg-Wsr">
-                                    <rect key="frame" x="149" y="93" width="190" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cjl-xg-Wsr">
+                                    <rect key="frame" x="166" y="93" width="173" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Seleccione Equipo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tH7-t7-5zw">
-                                    <rect key="frame" x="149" y="143" width="155" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="tH7-t7-5zw">
+                                    <rect key="frame" x="166" y="143" width="173" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k8N-aj-elz">
-                                    <rect key="frame" x="149" y="190" width="190" height="30"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="gB7-ru-VOR">
-                                    <rect key="frame" x="166" y="233" width="173" height="30"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Seleccione Modelo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lJZ-bc-9R9">
-                                    <rect key="frame" x="148" y="283" width="155" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="lJZ-bc-9R9">
+                                    <rect key="frame" x="166" y="283" width="173" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -174,10 +162,6 @@
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SKM-BS-HuA">
-                                    <rect key="frame" x="312" y="283" width="27" height="30"/>
-                                    <state key="normal" image="down.png"/>
-                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fg2-na-d6N">
                                     <rect key="frame" x="312" y="396" width="27" height="30"/>
                                     <state key="normal" image="down.png"/>
@@ -190,10 +174,16 @@
                                     <rect key="frame" x="312" y="348" width="27" height="30"/>
                                     <state key="normal" image="down.png"/>
                                 </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jIs-mH-BWQ">
-                                    <rect key="frame" x="312" y="142" width="27" height="30"/>
-                                    <state key="normal" image="down.png"/>
-                                </button>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="meG-Zd-c0t">
+                                    <rect key="frame" x="166" y="233" width="173" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ewP-a9-MEi">
+                                    <rect key="frame" x="166" y="189" width="173" height="30"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </textField>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

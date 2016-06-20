@@ -6,16 +6,18 @@ namespace icom
 {
 	public partial class ReporteOperador : UIViewController
 	{
-		UIActionSheet actShModelo;
-		String[] arrModelo;
-		UIActionSheet actShEquipo;
-		String[] arrEquipo;
 		UIActionSheet actShReporto;
 		String[] arrReporto;
 		UIActionSheet actShTipoFalla;
 		String[] arrTipoFalla;
 		UIActionSheet actShAtiende;
 		String[] arrAtiende;
+
+		public String strNoeconomico{ get; set;}
+
+		public String strNoSerie{ get; set; }
+
+		public String strModelo { get; set; }
 
 		public ReporteOperador () : base ("ReporteOperador", null)
 		{
@@ -29,6 +31,8 @@ namespace icom
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";
 
+			inicializadatos();
+
 			inicializaCombos ();
 
 
@@ -40,55 +44,17 @@ namespace icom
 
 		}
 
+		public void inicializadatos()
+		{
+			txtequipo.Text = strNoeconomico;
+			txtmodelo.Text = strModelo;
+			txtnoserie.Text = strNoSerie;
+
+
+		}
+
 		public void inicializaCombos(){
-			arrModelo = new string[] {
-				"Modelo 1",
-				"Modelo 2",
-				"Modelo 3",
-				"Cancelar"
-			};
-
-			actShModelo = new UIActionSheet ("Seleccionar");
-			for (int i =0 ; i < arrModelo.Length; i++) {
-				actShModelo.Add (arrModelo[i]);
-			}
-
-			actShModelo.Style = UIActionSheetStyle.BlackTranslucent;
-			actShModelo.CancelButtonIndex = 4;
-
-			btnModelo.TouchUpInside += delegate {
-				actShModelo.ShowInView (this.ContentView);
-			};
-
-			actShModelo.Clicked += delegate(object sender, UIButtonEventArgs e) {
-				if(e.ButtonIndex != 4)
-					txtmodelo.Text = arrModelo[e.ButtonIndex];
-			};
-
-			arrEquipo = new string[] {
-				"Equipo 1",
-				"Equipo 2",
-				"Equipo 3",
-				"Cancelar"
-			};
-
-			actShEquipo = new UIActionSheet ("Seleccionar");
-			for (int i =0 ; i < arrEquipo.Length; i++) {
-				actShEquipo.Add (arrEquipo[i]);
-			}
-
-			actShEquipo.Style = UIActionSheetStyle.BlackTranslucent;
-			actShEquipo.CancelButtonIndex = 4;
-
-			btnEquipo.TouchUpInside += delegate {
-				actShEquipo.ShowInView (this.ContentView);
-			};
-
-			actShEquipo.Clicked += delegate(object sender, UIButtonEventArgs e) {
-				if(e.ButtonIndex != 4)
-					txtequipo.Text = arrEquipo[e.ButtonIndex];
-			};
-
+			
 			arrReporto = new string[] {
 				"Reporto 1",
 				"Reporto 2",

@@ -235,16 +235,21 @@ namespace icom
 
 				if (indexPath.Row == currentExpandedIndex + 1)
 				{
+					clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(currentExpandedIndex);
+
 					ReporteOperador viewro = new ReporteOperador();
 					viewro.Title = "Reporte Operador";
 
+					viewro.strNoeconomico = maquina.noeconomico.ToString();
+					viewro.strModelo = maquina.modelo.ToString();
+					viewro.strNoSerie = maquina.noserie;
 
 					viewparent.NavigationController.PushViewController(viewro, false);
 					UIView.BeginAnimations(null);
 					UIView.SetAnimationDuration(0.7);
 					UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
 					UIView.CommitAnimations();
-					//funciones.MessageBox("Aviso", "Reporte de Operador de Maquina");
+
 					tableView.DeselectRow(indexPath, true);
 					return;
 				}
@@ -260,7 +265,7 @@ namespace icom
 						UIView.SetAnimationDuration(0.7);
 						UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
 						UIView.CommitAnimations();
-						//funciones.MessageBox("Aviso", "Reporte de Servicio de Maquina");
+
 						tableView.DeselectRow(indexPath, true);
 						return;
 					}
@@ -427,7 +432,6 @@ namespace icom
 				BackgroundColor = UIColor.Clear
 			};
 			ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel, imageView, imageView2 });
-			//ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel });
 
 		}
 		public void UpdateCell(string caption, string subtitle, UIImage image, UIImage image2)
@@ -440,9 +444,6 @@ namespace icom
 		public override void LayoutSubviews()
 		{
 			base.LayoutSubviews();
-			/*imageView.Frame = new CGRect(ContentView.Bounds.Width - 63, 5, 33, 33);
-			headingLabel.Frame = new CGRect(5, 4, ContentView.Bounds.Width - 63, 25);
-			subheadingLabel.Frame = new CGRect(100, 18, 200, 20);*/
 
 			imageView.Frame = new CGRect(5, 5, 55, 55);
 			headingLabel.Frame = new CGRect(80, 4, ContentView.Bounds.Width - 63, 25);
