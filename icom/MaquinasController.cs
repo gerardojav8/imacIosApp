@@ -55,6 +55,7 @@ namespace icom
 			obj1.marca = "Mercedes venz";
 			obj1.modelo = 1234;
 			obj1.IdTipoMaquina = 1;
+			obj1.tieneReporte = 1;
 
 
 			clsListadoMaquinas obj2 = new clsListadoMaquinas();
@@ -63,6 +64,7 @@ namespace icom
 			obj2.marca = "Toyota";
 			obj2.modelo = 3654;
 			obj2.IdTipoMaquina = 2;
+			obj2.tieneReporte = 0;
 
 
 			clsListadoMaquinas obj3 = new clsListadoMaquinas();
@@ -71,6 +73,7 @@ namespace icom
 			obj3.marca = "Volvo";
 			obj3.modelo = 8798;
 			obj3.IdTipoMaquina = 3;
+			obj3.tieneReporte = 1;
 
 
 			lstMaqServ.Add(obj1);
@@ -367,9 +370,20 @@ namespace icom
 					strtipomaq = "";
 				}
 
-				String leyenda = "No. Eco.: " + maquina.noeconomico + "   Marca: " + maquina.marca ;
+				String leyenda = "Marca: " + maquina.marca + "   Modelo: " + maquina.modelo ;
 
-				cell.UpdateCell( strtipomaq, leyenda, imgmaq);
+				UIImage imagesem;
+
+				if (maquina.tieneReporte == 1)
+				{
+					imagesem = UIImage.FromFile("red.png");
+				}
+				else { 
+					imagesem = UIImage.FromFile("green.png");
+				}
+
+
+				cell.UpdateCell( strtipomaq, leyenda, imgmaq, imagesem);
 
 
 				cell.Accessory = UITableViewCellAccessory.None;
@@ -384,6 +398,7 @@ namespace icom
 	{
 		UILabel headingLabel, subheadingLabel;
 		UIImageView imageView;
+		UIImageView imageView2;
 
 		public CustomVegeCell(NSString cellId, Boolean sec) : base(UITableViewCellStyle.Default, cellId)
 		{
@@ -397,6 +412,7 @@ namespace icom
 				ContentView.BackgroundColor = UIColor.FromRGB(216, 223, 231);
 			}
 			imageView = new UIImageView();
+			imageView2 = new UIImageView();
 			headingLabel = new UILabel()
 			{
 				Font = UIFont.FromName("Arial", 22f),
@@ -410,13 +426,14 @@ namespace icom
 				TextAlignment = UITextAlignment.Left,
 				BackgroundColor = UIColor.Clear
 			};
-			ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel, imageView });
+			ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel, imageView, imageView2 });
 			//ContentView.AddSubviews(new UIView[] { headingLabel, subheadingLabel });
 
 		}
-		public void UpdateCell(string caption, string subtitle, UIImage image)
+		public void UpdateCell(string caption, string subtitle, UIImage image, UIImage image2)
 		{
 			imageView.Image = image;
+			imageView2.Image = image2;
 			headingLabel.Text = caption;
 			subheadingLabel.Text = subtitle;
 		}
@@ -429,6 +446,7 @@ namespace icom
 
 			imageView.Frame = new CGRect(5, 5, 55, 55);
 			headingLabel.Frame = new CGRect(80, 4, ContentView.Bounds.Width - 63, 25);
+			imageView2.Frame = new CGRect(300, 6, 25, 25);
 			subheadingLabel.Frame = new CGRect(80, 32, 500, 20);
 		}
 

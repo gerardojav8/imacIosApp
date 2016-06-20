@@ -163,6 +163,8 @@
     <Content Include="Resources\excabadora.png" />
     <Content Include="Resources\revolvedora.png" />
     <Content Include="Resources\trascabo.png" />
+    <Content Include="Resources\green.png" />
+    <Content Include="Resources\red.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

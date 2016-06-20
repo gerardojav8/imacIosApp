@@ -13,6 +13,7 @@ namespace icom
 		public string marca { get; set; }
 		public int modelo { get; set; }
 		public int IdTipoMaquina { get; set; }
+		public int tieneReporte { get; set; }
 
 	}
 }
