@@ -24,14 +24,9 @@ namespace icom
 		LoadingOverlay loadPop;
 		HttpClient client;
 		public static List<clsListadoMaquinas> lstMaqServ;
-		public string token
-		{
-			get;
-			set;
-		}
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -41,15 +36,15 @@ namespace icom
 
 			lstMaqServ = new List<clsListadoMaquinas>();
 
-			/*Boolean resp = await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}*/
+			}
 
-			clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -78,7 +73,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 
 		}
@@ -96,11 +91,11 @@ namespace icom
 			View.Add(loadPop);
 
 			client = new HttpClient();
-			string url = Consts.ulrserv + "maquinas/getTodasMaquinas";
+			string url = Consts.ulrserv + "maquinas/getListadoMaquinas";
 			var uri = new Uri(string.Format(url));
 
 			var content = new StringContent("", Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
 
 			HttpResponseMessage response = null;
 
@@ -172,6 +167,7 @@ namespace icom
 			objmaq.marca = json["marca"].ToString();
 			objmaq.modelo = Int32.Parse(json["modelo"].ToString());
 			objmaq.IdTipoMaquina = Int32.Parse(json["idtipomaquina"].ToString());
+			objmaq.tieneReporte = Int32.Parse(json["tieneReporte"].ToString());
 
 
 			return objmaq;
@@ -243,6 +239,7 @@ namespace icom
 					viewro.strNoeconomico = maquina.noeconomico.ToString();
 					viewro.strModelo = maquina.modelo.ToString();
 					viewro.strNoSerie = maquina.noserie;
+					viewro.viewmaq = viewparent;
 
 					viewparent.NavigationController.PushViewController(viewro, false);
 					UIView.BeginAnimations(null);

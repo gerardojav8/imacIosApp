@@ -29,25 +29,11 @@ namespace icom
         [Outlet]
         UIKit.UITextField txtbusqueda { get; set; }
 
-        [Action ("Btnbusqueda_TouchUpInside:")]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        partial void Btnbusqueda_TouchUpInside (UIKit.UIButton sender);
-
         void ReleaseDesignerOutlets ()
         {
-            if (btnbusqueda != null) {
-                btnbusqueda.Dispose ();
-                btnbusqueda = null;
-            }
-
             if (lstMaquinas != null) {
                 lstMaquinas.Dispose ();
                 lstMaquinas = null;
-            }
-
-            if (txtbusqueda != null) {
-                txtbusqueda.Dispose ();
-                txtbusqueda = null;
             }
         }
     }

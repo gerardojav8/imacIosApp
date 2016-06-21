@@ -23,9 +23,8 @@ namespace icom
 
 		public string strpass{ get; set; }
 
-		public string token { get; set;}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -34,7 +33,6 @@ namespace icom
 				//viewmaq.Title = "Maquinaria";
 
 				MaquinasController viewmaq = new MaquinasController();
-				viewmaq.token = token;
 
 				this.NavigationController.PushViewController(viewmaq, false);
 				UIView.BeginAnimations(null);
@@ -83,7 +81,7 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			/*Boolean resp = await TraeUsuario();
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -91,7 +89,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}*/
+			}
 
 
 
@@ -117,7 +115,7 @@ namespace icom
 			var json = JsonConvert.SerializeObject(objlog);
 
 			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
 
 			HttpResponseMessage response = null;
 

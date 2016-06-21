@@ -156,6 +156,9 @@
     <Compile Include="Entidades\clsMaquinas.cs" />
     <Compile Include="Entidades\clsListadoMaquinas.cs" />
     <Compile Include="globales\LoadingOverlay.cs" />
+    <Compile Include="Entidades\clsCmbUsuarios.cs" />
+    <Compile Include="Entidades\clsTipoFallas.cs" />
+    <Compile Include="Entidades\clsGuardaReporteOp.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

@@ -1,17 +1,39 @@
 ﻿using System;
 
 using UIKit;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using icom.globales;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json;
 
 namespace icom
 {
 	public partial class ReporteOperador : UIViewController
 	{
+		LoadingOverlay loadPop;
+		HttpClient client;
+		List<clsCmbUsuarios> lstusuarios;
+		List<clsTipoFallas> lsttipofallas;
+
 		UIActionSheet actShReporto;
-		String[] arrReporto;
 		UIActionSheet actShTipoFalla;
-		String[] arrTipoFalla;
 		UIActionSheet actShAtiende;
-		String[] arrAtiende;
+
+
+		int idreporto = 0;
+		int idatiende = 0;
+		int idfalla = 0;
+
+		public UIViewController viewmaq
+		{
+			get;
+			set;
+		}
+
 
 		public String strNoeconomico{ get; set;}
 
@@ -23,7 +45,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			ScrView.ContentSize = new CoreGraphics.CGSize(350, 1000);
@@ -31,18 +53,421 @@ namespace icom
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";
 
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
+			View.Add(loadPop);
+
+
+			String folio = await getFolio();
+
+			if (folio == "")
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
+
+
+			txtFolio.Text = folio;
+
+			String fecha = await getFechaHoraActual();
+
+			if (fecha == "") {
+				this.NavigationController.PopToRootViewController(true);
+			}
+
+			txtfechahora.Text = fecha;
+
+			lstusuarios = new List<clsCmbUsuarios>();
+			lsttipofallas = new List<clsTipoFallas>();
+
+			Boolean respus = await getUsuarios();
+			if (!respus) {
+				this.NavigationController.PopToRootViewController(true);
+			}
+
+			Boolean resptip = await getTipoFallas();
+			if (!resptip)
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
+			else {
+				loadPop.Hide();
+			}
+
+
+			inicializaCombos();
+
+
 			inicializadatos();
 
-			inicializaCombos ();
-
-
-
-			btnGuardar.TouchUpInside += delegate {
-				MessageBox("Guardar", "El registro ha sido guardado con exito!!");
-			};
-
+			btnGuardar.TouchUpInside += guardarReporte;
 
 		}
+
+		async void guardarReporte(object sender, EventArgs e)
+		{
+			if (idfalla == 0) {
+				funciones.MessageBox("Error", "Debe de seleccionar un tipo de falla para guardar el reporte");
+				return;
+			}
+
+			if (idatiende == 0)
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar un usuario de atiende para guardar el reporte");
+				return;
+			}
+
+			if (idreporto == 0)
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar un usuario de reporto para guardar el reporte");
+				return;
+			}
+
+			if (txtkmho.Text == "") 
+			{
+				funciones.MessageBox("Error", "Debe de ingresar una cantidad para Km/Horometro");
+				return;
+			}
+
+			Decimal kmho;
+			if (!Decimal.TryParse(txtkmho.Text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"),out kmho)) { 
+				funciones.MessageBox("Error", "La cantidad ingresada para el Km/Horometro debe de ser decimal");
+				return;
+			}
+
+			String folio = await saveRep();
+
+			if (folio != "") { 
+				this.NavigationController.PopToViewController(viewmaq, true);
+			}
+		}
+
+		public async Task<String> saveRep() { 
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de usuario...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "reportes/GuardarReporteOperador";
+			var uri = new Uri(string.Format(url));
+
+			clsGuardaReporteOp objreporte = new clsGuardaReporteOp();
+
+			objreporte.noserie = txtnoserie.Text;
+			String strkmho = txtkmho.Text;
+			strkmho = strkmho.Replace(",",".");
+			objreporte.kmho = strkmho;
+			objreporte.modelo = txtmodelo.Text;
+			objreporte.idreporto = idreporto.ToString();
+			objreporte.idtipofalla = idfalla.ToString();
+			objreporte.idatiende = idatiende.ToString();
+			objreporte.descripcion = txtDescripcion.Text;
+
+			var json = JsonConvert.SerializeObject(objreporte);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			String folio = jsonresponse["folio"].ToString();
+			funciones.MessageBox("Aviso", "Se ha guardado el reporte con folio: " + folio);
+			return folio;
+
+		}
+
+		public async Task<String> getFolio()
+		{
+			
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "reportes/getFolioReporte";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			String folio = jsonresponse["folio"].ToString();
+			return folio;
+		}
+
+		public async Task<String> getFechaHoraActual()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "common/getFechaHoraActual";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			String fecha = jsonresponse["Fecha"].ToString();
+			String hora = jsonresponse["hora"].ToString();
+			return fecha + " " + hora;
+		}
+
+		public async Task<Boolean> getUsuarios()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "usuarios/getCmbUsuarios";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los usuarios del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+			foreach (var us in jrarray)
+			{
+				clsCmbUsuarios objus = getobjUsuario(us);
+				lstusuarios.Add(objus);
+			}
+
+			return true;
+		}
+
+		public clsCmbUsuarios getobjUsuario(Object varjson)
+		{
+			clsCmbUsuarios objus = new clsCmbUsuarios();
+			JObject json = (JObject)varjson;
+
+			objus.idusuario = Int32.Parse(json["idusuario"].ToString());
+			objus.nombre = json["nombre"].ToString();
+			objus.apepaterno = json["apepaterno"].ToString();
+			objus.apematerno = json["apematerno"].ToString();
+
+			return objus;
+		}
+
+
+		public async Task<Boolean> getTipoFallas()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "reportes/getTipoFallas";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los tipos de falla del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+			foreach (var tip in jrarray)
+			{
+				clsTipoFallas objtip = getTipoFalla(tip);
+				lsttipofallas.Add(objtip);
+			}
+
+			return true;
+		}
+
+		public clsTipoFallas getTipoFalla(Object varjson)
+		{
+			clsTipoFallas objtip = new clsTipoFallas();
+			JObject json = (JObject)varjson;
+
+			objtip.idtipofalla = Int32.Parse(json["idtipofalla"].ToString());
+			objtip.nombre = json["nombre"].ToString();
+			objtip.descripcion = json["descripcion"].ToString();
+
+
+			return objtip;
+		}
+
+
 
 		public void inicializadatos()
 		{
@@ -54,80 +479,99 @@ namespace icom
 		}
 
 		public void inicializaCombos(){
-			
-			arrReporto = new string[] {
-				"Reporto 1",
-				"Reporto 2",
-				"Reporto 3",
-				"Cancelar"
-			};
 
+			//--------Combo Reporto---------------------
 			actShReporto = new UIActionSheet ("Seleccionar");
-			for (int i =0 ; i < arrReporto.Length; i++) {
-				actShReporto.Add (arrReporto[i]);
+			foreach (clsCmbUsuarios us in lstusuarios)
+			{
+				String nombre = us.nombre + " " + us.apepaterno + " " + us.apematerno;
+				actShReporto.Add(nombre);
 			}
+			actShReporto.Add("Cancelar");
 
 			actShReporto.Style = UIActionSheetStyle.BlackTranslucent;
-			actShReporto.CancelButtonIndex = 4;
+			actShReporto.CancelButtonIndex = lstusuarios.Count;
 
 			btnReporto.TouchUpInside += delegate {
 				actShReporto.ShowInView (this.ContentView);
 			};
 
 			actShReporto.Clicked += delegate(object sender, UIButtonEventArgs e) {
-				if(e.ButtonIndex != 4)
-					txtreporto.Text = arrReporto[e.ButtonIndex];
+				if (e.ButtonIndex != lstusuarios.Count)
+				{
+					clsCmbUsuarios us = lstusuarios.ElementAt((int)e.ButtonIndex);
+					txtreporto.Text = us.nombre + " " + us.apepaterno + " " + us.apematerno;
+					idreporto = us.idusuario;
+				}
+				else {
+					txtreporto.Text = "";
+					idreporto = 0;
+				}
 			};
 
-			arrTipoFalla = new string[] {
-				"Falla 1",
-				"Falla 2",
-				"Falla 3",
-				"Cancelar"
+			//-----------Combo atiende-------------------
+
+			actShAtiende = new UIActionSheet("Seleccionar");
+			foreach (clsCmbUsuarios us in lstusuarios)
+			{
+				String nombre = us.nombre + " " + us.apepaterno + " " + us.apematerno;
+				actShAtiende.Add(nombre);
+			}
+			actShAtiende.Add("Cancelar");
+			actShAtiende.Style = UIActionSheetStyle.BlackTranslucent;
+			actShAtiende.CancelButtonIndex = lstusuarios.Count;
+
+			btnAtiende.TouchUpInside += delegate
+			{
+				actShAtiende.ShowInView(this.ContentView);
 			};
+
+			actShAtiende.Clicked += delegate (object sender, UIButtonEventArgs e)
+			{
+				if (e.ButtonIndex != lstusuarios.Count)
+				{
+					clsCmbUsuarios us = lstusuarios.ElementAt((int)e.ButtonIndex);
+					txtatiende.Text = us.nombre + " " + us.apepaterno + " " + us.apematerno;
+					idatiende = us.idusuario;
+				}
+				else {
+					txtatiende.Text = "";
+					idatiende = 0;
+				}
+			};
+
+			//--------Combo tipofalla---------------------
 
 			actShTipoFalla = new UIActionSheet ("Seleccionar");
-			for (int i =0 ; i < arrTipoFalla.Length; i++) {
-				actShTipoFalla.Add (arrTipoFalla[i]);
+
+			foreach (clsTipoFallas tip in lsttipofallas)
+			{
+				String falla = tip.nombre;
+				actShTipoFalla.Add(falla);
 			}
+			actShTipoFalla.Add("Cancelar");
+
 
 			actShTipoFalla.Style = UIActionSheetStyle.BlackTranslucent;
-			actShTipoFalla.CancelButtonIndex = 4;
+			actShTipoFalla.CancelButtonIndex = lsttipofallas.Count;
 
 			btnTipoFalla.TouchUpInside += delegate {
 				actShTipoFalla.ShowInView (this.ContentView);
 			};
 
 			actShTipoFalla.Clicked += delegate(object sender, UIButtonEventArgs e) {
-				if(e.ButtonIndex != 4)
-					txtfipofalla.Text = arrTipoFalla[e.ButtonIndex];
-			};
-			arrAtiende = new string[] {
-				"Atiende 1",
-				"Atiende 2",
-				"Atiende 3",
-				"Cancelar"
-			};
-
-
-			actShAtiende = new UIActionSheet ("Seleccionar");
-			for (int i =0 ; i < arrAtiende.Length; i++) {
-				actShAtiende.Add (arrAtiende[i]);
-			}
-
-			actShAtiende.Style = UIActionSheetStyle.BlackTranslucent;
-			actShAtiende.CancelButtonIndex = 4;
-
-
-
-			btnAtiende.TouchUpInside += delegate {
-				actShAtiende.ShowInView (this.ContentView);
+				if (e.ButtonIndex != lsttipofallas.Count)
+				{
+					clsTipoFallas tip = lsttipofallas.ElementAt((int)e.ButtonIndex);
+					txtfipofalla.Text = tip.nombre;
+					idfalla = tip.idtipofalla;
+				}
+				else {
+					txtfipofalla.Text = "";
+					idfalla = 0;
+				}
 			};
 
-			actShAtiende.Clicked += delegate(object sender, UIButtonEventArgs e) {
-				if(e.ButtonIndex != 4)
-					txtatiende.Text = arrAtiende[e.ButtonIndex];
-			};
 		}
 
 
