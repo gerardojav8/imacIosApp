@@ -48,7 +48,7 @@ namespace icom
 		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			ScrView.ContentSize = new CoreGraphics.CGSize(350, 1000);
+			ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);
 			txtDescripcion.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";

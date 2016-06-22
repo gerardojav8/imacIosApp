@@ -13,7 +13,12 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			// Perform any additional setup after loading the view, typically from a nib.
+
+
+			scrViewSolicitudMaquina.ContentSize = new CoreGraphics.CGSize(375, 1583);
+
+			lstRequerimientos.Layer.BorderColor = UIColor.Black.CGColor;
+			lstRequerimientos.Layer.BorderWidth = (nfloat)2.0;
 		}
 
 		public override void DidReceiveMemoryWarning()

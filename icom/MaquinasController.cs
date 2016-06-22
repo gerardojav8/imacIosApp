@@ -26,7 +26,7 @@ namespace icom
 		public static List<clsListadoMaquinas> lstMaqServ;
 
 
-		public async override void ViewDidLoad()
+		public  override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -36,15 +36,15 @@ namespace icom
 
 			lstMaqServ = new List<clsListadoMaquinas>();
 
-			Boolean resp = await getAllMaquinas();
+			/*Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}
+			}*/
 
-			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -73,8 +73,19 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);*/
+			lstMaqServ.Add(obj3);
 
+			btnAgregar.TouchUpInside += delegate {
+				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
+				viewsolmaq.Title = "Solicitud de Maquinaria";
+
+
+				this.NavigationController.PushViewController(viewsolmaq, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
 
 		}
 
@@ -267,9 +278,23 @@ namespace icom
 						return;
 					}
 					else {
-						funciones.MessageBox("Aviso", "Ficha tecnica de maquina");
+						clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(currentExpandedIndex);
+
+						FichaMaquinaController viewfm = new FichaMaquinaController();
+						viewfm.Title = "Ficha Tecnica de la Maquina";
+						viewfm.viewmaq = viewparent;
+						viewfm.noserie = maquina.noserie;
+
+
+						viewparent.NavigationController.PushViewController(viewfm, false);
+						UIView.BeginAnimations(null);
+						UIView.SetAnimationDuration(0.7);
+						UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
+						UIView.CommitAnimations();
+
 						tableView.DeselectRow(indexPath, true);
 						return;
+
 					}
 				}
 			}
