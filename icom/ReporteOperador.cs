@@ -58,46 +58,89 @@ namespace icom
 			View.Add(loadPop);
 
 
-			String folio = await getFolio();
+			int tieneRep = await tieneRepServicio();
 
-			if (folio == "")
+			if (tieneRep == -1) { 
+				this.NavigationController.PopToViewController(viewmaq, true);
+			}
+
+			if (tieneRep == 1)
 			{
-				this.NavigationController.PopToRootViewController(true);
+				clsReporteOpConsulta objresp = await getReporteOperador();
+				if (objresp == null)
+				{
+					this.NavigationController.PopToRootViewController(true);
+				}
+				else { 
+					loadPop.Hide();
+
+					txtFolio.Text = objresp.folio;
+					txtnoserie.Text = objresp.noserie;
+					txtfechahora.Text = objresp.fechahora;
+					txtequipo.Text = objresp.equipo;
+					txtkmho.Text = objresp.kmho;
+					txtmodelo.Text = objresp.modelo;
+					txtreporto.Text = objresp.reporto;
+					txtfipofalla.Text = objresp.tipofalla;
+					txtatiende.Text = objresp.atiende;
+					txtDescripcion.Text = objresp.descripcion;
+
+					btnGuardar.Hidden = true;
+
+				}
+
+
+
+
 			}
-
-
-			txtFolio.Text = folio;
-
-			String fecha = await getFechaHoraActual();
-
-			if (fecha == "") {
-				this.NavigationController.PopToRootViewController(true);
-			}
-
-			txtfechahora.Text = fecha;
-
-			lstusuarios = new List<clsCmbUsuarios>();
-			lsttipofallas = new List<clsTipoFallas>();
-
-			Boolean respus = await getUsuarios();
-			if (!respus) {
-				this.NavigationController.PopToRootViewController(true);
-			}
-
-			Boolean resptip = await getTipoFallas();
-			if (!resptip)
+			else 
 			{
-				this.NavigationController.PopToRootViewController(true);
+
+				String folio = await getFolio();
+
+				if (folio == "")
+				{
+					this.NavigationController.PopToRootViewController(true);
+				}
+
+
+				txtFolio.Text = folio;
+
+				String fecha = await getFechaHoraActual();
+
+				if (fecha == "")
+				{
+					this.NavigationController.PopToRootViewController(true);
+				}
+
+				txtfechahora.Text = fecha;
+
+				lstusuarios = new List<clsCmbUsuarios>();
+				lsttipofallas = new List<clsTipoFallas>();
+
+				Boolean respus = await getUsuarios();
+				if (!respus)
+				{
+					this.NavigationController.PopToRootViewController(true);
+				}
+
+				Boolean resptip = await getTipoFallas();
+				if (!resptip)
+				{
+					this.NavigationController.PopToRootViewController(true);
+				}
+				else {
+					loadPop.Hide();
+				}
+
+
+				inicializaCombos();
+
+
+				inicializadatos();
+				btnGuardar.Hidden = false;
+			
 			}
-			else {
-				loadPop.Hide();
-			}
-
-
-			inicializaCombos();
-
-
-			inicializadatos();
 
 			btnGuardar.TouchUpInside += guardarReporte;
 
@@ -143,7 +186,7 @@ namespace icom
 
 		public async Task<String> saveRep() { 
 			var bounds = UIScreen.MainScreen.Bounds;
-			loadPop = new LoadingOverlay(bounds, "Cargando datos de usuario...");
+			loadPop = new LoadingOverlay(bounds, "Guardando Reporte...");
 			View.Add(loadPop);
 
 			client = new HttpClient();
@@ -275,6 +318,135 @@ namespace icom
 			String folio = jsonresponse["folio"].ToString();
 			return folio;
 		}
+
+		public async Task<int> tieneRepServicio()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "maquinas/tieneReporte";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("noserie", strNoSerie);
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return -1;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			int resp = Int32.Parse(jsonresponse["tieneReporte"].ToString());
+			return resp;
+		}
+
+		public async Task<clsReporteOpConsulta> getReporteOperador()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "reportes/getReporteOperador";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("noserie", strNoSerie);
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return null;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return null;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return null;
+			}
+			clsReporteOpConsulta objresp = new clsReporteOpConsulta();
+
+			objresp.folio = jsonresponse["folio"].ToString();
+			objresp.noserie = jsonresponse["noserie"].ToString();
+			objresp.fechahora = jsonresponse["fechahora"].ToString();
+			objresp.equipo = jsonresponse["equipo"].ToString();
+			objresp.kmho = jsonresponse["kmho"].ToString();
+			objresp.modelo = jsonresponse["modelo"].ToString();
+			objresp.reporto = jsonresponse["reporto"].ToString();
+			objresp.tipofalla = jsonresponse["tipofalla"].ToString();
+			objresp.atiende = jsonresponse["atiende"].ToString();
+			objresp.descripcion = jsonresponse["descripcion"].ToString();
+
+
+			return objresp;
+		}
+
 
 		public async Task<String> getFechaHoraActual()
 		{

@@ -1,40 +1,58 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace icom
 {
-    [Register ("MaquinasController")]
-    partial class MaquinasController
-    {
-        [Outlet]
-        UIKit.UIButton btnbusqueda { get; set; }
+	[Register ("MaquinasController")]
+	partial class MaquinasController
+	{
+		[Outlet]
+		UIKit.UIButton btnAgregar { get; set; }
 
+		[Outlet]
+		UIKit.UIButton btnbusqueda { get; set; }
 
-        [Outlet]
-        UIKit.UIButton btnTest { get; set; }
+		[Outlet]
+		UIKit.UIButton btnTest { get; set; }
 
+		[Outlet]
+		UIKit.UITableView lstMaquinas { get; set; }
 
-        [Outlet]
-        UIKit.UITableView lstMaquinas { get; set; }
+		[Outlet]
+		UIKit.UITextField txtbusqueda { get; set; }
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (btnAgregar != null) {
+				btnAgregar.Dispose ();
+				btnAgregar = null;
+			}
 
+			if (btnbusqueda != null) {
+				btnbusqueda.Dispose ();
+				btnbusqueda = null;
+			}
 
-        [Outlet]
-        UIKit.UITextField txtbusqueda { get; set; }
+			if (btnTest != null) {
+				btnTest.Dispose ();
+				btnTest = null;
+			}
 
-        void ReleaseDesignerOutlets ()
-        {
-            if (lstMaquinas != null) {
-                lstMaquinas.Dispose ();
-                lstMaquinas = null;
-            }
-        }
-    }
+			if (lstMaquinas != null) {
+				lstMaquinas.Dispose ();
+				lstMaquinas = null;
+			}
+
+			if (txtbusqueda != null) {
+				txtbusqueda.Dispose ();
+				txtbusqueda = null;
+			}
+		}
+	}
 }
