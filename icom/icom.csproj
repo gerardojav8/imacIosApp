@@ -170,6 +170,10 @@
     <Compile Include="FichaMaquinaController.designer.cs">
       <DependentUpon>FichaMaquinaController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entidades\clsEquipo.cs" />
+    <Compile Include="Entidades\clsMarca.cs" />
+    <Compile Include="Entidades\clsModelo.cs" />
+    <Compile Include="Entidades\clsSolicitudesMaquinas.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

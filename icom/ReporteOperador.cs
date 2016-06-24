@@ -45,14 +45,14 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad ()
+		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);
 			txtDescripcion.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";
-
+			/*
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
@@ -140,7 +140,7 @@ namespace icom
 				inicializadatos();
 				btnGuardar.Hidden = false;
 			
-			}
+			}*/
 
 			btnGuardar.TouchUpInside += guardarReporte;
 
