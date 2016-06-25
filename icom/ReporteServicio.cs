@@ -15,6 +15,7 @@ namespace icom
 		public static List<String> lstref = new List<String>();
 		public static Boolean stacsec = false;
 
+
 		public ReporteServicio () : base ("ReporteServicio", null)
 		{
 			
@@ -34,15 +35,22 @@ namespace icom
 
 			lstRefacciones.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRefacciones.Layer.BorderWidth = (nfloat) 2.0;
-
-
-
+			icom.ReporteServicio.lstref.Clear();
 			lstRefacciones.Source = new FuenteTablaRefacciones();
+
+
 
 			btnaddref.TouchUpInside += delegate {
 				lstref.Add(txtaddref.Text);
 				lstRefacciones.ReloadData();
+				txtaddref.Text = "";
 			};
+
+			btnLimpiarRefacciones.TouchUpInside += delegate {
+				icom.ReporteServicio.lstref.Clear();
+				lstRefacciones.ReloadData();
+			};
+
 
 		}
 

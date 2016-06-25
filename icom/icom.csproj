@@ -179,16 +179,21 @@
     <Compile Include="EstadoFisicoController.designer.cs">
       <DependentUpon>EstadoFisicoController.cs</DependentUpon>
     </Compile>
+    <Compile Include="globales\ModalViewPicker\CustomPickerModel.cs" />
+    <Compile Include="globales\ModalViewPicker\ModalPickerAnimatedDismissed.cs" />
+    <Compile Include="globales\ModalViewPicker\ModalPickerAnimatedTransitioning.cs" />
+    <Compile Include="globales\ModalViewPicker\ModalPickerTransitionDelegate.cs" />
+    <Compile Include="globales\ModalViewPicker\ModalPickerViewController.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Content Include="man.png" />
     <Content Include="Resources\excabadora.png" />
     <Content Include="Resources\revolvedora.png" />
     <Content Include="Resources\trascabo.png" />
     <Content Include="Resources\green.png" />
     <Content Include="Resources\red.png" />
     <Content Include="Resources\plus.png" />
+    <Content Include="Resources\trash.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
@@ -203,6 +208,7 @@
   <ItemGroup>
     <Folder Include="globales\" />
     <Folder Include="Entidades\" />
+    <Folder Include="globales\ModalViewPicker\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\down.png" />
@@ -212,5 +218,6 @@
     <BundleResource Include="Resources\search.png" />
     <BundleResource Include="Resources\search_button.png" />
     <BundleResource Include="Resources\tracto.png" />
+    <BundleResource Include="Resources\man.png" />
   </ItemGroup>
 </Project>

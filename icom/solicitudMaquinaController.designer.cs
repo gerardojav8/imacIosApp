@@ -22,6 +22,9 @@ namespace icom
 		UIKit.UIButton btnequiposolicitado { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnlimpiar { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnMarca { get; set; }
 
 		[Outlet]
@@ -32,6 +35,9 @@ namespace icom
 
 		[Outlet]
 		UIKit.UIButton btnSolicitar { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnSolicitudFecha { get; set; }
 
 		[Outlet]
 		UIKit.UIView contentViewSolicitudMaquina { get; set; }
@@ -71,14 +77,9 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSolicitar != null) {
-				btnSolicitar.Dispose ();
-				btnSolicitar = null;
-			}
-
-			if (lstRequerimientos != null) {
-				lstRequerimientos.Dispose ();
-				lstRequerimientos = null;
+			if (btnSolicitudFecha != null) {
+				btnSolicitudFecha.Dispose ();
+				btnSolicitudFecha = null;
 			}
 
 			if (btnAgregar != null) {
@@ -86,29 +87,9 @@ namespace icom
 				btnAgregar = null;
 			}
 
-			if (txtmarca != null) {
-				txtmarca.Dispose ();
-				txtmarca = null;
-			}
-
-			if (btnMarca != null) {
-				btnMarca.Dispose ();
-				btnMarca = null;
-			}
-
-			if (txtModelo != null) {
-				txtModelo.Dispose ();
-				txtModelo = null;
-			}
-
-			if (btnModelo != null) {
-				btnModelo.Dispose ();
-				btnModelo = null;
-			}
-
-			if (txtEquiposolicitado != null) {
-				txtEquiposolicitado.Dispose ();
-				txtEquiposolicitado = null;
+			if (btnAreaObra != null) {
+				btnAreaObra.Dispose ();
+				btnAreaObra = null;
 			}
 
 			if (btnequiposolicitado != null) {
@@ -116,14 +97,19 @@ namespace icom
 				btnequiposolicitado = null;
 			}
 
-			if (txtCantidad != null) {
-				txtCantidad.Dispose ();
-				txtCantidad = null;
+			if (btnlimpiar != null) {
+				btnlimpiar.Dispose ();
+				btnlimpiar = null;
 			}
 
-			if (txtResponsable != null) {
-				txtResponsable.Dispose ();
-				txtResponsable = null;
+			if (btnMarca != null) {
+				btnMarca.Dispose ();
+				btnMarca = null;
+			}
+
+			if (btnModelo != null) {
+				btnModelo.Dispose ();
+				btnModelo = null;
 			}
 
 			if (btnResponsable != null) {
@@ -131,29 +117,9 @@ namespace icom
 				btnResponsable = null;
 			}
 
-			if (txtAreaObra != null) {
-				txtAreaObra.Dispose ();
-				txtAreaObra = null;
-			}
-
-			if (btnAreaObra != null) {
-				btnAreaObra.Dispose ();
-				btnAreaObra = null;
-			}
-
-			if (txtRequeridaPara != null) {
-				txtRequeridaPara.Dispose ();
-				txtRequeridaPara = null;
-			}
-
-			if (txtSolicitud != null) {
-				txtSolicitud.Dispose ();
-				txtSolicitud = null;
-			}
-
-			if (txtRequerimiento != null) {
-				txtRequerimiento.Dispose ();
-				txtRequerimiento = null;
+			if (btnSolicitar != null) {
+				btnSolicitar.Dispose ();
+				btnSolicitar = null;
 			}
 
 			if (contentViewSolicitudMaquina != null) {
@@ -161,9 +127,59 @@ namespace icom
 				contentViewSolicitudMaquina = null;
 			}
 
+			if (lstRequerimientos != null) {
+				lstRequerimientos.Dispose ();
+				lstRequerimientos = null;
+			}
+
 			if (scrViewSolicitudMaquina != null) {
 				scrViewSolicitudMaquina.Dispose ();
 				scrViewSolicitudMaquina = null;
+			}
+
+			if (txtAreaObra != null) {
+				txtAreaObra.Dispose ();
+				txtAreaObra = null;
+			}
+
+			if (txtCantidad != null) {
+				txtCantidad.Dispose ();
+				txtCantidad = null;
+			}
+
+			if (txtEquiposolicitado != null) {
+				txtEquiposolicitado.Dispose ();
+				txtEquiposolicitado = null;
+			}
+
+			if (txtmarca != null) {
+				txtmarca.Dispose ();
+				txtmarca = null;
+			}
+
+			if (txtModelo != null) {
+				txtModelo.Dispose ();
+				txtModelo = null;
+			}
+
+			if (txtRequeridaPara != null) {
+				txtRequeridaPara.Dispose ();
+				txtRequeridaPara = null;
+			}
+
+			if (txtRequerimiento != null) {
+				txtRequerimiento.Dispose ();
+				txtRequerimiento = null;
+			}
+
+			if (txtResponsable != null) {
+				txtResponsable.Dispose ();
+				txtResponsable = null;
+			}
+
+			if (txtSolicitud != null) {
+				txtSolicitud.Dispose ();
+				txtSolicitud = null;
 			}
 		}
 	}

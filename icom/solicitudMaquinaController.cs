@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using CoreGraphics;
+using icom.globales.ModalViewPicker;
+
 
 namespace icom
 {
@@ -26,8 +28,10 @@ namespace icom
 		List<clsModelo> lstModelo = new List<clsModelo>();
 		clsModelo modeloselect;
 
+
 		public solicitudMaquinaController() : base("solicitudMaquinaController", null)
 		{
+			
 		}
 
 		public override void ViewDidLoad()
@@ -39,6 +43,7 @@ namespace icom
 
 			lstRequerimientos.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRequerimientos.Layer.BorderWidth = (nfloat)2.0;
+			icom.solicitudMaquinaController.lstsolmaq.Clear();
 			lstRequerimientos.Source = new FuenteTablaRequerimientos();
 
 			clsEquipo eq1 = new clsEquipo();
@@ -95,20 +100,61 @@ namespace icom
 
 				lstRequerimientos.ReloadData();
 
-				txtCantidad.Text = "";
-				txtmarca.Text = "";
-				txtModelo.Text = "";
-				txtEquiposolicitado.Text = "";
-				eqselect = null;
-				marcaselect = null;
-				modeloselect = null;
+				limpiaseleccion();
 			};
+
+			btnlimpiar.TouchUpInside += delegate {
+				icom.solicitudMaquinaController.lstsolmaq.Clear();
+				lstRequerimientos.ReloadData();
+				limpiaseleccion();
+			};
+
+
+
+			btnSolicitudFecha.TouchUpInside += DatePickerButtonTapped;
 
 		}
 
-		public void inicializaCombos()
+		async void DatePickerButtonTapped(object sender, EventArgs e)
 		{
+			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Fecha", this)
+			{
+				HeaderBackgroundColor = UIColor.Red,
+				HeaderTextColor = UIColor.White,
+				TransitioningDelegate = new ModalPickerTransitionDelegate(),
+				ModalPresentationStyle = UIModalPresentationStyle.Custom
+			};
 
+			modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+
+			modalPicker.OnModalPickerDismissed += (s, ea) =>
+			{
+				var dateFormatter = new NSDateFormatter()
+				{
+					DateFormat = "MMMM dd, yyyy"
+				};
+
+				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
+				dateFormatter.Locale = locale;
+				txtRequeridaPara.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
+			};
+
+			await PresentViewControllerAsync(modalPicker, true);
+		}
+
+		public void limpiaseleccion() { 
+
+			txtCantidad.Text = "";
+			txtmarca.Text = "";
+			txtModelo.Text = "";
+			txtEquiposolicitado.Text = "";
+			eqselect = null;
+			marcaselect = null;
+			modeloselect = null;
+		}
+
+		public void inicializaCombos()
+		{			
 			//--------Combo Equipo solicitado---------------------
 			actEquipoSol = new UIActionSheet("Seleccionar");
 			foreach (clsEquipo equipo in lstEquipo)
@@ -230,6 +276,7 @@ namespace icom
 		{
 			return icom.solicitudMaquinaController.lstsolmaq.Count;
 		}
+
 	}
 
 	public class CustomSolMaqCell : UITableViewCell

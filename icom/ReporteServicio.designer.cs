@@ -19,6 +19,9 @@ namespace icom
 		UIKit.UIButton btnGuardar { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnLimpiarRefacciones { get; set; }
+
+		[Outlet]
 		UIKit.UIView ContentViewRepServicios { get; set; }
 
 		[Outlet]
@@ -38,9 +41,9 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtaddref != null) {
-				txtaddref.Dispose ();
-				txtaddref = null;
+			if (btnLimpiarRefacciones != null) {
+				btnLimpiarRefacciones.Dispose ();
+				btnLimpiarRefacciones = null;
 			}
 
 			if (btnaddref != null) {
@@ -66,6 +69,11 @@ namespace icom
 			if (scrViewRepServicios != null) {
 				scrViewRepServicios.Dispose ();
 				scrViewRepServicios = null;
+			}
+
+			if (txtaddref != null) {
+				txtaddref.Dispose ();
+				txtaddref = null;
 			}
 
 			if (txtDescFalla != null) {
