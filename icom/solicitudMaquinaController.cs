@@ -12,6 +12,7 @@ namespace icom
 	{
 
 		public static List<clsSolicitudesMaquinas> lstsolmaq = new List<clsSolicitudesMaquinas>();
+		public static Boolean stacsec = false;
 
 		UIActionSheet actEquipoSol;
 		List<clsEquipo> lstEquipo = new List<clsEquipo>();
@@ -69,12 +70,12 @@ namespace icom
 
 			clsModelo mod1 = new clsModelo();
 			mod1.idmodelo = 1;
-			mod1.nombre = "Marca test";
+			mod1.nombre = "Modelo test";
 			mod1.descripcion = "";
 
 			clsModelo mod2 = new clsModelo();
 			mod2.idmodelo = 2;
-			mod2.nombre = "Marca prueba";
+			mod2.nombre = "Modelo prueba";
 			mod2.descripcion = "";
 
 			lstModelo.Add(mod1);
@@ -93,6 +94,14 @@ namespace icom
 				icom.solicitudMaquinaController.lstsolmaq.Add(objsol);
 
 				lstRequerimientos.ReloadData();
+
+				txtCantidad.Text = "";
+				txtmarca.Text = "";
+				txtModelo.Text = "";
+				txtEquiposolicitado.Text = "";
+				eqselect = null;
+				marcaselect = null;
+				modeloselect = null;
 			};
 
 		}
@@ -197,6 +206,7 @@ namespace icom
 	{
 		static readonly string idPersonaje = "Celda";
 
+
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell = tableView.DequeueReusableCell(idPersonaje) as CustomSolMaqCell;
@@ -228,10 +238,18 @@ namespace icom
 
 		public CustomSolMaqCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
 		{
-
+			icom.solicitudMaquinaController.stacsec = !icom.solicitudMaquinaController.stacsec;
 			SelectionStyle = UITableViewCellSelectionStyle.Gray;
 
-			ContentView.BackgroundColor = UIColor.White;
+			if (icom.solicitudMaquinaController.stacsec)
+			{
+				ContentView.BackgroundColor = UIColor.FromRGB(220, 224, 231);
+			}
+			else {
+				ContentView.BackgroundColor = UIColor.White;
+			}
+
+
 
 			cantidadlabel = new UILabel()
 			{
@@ -242,20 +260,20 @@ namespace icom
 
 			equipolabel = new UILabel()
 			{
-				Font = UIFont.FromName("Arial", 22f),
+				Font = UIFont.FromName("Arial", 12f),
 				TextColor = UIColor.FromRGB(54, 74, 97),
 				BackgroundColor = UIColor.Clear
 			};
 			marcalabel = new UILabel()
 			{
-				Font = UIFont.FromName("Arial", 22f),
+				Font = UIFont.FromName("Arial", 12f),
 				TextColor = UIColor.FromRGB(54, 74, 97),
 				BackgroundColor = UIColor.Clear
 			};
 
 			modelolabel = new UILabel()				
 			{
-				Font = UIFont.FromName("Arial", 22f),
+				Font = UIFont.FromName("Arial", 12f),
 				TextColor = UIColor.FromRGB(54, 74, 97),
 				BackgroundColor = UIColor.Clear
 			};
@@ -274,10 +292,10 @@ namespace icom
 		{
 			base.LayoutSubviews();
 
-			cantidadlabel.Frame = new CGRect(5, 5, 100, 100);
-			equipolabel.Frame = new CGRect(105,  5,100,100);
-			marcalabel.Frame = new CGRect(205, 5, 100, 100);
-			modelolabel.Frame = new CGRect(305, 5, 100, 100);
+			cantidadlabel.Frame = new CGRect( 20, 10, 30, 20);
+			equipolabel.Frame = new CGRect(55 ,  10, 100, 20);
+			marcalabel.Frame = new CGRect(170, 10, 70, 20);
+			modelolabel.Frame = new CGRect(250, 10, 70, 20);
 		}
 
 	}

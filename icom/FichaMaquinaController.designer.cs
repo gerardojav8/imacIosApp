@@ -13,16 +13,52 @@ namespace icom
 	partial class FichaMaquinaController
 	{
 		[Outlet]
+		UIKit.UIButton btnDireccion { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEFEqHid { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEFMotor { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEFTransmision { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEqelec { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEquipodesgaste { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnGuardar { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnLlantas { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnLocalizacionAct { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnMandosfin { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnmangueras { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnPintura { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnTapiceria { get; set; }
 
 		[Outlet]
 		UIKit.UIView contentFichaMaquina { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView imgMaq { get; set; }
+
+		[Outlet]
+		UIKit.UIButton otros { get; set; }
 
 		[Outlet]
 		UIKit.UIScrollView scrViewFichaMaquina { get; set; }
@@ -80,14 +116,64 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (scrViewFichaMaquina != null) {
-				scrViewFichaMaquina.Dispose ();
-				scrViewFichaMaquina = null;
+			if (btnEFMotor != null) {
+				btnEFMotor.Dispose ();
+				btnEFMotor = null;
 			}
 
-			if (contentFichaMaquina != null) {
-				contentFichaMaquina.Dispose ();
-				contentFichaMaquina = null;
+			if (btnEFTransmision != null) {
+				btnEFTransmision.Dispose ();
+				btnEFTransmision = null;
+			}
+
+			if (btnEFEqHid != null) {
+				btnEFEqHid.Dispose ();
+				btnEFEqHid = null;
+			}
+
+			if (btnEqelec != null) {
+				btnEqelec.Dispose ();
+				btnEqelec = null;
+			}
+
+			if (btnMandosfin != null) {
+				btnMandosfin.Dispose ();
+				btnMandosfin = null;
+			}
+
+			if (btnLlantas != null) {
+				btnLlantas.Dispose ();
+				btnLlantas = null;
+			}
+
+			if (btnmangueras != null) {
+				btnmangueras.Dispose ();
+				btnmangueras = null;
+			}
+
+			if (btnDireccion != null) {
+				btnDireccion.Dispose ();
+				btnDireccion = null;
+			}
+
+			if (btnEquipodesgaste != null) {
+				btnEquipodesgaste.Dispose ();
+				btnEquipodesgaste = null;
+			}
+
+			if (btnPintura != null) {
+				btnPintura.Dispose ();
+				btnPintura = null;
+			}
+
+			if (btnTapiceria != null) {
+				btnTapiceria.Dispose ();
+				btnTapiceria = null;
+			}
+
+			if (otros != null) {
+				otros.Dispose ();
+				otros = null;
 			}
 
 			if (btnGuardar != null) {
@@ -95,29 +181,44 @@ namespace icom
 				btnGuardar = null;
 			}
 
-			if (txtLocalizacionAct != null) {
-				txtLocalizacionAct.Dispose ();
-				txtLocalizacionAct = null;
-			}
-
 			if (btnLocalizacionAct != null) {
 				btnLocalizacionAct.Dispose ();
 				btnLocalizacionAct = null;
 			}
 
-			if (txtFiltroOtro != null) {
-				txtFiltroOtro.Dispose ();
-				txtFiltroOtro = null;
+			if (contentFichaMaquina != null) {
+				contentFichaMaquina.Dispose ();
+				contentFichaMaquina = null;
+			}
+
+			if (imgMaq != null) {
+				imgMaq.Dispose ();
+				imgMaq = null;
+			}
+
+			if (scrViewFichaMaquina != null) {
+				scrViewFichaMaquina.Dispose ();
+				scrViewFichaMaquina = null;
+			}
+
+			if (segEquipoAux != null) {
+				segEquipoAux.Dispose ();
+				segEquipoAux = null;
+			}
+
+			if (txtDescripcion != null) {
+				txtDescripcion.Dispose ();
+				txtDescripcion = null;
+			}
+
+			if (txtEstadoFisicoAct != null) {
+				txtEstadoFisicoAct.Dispose ();
+				txtEstadoFisicoAct = null;
 			}
 
 			if (txtFiltroAgua != null) {
 				txtFiltroAgua.Dispose ();
 				txtFiltroAgua = null;
-			}
-
-			if (txtFiltroTrans != null) {
-				txtFiltroTrans.Dispose ();
-				txtFiltroTrans = null;
 			}
 
 			if (txtFiltroComb != null) {
@@ -135,14 +236,19 @@ namespace icom
 				txtFiltroMotor = null;
 			}
 
-			if (txtEstadoFisicoAct != null) {
-				txtEstadoFisicoAct.Dispose ();
-				txtEstadoFisicoAct = null;
+			if (txtFiltroOtro != null) {
+				txtFiltroOtro.Dispose ();
+				txtFiltroOtro = null;
 			}
 
-			if (txtSerie != null) {
-				txtSerie.Dispose ();
-				txtSerie = null;
+			if (txtFiltroTrans != null) {
+				txtFiltroTrans.Dispose ();
+				txtFiltroTrans = null;
+			}
+
+			if (txtLocalizacionAct != null) {
+				txtLocalizacionAct.Dispose ();
+				txtLocalizacionAct = null;
 			}
 
 			if (txtMarca != null) {
@@ -150,24 +256,14 @@ namespace icom
 				txtMarca = null;
 			}
 
-			if (txtModelo != null) {
-				txtModelo.Dispose ();
-				txtModelo = null;
-			}
-
-			if (segEquipoAux != null) {
-				segEquipoAux.Dispose ();
-				segEquipoAux = null;
-			}
-
-			if (txtSerieMaq != null) {
-				txtSerieMaq.Dispose ();
-				txtSerieMaq = null;
-			}
-
 			if (txtMarcaMaq != null) {
 				txtMarcaMaq.Dispose ();
 				txtMarcaMaq = null;
+			}
+
+			if (txtModelo != null) {
+				txtModelo.Dispose ();
+				txtModelo = null;
 			}
 
 			if (txtModeloMaq != null) {
@@ -175,19 +271,19 @@ namespace icom
 				txtModeloMaq = null;
 			}
 
-			if (txtDescripcion != null) {
-				txtDescripcion.Dispose ();
-				txtDescripcion = null;
-			}
-
 			if (txtNoEconomico != null) {
 				txtNoEconomico.Dispose ();
 				txtNoEconomico = null;
 			}
 
-			if (imgMaq != null) {
-				imgMaq.Dispose ();
-				imgMaq = null;
+			if (txtSerie != null) {
+				txtSerie.Dispose ();
+				txtSerie = null;
+			}
+
+			if (txtSerieMaq != null) {
+				txtSerieMaq.Dispose ();
+				txtSerieMaq = null;
 			}
 		}
 	}

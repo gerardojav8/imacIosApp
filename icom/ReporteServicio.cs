@@ -2,13 +2,19 @@
 
 using UIKit;
 using Foundation;
-using SQLite;
 using System.Collections.Generic;
+using System.Linq;
+using CoreGraphics;
+
 
 namespace icom
 {
 	public partial class ReporteServicio : UIViewController
 	{
+
+		public static List<String> lstref = new List<String>();
+		public static Boolean stacsec = false;
+
 		public ReporteServicio () : base ("ReporteServicio", null)
 		{
 			
@@ -29,14 +35,14 @@ namespace icom
 			lstRefacciones.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRefacciones.Layer.BorderWidth = (nfloat) 2.0;
 
-			List<String> lstItems = new List<String>();
 
-			lstItems.Add ("Item One");
-			lstItems.Add ("Item Two");
-			lstItems.Add ("Item Three");
 
-			TableSource source = new TableSource(lstItems.ToArray()); 
-			lstRefacciones.Source = source;
+			lstRefacciones.Source = new FuenteTablaRefacciones();
+
+			btnaddref.TouchUpInside += delegate {
+				lstref.Add(txtaddref.Text);
+				lstRefacciones.ReloadData();
+			};
 
 		}
 
@@ -82,6 +88,82 @@ namespace icom
 
 			return cell;
 		}
+	}
+
+	public class FuenteTablaRefacciones : UITableViewSource
+	{
+		static readonly string idPersonaje = "Celda";
+
+
+		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
+		{
+			var cell = tableView.DequeueReusableCell(idPersonaje) as CustomrefaccionesCell;
+			if (cell == null)
+			{
+				cell = new CustomrefaccionesCell((NSString)idPersonaje);
+			}
+
+			String refa = icom.ReporteServicio.lstref.ElementAt(indexPath.Row);
+
+			cell.UpdateCell(refa);
+
+
+			cell.Accessory = UITableViewCellAccessory.None;
+
+
+			return cell;
+		}
+
+		public override nint RowsInSection(UITableView tableview, nint section)
+		{
+			return icom.ReporteServicio.lstref.Count;
+		}
+	}
+
+	public class CustomrefaccionesCell : UITableViewCell
+	{
+		UILabel Refaccion;
+
+		public CustomrefaccionesCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
+		{
+			icom.ReporteServicio.stacsec = !icom.ReporteServicio.stacsec;
+			SelectionStyle = UITableViewCellSelectionStyle.Gray;
+
+			if (icom.ReporteServicio.stacsec)
+			{
+				ContentView.BackgroundColor = UIColor.FromRGB(220, 224, 231);
+			}
+			else {
+				ContentView.BackgroundColor = UIColor.White;
+			}
+
+
+
+			Refaccion = new UILabel()
+			{
+				Font = UIFont.FromName("Arial", 15f),
+				TextColor = UIColor.FromRGB(54, 74, 97),
+				BackgroundColor = UIColor.Clear
+			};
+
+
+
+			ContentView.AddSubviews(new UIView[] { Refaccion });
+
+		}
+		public void UpdateCell(string refaccion)
+		{
+			Refaccion.Text = refaccion;
+
+		}
+		public override void LayoutSubviews()
+		{
+			base.LayoutSubviews();
+
+			Refaccion.Frame = new CGRect(20, 10, 200, 20);
+
+		}
+
 	}
 }
 
