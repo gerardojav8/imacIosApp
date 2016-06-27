@@ -51,18 +51,18 @@ namespace icom.globales.ModalViewPicker
 
 		public ModalPickerViewController(ModalPickerType pickerType, string headerText, UIViewController parent)
 		{
-			HeaderBackgroundColor = UIColor.White;
-			HeaderTextColor = UIColor.Blue;
 			HeaderText = headerText;
 			PickerType = pickerType;
 			_parent = parent;
-			DoneButtonText = "Listo";
-			CancelButtonText = "Cancelar";
 		}
 
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			HeaderBackgroundColor = UIColor.FromRGB(49, 128, 230); ;
+			HeaderTextColor = UIColor.White;
+			DoneButtonText = "Listo";
+			CancelButtonText = "Cancelar";
 
 			InitializeControls();
 		}
@@ -82,6 +82,7 @@ namespace icom.globales.ModalViewPicker
 			_headerLabel = new UILabel(new CGRect(0, 0, 320 / 2, 44));
 			_headerLabel.AutoresizingMask = UIViewAutoresizing.FlexibleWidth;
 			_headerLabel.BackgroundColor = HeaderBackgroundColor;
+			//_headerLabel.BackgroundColor = UIColor.Blue;
 			_headerLabel.TextColor = HeaderTextColor;
 			_headerLabel.Text = HeaderText;
 			_headerLabel.TextAlignment = UITextAlignment.Center;

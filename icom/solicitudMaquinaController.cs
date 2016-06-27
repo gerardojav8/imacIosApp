@@ -131,7 +131,7 @@ namespace icom
 			{
 				var dateFormatter = new NSDateFormatter()
 				{
-					DateFormat = "MMMM dd, yyyy"
+					DateFormat = "yyyy-MM-dd"
 				};
 
 				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");

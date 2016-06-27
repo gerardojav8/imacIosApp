@@ -179,7 +179,8 @@ namespace icom
 
 			String folio = await saveRep();
 
-			if (folio != "") { 
+			if (folio != "") {
+				
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
 		}

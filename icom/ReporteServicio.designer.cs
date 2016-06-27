@@ -22,13 +22,25 @@ namespace icom
 		UIKit.UIButton btnLimpiarRefacciones { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnrealizo { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btntipofalla { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btntipomnto { get; set; }
+
+		[Outlet]
 		UIKit.UIView ContentViewRepServicios { get; set; }
 
 		[Outlet]
-		UIKit.UITableView lstRefacciones { get; set; }
+		UIKit.UIScrollView scrViewRepServicios { get; set; }
 
 		[Outlet]
-		UIKit.UIScrollView scrViewRepServicios { get; set; }
+		UIKit.UISegmentedControl segRetraso { get; set; }
+
+		[Outlet]
+		UIKit.UITableView tblRefacciones { get; set; }
 
 		[Outlet]
 		UIKit.UITextField txtaddref { get; set; }
@@ -37,13 +49,40 @@ namespace icom
 		UIKit.UITextView txtDescFalla { get; set; }
 
 		[Outlet]
-		UIKit.UITextView txtObservaciones { get; set; }
+		UIKit.UITextField txtEquipo { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtFolio { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtkmho { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtmodelo { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtnoserie { get; set; }
+
+		[Outlet]
+		UIKit.UITextView txtObs { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtrealizo { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txttiemporep { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtTipoFalla { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtTipoMnto { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnLimpiarRefacciones != null) {
-				btnLimpiarRefacciones.Dispose ();
-				btnLimpiarRefacciones = null;
+			if (txtnoserie != null) {
+				txtnoserie.Dispose ();
+				txtnoserie = null;
 			}
 
 			if (btnaddref != null) {
@@ -56,19 +95,44 @@ namespace icom
 				btnGuardar = null;
 			}
 
+			if (btnLimpiarRefacciones != null) {
+				btnLimpiarRefacciones.Dispose ();
+				btnLimpiarRefacciones = null;
+			}
+
+			if (btnrealizo != null) {
+				btnrealizo.Dispose ();
+				btnrealizo = null;
+			}
+
+			if (btntipofalla != null) {
+				btntipofalla.Dispose ();
+				btntipofalla = null;
+			}
+
+			if (btntipomnto != null) {
+				btntipomnto.Dispose ();
+				btntipomnto = null;
+			}
+
 			if (ContentViewRepServicios != null) {
 				ContentViewRepServicios.Dispose ();
 				ContentViewRepServicios = null;
 			}
 
-			if (lstRefacciones != null) {
-				lstRefacciones.Dispose ();
-				lstRefacciones = null;
-			}
-
 			if (scrViewRepServicios != null) {
 				scrViewRepServicios.Dispose ();
 				scrViewRepServicios = null;
+			}
+
+			if (segRetraso != null) {
+				segRetraso.Dispose ();
+				segRetraso = null;
+			}
+
+			if (tblRefacciones != null) {
+				tblRefacciones.Dispose ();
+				tblRefacciones = null;
 			}
 
 			if (txtaddref != null) {
@@ -81,9 +145,49 @@ namespace icom
 				txtDescFalla = null;
 			}
 
-			if (txtObservaciones != null) {
-				txtObservaciones.Dispose ();
-				txtObservaciones = null;
+			if (txtEquipo != null) {
+				txtEquipo.Dispose ();
+				txtEquipo = null;
+			}
+
+			if (txtFolio != null) {
+				txtFolio.Dispose ();
+				txtFolio = null;
+			}
+
+			if (txtkmho != null) {
+				txtkmho.Dispose ();
+				txtkmho = null;
+			}
+
+			if (txtmodelo != null) {
+				txtmodelo.Dispose ();
+				txtmodelo = null;
+			}
+
+			if (txtObs != null) {
+				txtObs.Dispose ();
+				txtObs = null;
+			}
+
+			if (txtrealizo != null) {
+				txtrealizo.Dispose ();
+				txtrealizo = null;
+			}
+
+			if (txttiemporep != null) {
+				txttiemporep.Dispose ();
+				txttiemporep = null;
+			}
+
+			if (txtTipoFalla != null) {
+				txtTipoFalla.Dispose ();
+				txtTipoFalla = null;
+			}
+
+			if (txtTipoMnto != null) {
+				txtTipoMnto.Dispose ();
+				txtTipoMnto = null;
 			}
 		}
 	}
