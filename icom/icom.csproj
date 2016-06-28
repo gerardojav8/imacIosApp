@@ -184,6 +184,9 @@
     <Compile Include="globales\ModalViewPicker\ModalPickerAnimatedTransitioning.cs" />
     <Compile Include="globales\ModalViewPicker\ModalPickerTransitionDelegate.cs" />
     <Compile Include="globales\ModalViewPicker\ModalPickerViewController.cs" />
+    <Compile Include="Entidades\clsTipoMnto.cs" />
+    <Compile Include="Entidades\clsGuardaReporteServ.cs" />
+    <Compile Include="Entidades\clsRefaccionesReporteServicio.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
