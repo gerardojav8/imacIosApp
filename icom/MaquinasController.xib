@@ -8,7 +8,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MaquinasController">
             <connections>
                 <outlet property="btnAgregar" destination="6PD-L2-1wT" id="Lxu-PE-cTt"/>
+                <outlet property="btnSearch" destination="6PV-kT-CDT" id="bcT-vV-qTX"/>
                 <outlet property="lstMaquinas" destination="Jdo-gA-ySt" id="hhN-J1-nqQ"/>
+                <outlet property="txtSearch" destination="4e6-zI-U0l" id="XyL-Qd-PiL"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -28,15 +30,15 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" red="0.80512820512820504" green="0.80512820512820504" blue="0.80512820512820504" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
-                    <rect key="frame" x="275" y="63" width="50" height="46"/>
-                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button" image="search_button.png"/>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PD-L2-1wT">
                     <rect key="frame" x="325" y="63" width="50" height="46"/>
                     <color key="backgroundColor" red="0.28627450980392155" green="0.4392156862745098" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
                     <state key="normal" title="Button" image="plus.png"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
+                    <rect key="frame" x="275" y="63" width="50" height="46"/>
+                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="Button" image="search_button.png"/>
                 </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>

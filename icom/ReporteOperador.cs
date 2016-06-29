@@ -45,14 +45,14 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 			ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);
 			txtDescripcion.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";
-			/*
+
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
@@ -140,7 +140,7 @@ namespace icom
 				inicializadatos();
 				btnGuardar.Hidden = false;
 			
-			}*/
+			}
 
 			btnGuardar.TouchUpInside += guardarReporte;
 
@@ -180,7 +180,7 @@ namespace icom
 			String folio = await saveRep();
 
 			if (folio != "") {
-				
+				((MaquinasController)viewmaq).recargarListado();
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
 		}
@@ -437,7 +437,7 @@ namespace icom
 			objresp.noserie = jsonresponse["noserie"].ToString();
 			objresp.fechahora = jsonresponse["fechahora"].ToString();
 			objresp.equipo = jsonresponse["equipo"].ToString();
-			objresp.kmho = jsonresponse["kmho"].ToString();
+			objresp.kmho = jsonresponse["kmho"].ToString().Replace(",", ".");
 			objresp.modelo = jsonresponse["modelo"].ToString();
 			objresp.reporto = jsonresponse["reporto"].ToString();
 			objresp.tipofalla = jsonresponse["tipofalla"].ToString();

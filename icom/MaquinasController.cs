@@ -31,10 +31,8 @@ namespace icom
 
 			base.ViewDidLoad();
 
-			lstMaquinas.Source = new FuenteTablaExpandible(this);
-
-
 			lstMaqServ = new List<clsListadoMaquinas>();
+			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
 			Boolean resp = await getAllMaquinas();
 
@@ -42,6 +40,8 @@ namespace icom
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
+
+
 			}
 
 			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
@@ -87,11 +87,20 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
+			btnSearch.TouchUpInside += delegate
+			{
+				funciones.MessageBox("Aviso", "Boton de buscar");
+			};
+
+
+
 		}
 
-		public async void recargarListado() { 
-			lstMaqServ = new List<clsListadoMaquinas>();
 
+
+		public async void recargarListado() {
+			
+			lstMaqServ = new List<clsListadoMaquinas>();
 			Boolean resp = await getAllMaquinas();
 
 			if (resp)
@@ -255,6 +264,7 @@ namespace icom
 
 				if (indexPath.Row == currentExpandedIndex + 1)
 				{
+
 					clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(currentExpandedIndex);
 
 					ReporteOperador viewro = new ReporteOperador();
@@ -277,6 +287,7 @@ namespace icom
 				else {
 					if (indexPath.Row == currentExpandedIndex + 2)
 					{
+
 						clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(currentExpandedIndex);
 						ReporteServicio viewrs = new ReporteServicio();
 						viewrs.Title = "Reporte Servicio";
@@ -293,6 +304,7 @@ namespace icom
 						return;
 					}
 					else {
+
 						clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(currentExpandedIndex);
 
 						FichaMaquinaController viewfm = new FichaMaquinaController();
@@ -387,7 +399,15 @@ namespace icom
 					cell = new CustomVegeCell((NSString)idPersonaje, sec);
 				}
 
-				clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(indexPath.Row);
+				int indicearreglo = indexPath.Row;
+
+				if (currentExpandedIndex > -1 && indexPath.Row > currentExpandedIndex)
+				{
+					indicearreglo -= 3;
+				}
+					
+
+				clsListadoMaquinas maquina = icom.MaquinasController.lstMaqServ.ElementAt(indicearreglo);
 
 				UIImage imgmaq = null;
 				String strtipomaq = "";

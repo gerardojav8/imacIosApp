@@ -16,42 +16,34 @@ namespace icom
 		UIKit.UIButton btnAgregar { get; set; }
 
 		[Outlet]
-		UIKit.UIButton btnbusqueda { get; set; }
-
-		[Outlet]
-		UIKit.UIButton btnTest { get; set; }
+		UIKit.UIButton btnSearch { get; set; }
 
 		[Outlet]
 		UIKit.UITableView lstMaquinas { get; set; }
 
 		[Outlet]
-		UIKit.UITextField txtbusqueda { get; set; }
+		UIKit.UITextField txtSearch { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnSearch != null) {
+				btnSearch.Dispose ();
+				btnSearch = null;
+			}
+
+			if (txtSearch != null) {
+				txtSearch.Dispose ();
+				txtSearch = null;
+			}
+
 			if (btnAgregar != null) {
 				btnAgregar.Dispose ();
 				btnAgregar = null;
 			}
 
-			if (btnbusqueda != null) {
-				btnbusqueda.Dispose ();
-				btnbusqueda = null;
-			}
-
-			if (btnTest != null) {
-				btnTest.Dispose ();
-				btnTest = null;
-			}
-
 			if (lstMaquinas != null) {
 				lstMaquinas.Dispose ();
 				lstMaquinas = null;
-			}
-
-			if (txtbusqueda != null) {
-				txtbusqueda.Dispose ();
-				txtbusqueda = null;
 			}
 		}
 	}

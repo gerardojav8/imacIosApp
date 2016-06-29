@@ -87,6 +87,17 @@ namespace icom
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
+
+			int resptienerep = await tieneRepServicio();
+
+			if (resptienerep == 0) {
+
+				funciones.MessageBox("Aviso", "La maquina no tiene Reporte de operador, debe de ingresar primero un reporte de operador para capturar el reporte de servicio");
+				this.NavigationController.PopToViewController(viewmaq, true);
+				return;
+			}
+			
+			
 			clsReporteOpConsulta objresp = await getReporteOperador();
 			if (objresp == null)
 			{
@@ -100,28 +111,91 @@ namespace icom
 			txtkmho.Text = objresp.kmho;
 			txtmodelo.Text = objresp.modelo;
 			txtDescFalla.Text = objresp.descripcion;
+			txtTipoFalla.Text = objresp.tipofalla;
+			idtipofalla = Int32.Parse(objresp.idtipofalla);
 
 			Boolean respus = await getUsuarios();
 			if (!respus)
 			{
-				this.NavigationController.PopToRootViewController(true);
+				this.NavigationController.PopToViewController(viewmaq, true);
+				return;
 			}
 
 			Boolean resptip = await getTipoFallas();
 			if (!resptip)
 			{
-				this.NavigationController.PopToRootViewController(true);
+				this.NavigationController.PopToViewController(viewmaq, true);
+				return;
 			}
 
 			Boolean resptipmnto = await getTipoMantenimientos();
 			if (!resptipmnto)
 			{
-				this.NavigationController.PopToRootViewController(true);
+				this.NavigationController.PopToViewController(viewmaq, true);
+				return;
 			}
 
 			inicializaCombos();
 			loadPop.Hide();
 
+		}
+
+		public async Task<int> tieneRepServicio()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "maquinas/tieneReporte";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("noserie", strNoSerie);
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return -1;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			int resp = Int32.Parse(jsonresponse["tieneReporte"].ToString());
+			return resp;
 		}
 
 		async void guardarReporte(object sender, EventArgs e)
@@ -168,6 +242,7 @@ namespace icom
 			if (respsavserv)
 			{
 				((MaquinasController)viewmaq).recargarListado();
+
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
 		}
@@ -331,10 +406,11 @@ namespace icom
 			objresp.noserie = jsonresponse["noserie"].ToString();
 			objresp.fechahora = jsonresponse["fechahora"].ToString();
 			objresp.equipo = jsonresponse["equipo"].ToString();
-			objresp.kmho = jsonresponse["kmho"].ToString();
+			objresp.kmho = jsonresponse["kmho"].ToString().Replace(",", ".");
 			objresp.modelo = jsonresponse["modelo"].ToString();
 			objresp.reporto = jsonresponse["reporto"].ToString();
 			objresp.tipofalla = jsonresponse["tipofalla"].ToString();
+			objresp.idtipofalla = jsonresponse["idtipofalla"].ToString();
 			objresp.atiende = jsonresponse["atiende"].ToString();
 			objresp.descripcion = jsonresponse["descripcion"].ToString();
 
