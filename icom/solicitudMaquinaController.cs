@@ -90,6 +90,38 @@ namespace icom
 
 
 			btnAgregar.TouchUpInside += delegate {
+
+				if (txtCantidad.Text == "") {
+					funciones.MessageBox("Error", "Debe de ingresar una cantidad");
+					return;
+				}
+
+				int intcant;
+				if (!Int32.TryParse(txtCantidad.Text, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.CreateSpecificCulture("en-US"), out intcant))
+				{
+					funciones.MessageBox("Error", "La cantidad ingresada debe de ser numercia");
+					return;
+				}
+
+				if (eqselect == null) { 
+					funciones.MessageBox("Error", "Debe de seleccionar un equipo para agregar");
+					return;
+				}
+
+				if (modeloselect == null)
+				{
+					funciones.MessageBox("Error", "Debe de seleccionar un modelo para agregar");
+					return;
+				}
+
+				if (marcaselect == null)
+				{
+					funciones.MessageBox("Error", "Debe de seleccionar una marca para agregar");
+					return;
+				}
+
+
+
 				clsSolicitudesMaquinas objsol = new clsSolicitudesMaquinas();
 				objsol.cantidad = Int32.Parse(txtCantidad.Text);
 				objsol.equipo = eqselect;
