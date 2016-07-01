@@ -6,6 +6,13 @@ using System.Linq;
 using Foundation;
 using CoreGraphics;
 using icom.globales.ModalViewPicker;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using icom.globales;
+using System.Text;
+
 
 
 namespace icom
@@ -16,17 +23,23 @@ namespace icom
 		public static List<clsSolicitudesMaquinas> lstsolmaq = new List<clsSolicitudesMaquinas>();
 		public static Boolean stacsec = false;
 
-		UIActionSheet actEquipoSol;
-		List<clsEquipo> lstEquipo = new List<clsEquipo>();
-		clsEquipo eqselect;
+		LoadingOverlay loadPop;
+		HttpClient client;
 
-		UIActionSheet actMarca;
-		List<clsMarca> lstmarca = new List<clsMarca>();
-		clsMarca marcaselect;
+		UIActionSheet actResponsables;
+		List<clsCmbUsuarios> lstResponsables;
+		int idresponsable = -1;
 
-		UIActionSheet actModelo;
-		List<clsModelo> lstModelo = new List<clsModelo>();
-		clsModelo modeloselect;
+		UIActionSheet actAreasObra;
+		List<clsCmbAreasObra> lstAreasObra = new List<clsCmbAreasObra>();
+		int idarea = -1;
+
+		public UIViewController viewmaq
+		{
+			get;
+			set;
+		}
+
 
 
 		public solicitudMaquinaController() : base("solicitudMaquinaController", null)
@@ -34,7 +47,7 @@ namespace icom
 			
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -46,45 +59,46 @@ namespace icom
 			icom.solicitudMaquinaController.lstsolmaq.Clear();
 			lstRequerimientos.Source = new FuenteTablaRequerimientos();
 
-			clsEquipo eq1 = new clsEquipo();
-			eq1.idequipo = 1;
-			eq1.nombre = "Equipo test";
-			eq1.descripcion = "";
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
+			View.Add(loadPop);
+
+			String folio = await getFolio();
+
+			if (folio == "")
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
 
 
-			clsEquipo eq2 = new clsEquipo();
-			eq2.idequipo = 2;
-			eq2.nombre = "Equipo prueba";
-			eq2.descripcion = "";
+			txtRequerimiento.Text = folio;
 
-			lstEquipo.Add(eq1);
-			lstEquipo.Add(eq2);
+			String fecha = await getFechaHoraActual();
 
-			clsMarca marc1 = new clsMarca();
-			marc1.idmarca = 1;
-			marc1.nombre = "Marca test";
-			marc1.descripcion = "";
+			if (fecha == "")
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
 
-			clsMarca marc2 = new clsMarca();
-			marc2.idmarca = 2;
-			marc2.nombre = "Marca prueba";
-			marc2.descripcion = "";
+			txtSolicitud.Text = fecha;
 
-			lstmarca.Add(marc1);
-			lstmarca.Add(marc2);
+			lstResponsables = new List<clsCmbUsuarios>();
 
-			clsModelo mod1 = new clsModelo();
-			mod1.idmodelo = 1;
-			mod1.nombre = "Modelo test";
-			mod1.descripcion = "";
+			Boolean respus = await getUsuarios();
+			if (!respus)
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
 
-			clsModelo mod2 = new clsModelo();
-			mod2.idmodelo = 2;
-			mod2.nombre = "Modelo prueba";
-			mod2.descripcion = "";
+			lstAreasObra = new List<clsCmbAreasObra>();
 
-			lstModelo.Add(mod1);
-			lstModelo.Add(mod2);
+			Boolean respareas = await getAreasObra();
+			if (!respareas)
+			{
+				this.NavigationController.PopToRootViewController(true);
+			}
+
+			loadPop.Hide();
 
 			inicializaCombos();
 
@@ -103,18 +117,18 @@ namespace icom
 					return;
 				}
 
-				if (eqselect == null) { 
+				if (txtEquiposolicitado.Text == "") { 
 					funciones.MessageBox("Error", "Debe de seleccionar un equipo para agregar");
 					return;
 				}
 
-				if (modeloselect == null)
+				if (txtModelo.Text == "")
 				{
 					funciones.MessageBox("Error", "Debe de seleccionar un modelo para agregar");
 					return;
 				}
 
-				if (marcaselect == null)
+				if (txtmarca.Text == "")
 				{
 					funciones.MessageBox("Error", "Debe de seleccionar una marca para agregar");
 					return;
@@ -124,9 +138,9 @@ namespace icom
 
 				clsSolicitudesMaquinas objsol = new clsSolicitudesMaquinas();
 				objsol.cantidad = Int32.Parse(txtCantidad.Text);
-				objsol.equipo = eqselect;
-				objsol.marca = marcaselect;
-				objsol.modelo = modeloselect;
+				objsol.equipo = txtEquiposolicitado.Text;
+				objsol.marca = txtmarca.Text;
+				objsol.modelo = txtModelo.Text;
 
 				icom.solicitudMaquinaController.lstsolmaq.Add(objsol);
 
@@ -145,7 +159,361 @@ namespace icom
 
 			btnSolicitudFecha.TouchUpInside += DatePickerButtonTapped;
 
+			btnSolicitar.TouchUpInside += guardarSolicitud;
+
 		}
+
+		async void guardarSolicitud(object sender, EventArgs e)
+		{
+			if (txtRequeridaPara.Text == "")
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar una fecha de requerimiento");
+				return;
+			}
+
+			if (idresponsable == -1)
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar un usuario responsable de la solicitud");
+				return;
+			}
+
+			if (idarea == -1)
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar una area de obra");
+				return;
+			}
+
+			if (lstsolmaq.Count() < 1) {
+				funciones.MessageBox("Error", "Debe de ingresar algun requerimiento para la solicitud");
+				return;
+			}
+
+			String respsave = await saveRep();
+
+			if (respsave == "")
+			{
+				((MaquinasController)viewmaq).recargarListado();
+				this.NavigationController.PopToViewController(viewmaq, true);
+			}
+		}
+
+		public async Task<String> saveRep()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Solicitud...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "maquinas/GuardarSolicitudMaquinaria";
+			var uri = new Uri(string.Format(url));
+
+			clsGuardaSolicitudMaquinaria objsolicitud = new clsGuardaSolicitudMaquinaria();
+
+			objsolicitud.requeridopara = txtRequeridaPara.Text;
+			objsolicitud.idareaobra = idarea.ToString();
+			objsolicitud.idresponsable = idresponsable.ToString();
+			objsolicitud.requerimientos = lstsolmaq;
+
+			var json = JsonConvert.SerializeObject(objsolicitud);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			funciones.MessageBox("Aviso", "Se ha guardado la solicitud!!");
+			return "";
+
+		}
+
+		public async Task<Boolean> getAreasObra()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "obras/getAreasObras";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los usuarios del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+			foreach (var ob in jrarray)
+			{
+				clsCmbAreasObra objarea = getobjAreaObra(ob);
+				lstAreasObra.Add(objarea);
+			}
+
+			return true;
+		}
+
+		public clsCmbAreasObra getobjAreaObra(Object varjson)
+		{
+			clsCmbAreasObra objob = new clsCmbAreasObra();
+			JObject json = (JObject)varjson;
+
+			objob.idarea = Int32.Parse(json["idareaobra"].ToString());
+			objob.nombre = json["nombre"].ToString();
+
+			return objob;
+		}
+
+		public async Task<Boolean> getUsuarios()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "usuarios/getCmbUsuarios";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los usuarios del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+			foreach (var us in jrarray)
+			{
+				clsCmbUsuarios objus = getobjUsuario(us);
+				lstResponsables.Add(objus);
+			}
+
+			return true;
+		}
+
+		public clsCmbUsuarios getobjUsuario(Object varjson)
+		{
+			clsCmbUsuarios objus = new clsCmbUsuarios();
+			JObject json = (JObject)varjson;
+
+			objus.idusuario = Int32.Parse(json["idusuario"].ToString());
+			objus.nombre = json["nombre"].ToString();
+			objus.apepaterno = json["apepaterno"].ToString();
+			objus.apematerno = json["apematerno"].ToString();
+
+			return objus;
+		}
+
+		public async Task<String> getFechaHoraActual()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "common/getFechaHoraActual";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			String fecha = jsonresponse["Fecha"].ToString();
+			String hora = jsonresponse["hora"].ToString();
+			return fecha + " " + hora;
+		}
+
+		public async Task<String> getFolio()
+		{
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "maquinas/getFolioSolicitud";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			String folio = jsonresponse["folio"].ToString();
+			return folio;
+		}
+
 
 		async void DatePickerButtonTapped(object sender, EventArgs e)
 		{
@@ -180,103 +548,70 @@ namespace icom
 			txtmarca.Text = "";
 			txtModelo.Text = "";
 			txtEquiposolicitado.Text = "";
-			eqselect = null;
-			marcaselect = null;
-			modeloselect = null;
 		}
 
 		public void inicializaCombos()
 		{			
-			//--------Combo Equipo solicitado---------------------
-			actEquipoSol = new UIActionSheet("Seleccionar");
-			foreach (clsEquipo equipo in lstEquipo)
+			//--------Combo Responsables---------------------
+			actResponsables = new UIActionSheet("Seleccionar");
+			foreach (clsCmbUsuarios us in lstResponsables)
 			{				
-				actEquipoSol.Add(equipo.nombre);
+				actResponsables.Add(us.nombre);
 			}
-			actEquipoSol.Add("Cancelar");
+			actResponsables.Add("Cancelar");
 
-			actEquipoSol.Style = UIActionSheetStyle.BlackTranslucent;
-			actEquipoSol.CancelButtonIndex = lstEquipo.Count;
+			actResponsables.Style = UIActionSheetStyle.BlackTranslucent;
+			actResponsables.CancelButtonIndex = lstResponsables.Count;
 
-			btnequiposolicitado.TouchUpInside += delegate
+			btnResponsable.TouchUpInside += delegate
 			{
-				actEquipoSol.ShowInView(this.contentViewSolicitudMaquina);
+				actResponsables.ShowInView(this.contentViewSolicitudMaquina);
 			};
 
-			actEquipoSol.Clicked += delegate (object sender, UIButtonEventArgs e)
+			actResponsables.Clicked += delegate (object sender, UIButtonEventArgs e)
 			{
-				if (e.ButtonIndex != lstEquipo.Count)
+				if (e.ButtonIndex != lstResponsables.Count)
 				{
-					clsEquipo eq = lstEquipo.ElementAt((int)e.ButtonIndex);
-					txtEquiposolicitado.Text = eq.nombre;
-					eqselect = eq;
+					clsCmbUsuarios us = lstResponsables.ElementAt((int)e.ButtonIndex);
+					txtResponsable.Text = us.nombre;
+					idresponsable = us.idusuario;
 				}
 				else {
-					txtEquiposolicitado.Text = "";
-					eqselect = null;
+					txtResponsable.Text = "";
+					idresponsable = -1;
 				}
 			};
 
-
-			//--------Combo marca---------------------
-			actMarca = new UIActionSheet("Seleccionar");
-			foreach (clsMarca marca in lstmarca)
+			//--------Combo Areas Obra---------------------
+			actAreasObra = new UIActionSheet("Seleccionar");
+			foreach (clsCmbAreasObra ob in lstAreasObra)
 			{
-				actMarca.Add(marca.nombre);
+				actAreasObra.Add(ob.nombre);
 			}
-			actMarca.Add("Cancelar");
+			actAreasObra.Add("Cancelar");
 
-			actMarca.Style = UIActionSheetStyle.BlackTranslucent;
-			actMarca.CancelButtonIndex = lstEquipo.Count;
+			actAreasObra.Style = UIActionSheetStyle.BlackTranslucent;
+			actAreasObra.CancelButtonIndex = lstAreasObra.Count;
 
-			btnMarca.TouchUpInside += delegate
+			btnAreaObra.TouchUpInside += delegate
 			{
-				actMarca.ShowInView(this.contentViewSolicitudMaquina);
+				actAreasObra.ShowInView(this.contentViewSolicitudMaquina);
 			};
 
-			actMarca.Clicked += delegate (object sender, UIButtonEventArgs e)
+			actAreasObra.Clicked += delegate (object sender, UIButtonEventArgs e)
 			{
-				if (e.ButtonIndex != lstmarca.Count)
+				if (e.ButtonIndex != lstAreasObra.Count)
 				{
-					clsMarca marca = lstmarca.ElementAt((int)e.ButtonIndex);
-					txtmarca.Text = marca.nombre;
-					marcaselect  = marca;
+					clsCmbAreasObra ob = lstAreasObra.ElementAt((int)e.ButtonIndex);
+					txtAreaObra.Text = ob.nombre;
+					idarea = ob.idarea;
 				}
 				else {
-					txtmarca.Text = "";
-					marcaselect = null;
+					txtAreaObra.Text = "";
+					idarea = -1;
 				}
 			};
 
-			//--------Combo modelo---------------------
-			actModelo = new UIActionSheet("Seleccionar");
-			foreach (clsModelo modelo in lstModelo)
-			{
-				actModelo.Add(modelo.nombre);
-			}
-			actModelo.Add("Cancelar");
-
-			actModelo.Style = UIActionSheetStyle.BlackTranslucent;
-			actModelo.CancelButtonIndex = lstEquipo.Count;
-
-			btnModelo.TouchUpInside += delegate
-			{
-				actModelo.ShowInView(this.contentViewSolicitudMaquina);
-			};
-
-			actModelo.Clicked += delegate (object sender, UIButtonEventArgs e)
-			{
-				if (e.ButtonIndex != lstmarca.Count)
-				{
-					clsModelo modelo = lstModelo.ElementAt((int)e.ButtonIndex);
-					txtModelo.Text = modelo.nombre;
-					modeloselect = modelo;
-				}
-				else {
-					txtModelo.Text = "";
-					modeloselect = null;
-				}
-			};
 		}
 	}
 
@@ -295,7 +630,7 @@ namespace icom
 
 			clsSolicitudesMaquinas sol = icom.solicitudMaquinaController.lstsolmaq.ElementAt(indexPath.Row);
 
-			cell.UpdateCell(sol.cantidad.ToString(), sol.equipo.nombre, sol.marca.nombre, sol.modelo.nombre);
+			cell.UpdateCell(sol.cantidad.ToString(), sol.equipo, sol.marca, sol.modelo);
 
 
 			cell.Accessory = UITableViewCellAccessory.None;

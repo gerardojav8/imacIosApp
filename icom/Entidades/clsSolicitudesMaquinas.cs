@@ -4,9 +4,9 @@ namespace icom
 	public class clsSolicitudesMaquinas
 	{
 		public int cantidad { get; set; }
-		public clsEquipo equipo { get; set; }
-		public clsMarca marca { get; set; }
-		public clsModelo modelo { get; set; }
+		public String equipo { get; set; }
+		public String marca { get; set; }
+		public String modelo { get; set; }
 		public clsSolicitudesMaquinas()
 		{
 		}

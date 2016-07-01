@@ -9,12 +9,9 @@
             <connections>
                 <outlet property="btnAgregar" destination="IW9-9u-7Tx" id="RQK-lb-ueB"/>
                 <outlet property="btnAreaObra" destination="mab-AZ-wnT" id="er8-pA-iIE"/>
-                <outlet property="btnMarca" destination="dzj-Zu-SsK" id="zlK-D2-XxU"/>
-                <outlet property="btnModelo" destination="tsi-7m-Wah" id="UFK-lu-5Dw"/>
                 <outlet property="btnResponsable" destination="YZP-SR-PBZ" id="vht-BK-nt3"/>
                 <outlet property="btnSolicitar" destination="eme-s8-yxr" id="8uT-Y6-hNB"/>
                 <outlet property="btnSolicitudFecha" destination="DyG-Lj-wmf" id="pGa-rf-9gQ"/>
-                <outlet property="btnequiposolicitado" destination="xgl-QX-1Vh" id="m8g-UK-LcU"/>
                 <outlet property="btnlimpiar" destination="edk-sn-qDW" id="wpp-qs-rvc"/>
                 <outlet property="contentViewSolicitudMaquina" destination="DAx-4K-1W1" id="M0k-9L-bfe"/>
                 <outlet property="lstRequerimientos" destination="8yg-gn-ypA" id="70f-ua-gsa"/>
@@ -131,25 +128,13 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Elija un equipo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kbg-Om-mbV">
-                                    <rect key="frame" x="27" y="454" width="272" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="equipo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kbg-Om-mbV">
+                                    <rect key="frame" x="27" y="454" width="325" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xgl-QX-1Vh">
-                                    <rect key="frame" x="307" y="452" width="45" height="32"/>
-                                    <state key="normal" image="down.png"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dzj-Zu-SsK">
-                                    <rect key="frame" x="141" y="526" width="45" height="32"/>
-                                    <state key="normal" image="down.png"/>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tsi-7m-Wah">
-                                    <rect key="frame" x="307" y="526" width="45" height="32"/>
-                                    <state key="normal" image="down.png"/>
-                                </button>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Elija una marca" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aho-Pj-Kqy">
-                                    <rect key="frame" x="27" y="528" width="111" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="marca" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Aho-Pj-Kqy">
+                                    <rect key="frame" x="27" y="528" width="141" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -232,8 +217,8 @@
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </state>
                                 </button>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Elija un modelo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sez-eu-7YS">
-                                    <rect key="frame" x="197" y="528" width="112" height="30"/>
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="modelo" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Sez-eu-7YS">
+                                    <rect key="frame" x="197" y="528" width="153" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>

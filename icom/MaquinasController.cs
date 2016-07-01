@@ -78,7 +78,7 @@ namespace icom
 			btnAgregar.TouchUpInside += delegate {
 				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
 				viewsolmaq.Title = "Solicitud de Maquinaria";
-
+				viewsolmaq.viewmaq = this;
 
 				this.NavigationController.PushViewController(viewsolmaq, false);
 				UIView.BeginAnimations(null);

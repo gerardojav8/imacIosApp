@@ -3,8 +3,8 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string urltoken = "http://192.168.0.24/icomtoken/oauth2/token";
-		public static readonly string ulrserv = "http://192.168.0.24/icomApi/";
+		public static readonly string urltoken = "http://172.18.16.220/icomtoken/oauth2/token";
+		public static readonly string ulrserv = "http://172.18.16.220/icomApi/";
 
 		public static readonly int Trascabo = 1;
 		public static readonly int Revolvedora = 2;
