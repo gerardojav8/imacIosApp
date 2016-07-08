@@ -10,6 +10,10 @@
                 <outlet property="btnGuardarEF" destination="dJE-ar-5y8" id="gd0-f9-oI3"/>
                 <outlet property="lbltitulo" destination="Nm6-bW-wgW" id="IYj-7e-RJd"/>
                 <outlet property="txtComentarios" destination="ARP-jw-Tug" id="tB5-bk-lwN"/>
+                <outlet property="txtcalificacion" destination="MYr-5i-fTd" id="iai-fB-CMc"/>
+                <outlet property="txtcapacidad" destination="0Bc-Gs-97g" id="GvX-rS-Rt7"/>
+                <outlet property="txtmarca" destination="ncP-95-k2f" id="XM7-qp-Vml"/>
+                <outlet property="txttipo" destination="TVY-IO-7MY" id="jmY-Gf-BS5"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>

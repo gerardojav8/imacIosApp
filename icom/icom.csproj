@@ -189,6 +189,10 @@
     <Compile Include="Entidades\clsRefaccionesReporteServicio.cs" />
     <Compile Include="Entidades\clsCmbAreasObra.cs" />
     <Compile Include="Entidades\clsGuardaSolicitudMaquinaria.cs" />
+    <Compile Include="Entidades\clsCmbObras.cs" />
+    <Compile Include="Entidades\clsFichaMaquina.cs" />
+    <Compile Include="Entidades\clsEstadosFisicosMaquinas.cs" />
+    <Compile Include="Entidades\clsFiltrosMaquinas.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

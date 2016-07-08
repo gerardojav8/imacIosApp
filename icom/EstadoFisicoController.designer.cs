@@ -19,10 +19,47 @@ namespace icom
 		UIKit.UILabel lbltitulo { get; set; }
 
 		[Outlet]
+		UIKit.UITextField txtcalificacion { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtcapacidad { get; set; }
+
+		[Outlet]
 		UIKit.UITextView txtComentarios { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtmarca { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txttipo { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (txtmarca != null) {
+				txtmarca.Dispose ();
+				txtmarca = null;
+			}
+
+			if (txttipo != null) {
+				txttipo.Dispose ();
+				txttipo = null;
+			}
+
+			if (txtcapacidad != null) {
+				txtcapacidad.Dispose ();
+				txtcapacidad = null;
+			}
+
+			if (txtcalificacion != null) {
+				txtcalificacion.Dispose ();
+				txtcalificacion = null;
+			}
+
+			if (btnGuardarEF != null) {
+				btnGuardarEF.Dispose ();
+				btnGuardarEF = null;
+			}
+
 			if (lbltitulo != null) {
 				lbltitulo.Dispose ();
 				lbltitulo = null;
@@ -31,11 +68,6 @@ namespace icom
 			if (txtComentarios != null) {
 				txtComentarios.Dispose ();
 				txtComentarios = null;
-			}
-
-			if (btnGuardarEF != null) {
-				btnGuardarEF.Dispose ();
-				btnGuardarEF = null;
 			}
 		}
 	}

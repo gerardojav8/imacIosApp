@@ -26,7 +26,7 @@ namespace icom
 		public static List<clsListadoMaquinas> lstMaqServ;
 
 
-		public async override void ViewDidLoad()
+		public async  override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -310,7 +310,7 @@ namespace icom
 						FichaMaquinaController viewfm = new FichaMaquinaController();
 						viewfm.Title = "Ficha Tecnica de la Maquina";
 						viewfm.viewmaq = viewparent;
-						viewfm.noserie = maquina.noserie;
+						viewfm.strNoserie = maquina.noserie;
 
 
 						viewparent.NavigationController.PushViewController(viewfm, false);
