@@ -9,6 +9,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.IO;
+using Foundation;
+
 
 namespace icom
 {
@@ -16,7 +19,6 @@ namespace icom
 	{
 		public UIViewController viewmaq { get; set; }
 		public String strNoserie { get; set; }
-		private String imagen = "";
 		private int idequipoaux = -1;
 		public List<clsEstadosFisicosMaquinas> lstefact = new List<clsEstadosFisicosMaquinas>();
 		public List<clsFiltrosMaquinas> lstfmact = new List<clsFiltrosMaquinas>();
@@ -28,6 +30,7 @@ namespace icom
 		UIActionSheet actShObras;
 
 		private int idobra = -1;
+		private String strimagenbase64 = "";
 
 		public FichaMaquinaController() : base("FichaMaquinaController", null)
 		{
@@ -58,6 +61,11 @@ namespace icom
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
 
+			if (objfichamaquina.imagen != "") {
+				byte[] imageBytes = Convert.FromBase64String(objfichamaquina.imagen);
+				NSData imageData = NSData.FromArray(imageBytes);
+				btnImgMaq.SetImage(UIImage.LoadFromData(imageData), UIControlState.Normal);
+			}
 
 
 			txtNoEconomico.Text = objfichamaquina.noeco;
@@ -303,11 +311,28 @@ namespace icom
 
 			loadPop.Hide();
 
+			
+
+
+			btnImgMaq.Layer.BorderColor = UIColor.Black.CGColor;
+			btnImgMaq.Layer.BorderWidth = (nfloat)2.0;
+
+			btnImgMaq.TouchUpInside += delegate {
+				String pathimagen = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "excavadora.jpg");
+				btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
+
+				UIImage img = UIImage.FromFile(pathimagen);
+				Byte[] imageBytes;
+				using (NSData imagenData = img.AsJPEG()) {
+					imageBytes = new Byte[imagenData.Length];
+					System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
+				}
+
+				strimagenbase64 = Convert.ToBase64String(imageBytes);
+			};
 
 
 
-			imgMaq.Layer.BorderColor = UIColor.Black.CGColor;
-			imgMaq.Layer.BorderWidth = (nfloat)2.0;
 			btnEFMotor.TouchUpInside += delegate {
 				EstadoFisicoController viewef = new EstadoFisicoController();
 				viewef.titulo = "Motor";
@@ -854,7 +879,7 @@ namespace icom
 
 			objfm.serie = strNoserie;
 			objfm.idobraactual = idobra;
-			objfm.imagen = imagen;
+			objfm.imagen = strimagenbase64;
 
 
 			if (segEquipoAux.SelectedSegment == 1)

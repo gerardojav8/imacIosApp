@@ -47,7 +47,7 @@ namespace icom
 			
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -59,7 +59,7 @@ namespace icom
 			icom.solicitudMaquinaController.lstsolmaq.Clear();
 			lstRequerimientos.Source = new FuenteTablaRequerimientos();
 
-			var bounds = UIScreen.MainScreen.Bounds;
+			/*var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
 
@@ -100,7 +100,7 @@ namespace icom
 
 			loadPop.Hide();
 
-			inicializaCombos();
+			inicializaCombos();*/
 
 
 			btnAgregar.TouchUpInside += delegate {

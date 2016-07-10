@@ -14,6 +14,7 @@
                 <outlet property="btnEqelec" destination="DC5-WS-6sd" id="aEh-7A-U1O"/>
                 <outlet property="btnEquipodesgaste" destination="DTR-Up-W5a" id="rG4-On-Cq5"/>
                 <outlet property="btnGuardar" destination="Rlt-p2-omC" id="TVZ-qb-Wju"/>
+                <outlet property="btnImgMaq" destination="4kF-i5-dVk" id="tdy-kR-X1b"/>
                 <outlet property="btnLlantas" destination="p0f-jE-fSd" id="Bua-yu-nc2"/>
                 <outlet property="btnLocalizacionAct" destination="oXh-uh-eTX" id="h5a-XZ-lZ6"/>
                 <outlet property="btnMandosfin" destination="tnX-he-NHy" id="ubU-HL-YDK"/>
@@ -21,7 +22,6 @@
                 <outlet property="btnTapiceria" destination="Wwn-Ih-EWL" id="UUa-j2-FW7"/>
                 <outlet property="btnmangueras" destination="GLo-4s-3CO" id="Z37-aL-vCe"/>
                 <outlet property="contentFichaMaquina" destination="sXu-t3-jAt" id="DiI-Z9-oCz"/>
-                <outlet property="imgMaq" destination="4Zu-5F-5y8" id="bDF-oT-a7a"/>
                 <outlet property="otros" destination="Vlz-Po-syK" id="yBQ-1b-asG"/>
                 <outlet property="scrViewFichaMaquina" destination="c58-2u-ieD" id="EwF-dq-byM"/>
                 <outlet property="segEquipoAux" destination="wwf-KN-pHo" id="6NT-eY-mYl"/>
@@ -113,9 +113,6 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="excabadora.png" translatesAutoresizingMaskIntoConstraints="NO" id="4Zu-5F-5y8">
-                                    <rect key="frame" x="197" y="29" width="145" height="128"/>
-                                </imageView>
                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6sc-Uk-4KE">
                                     <rect key="frame" x="35" y="208" width="307" height="30"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -369,6 +366,10 @@
                                     <state key="normal" title="Pintura">
                                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4kF-i5-dVk">
+                                    <rect key="frame" x="197" y="55" width="145" height="128"/>
+                                    <state key="normal" title="Button" image="excabadora.png"/>
                                 </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

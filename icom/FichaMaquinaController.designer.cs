@@ -34,6 +34,9 @@ namespace icom
 		UIKit.UIButton btnGuardar { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnImgMaq { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnLlantas { get; set; }
 
 		[Outlet]
@@ -53,9 +56,6 @@ namespace icom
 
 		[Outlet]
 		UIKit.UIView contentFichaMaquina { get; set; }
-
-		[Outlet]
-		UIKit.UIImageView imgMaq { get; set; }
 
 		[Outlet]
 		UIKit.UIButton otros { get; set; }
@@ -116,6 +116,21 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnImgMaq != null) {
+				btnImgMaq.Dispose ();
+				btnImgMaq = null;
+			}
+
+			if (btnDireccion != null) {
+				btnDireccion.Dispose ();
+				btnDireccion = null;
+			}
+
+			if (btnEFEqHid != null) {
+				btnEFEqHid.Dispose ();
+				btnEFEqHid = null;
+			}
+
 			if (btnEFMotor != null) {
 				btnEFMotor.Dispose ();
 				btnEFMotor = null;
@@ -126,19 +141,19 @@ namespace icom
 				btnEFTransmision = null;
 			}
 
-			if (btnEFEqHid != null) {
-				btnEFEqHid.Dispose ();
-				btnEFEqHid = null;
-			}
-
 			if (btnEqelec != null) {
 				btnEqelec.Dispose ();
 				btnEqelec = null;
 			}
 
-			if (btnMandosfin != null) {
-				btnMandosfin.Dispose ();
-				btnMandosfin = null;
+			if (btnEquipodesgaste != null) {
+				btnEquipodesgaste.Dispose ();
+				btnEquipodesgaste = null;
+			}
+
+			if (btnGuardar != null) {
+				btnGuardar.Dispose ();
+				btnGuardar = null;
 			}
 
 			if (btnLlantas != null) {
@@ -146,19 +161,19 @@ namespace icom
 				btnLlantas = null;
 			}
 
+			if (btnLocalizacionAct != null) {
+				btnLocalizacionAct.Dispose ();
+				btnLocalizacionAct = null;
+			}
+
+			if (btnMandosfin != null) {
+				btnMandosfin.Dispose ();
+				btnMandosfin = null;
+			}
+
 			if (btnmangueras != null) {
 				btnmangueras.Dispose ();
 				btnmangueras = null;
-			}
-
-			if (btnDireccion != null) {
-				btnDireccion.Dispose ();
-				btnDireccion = null;
-			}
-
-			if (btnEquipodesgaste != null) {
-				btnEquipodesgaste.Dispose ();
-				btnEquipodesgaste = null;
 			}
 
 			if (btnPintura != null) {
@@ -171,29 +186,14 @@ namespace icom
 				btnTapiceria = null;
 			}
 
-			if (otros != null) {
-				otros.Dispose ();
-				otros = null;
-			}
-
-			if (btnGuardar != null) {
-				btnGuardar.Dispose ();
-				btnGuardar = null;
-			}
-
-			if (btnLocalizacionAct != null) {
-				btnLocalizacionAct.Dispose ();
-				btnLocalizacionAct = null;
-			}
-
 			if (contentFichaMaquina != null) {
 				contentFichaMaquina.Dispose ();
 				contentFichaMaquina = null;
 			}
 
-			if (imgMaq != null) {
-				imgMaq.Dispose ();
-				imgMaq = null;
+			if (otros != null) {
+				otros.Dispose ();
+				otros = null;
 			}
 
 			if (scrViewFichaMaquina != null) {
