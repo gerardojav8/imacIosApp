@@ -36,13 +36,13 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			scrViewFichaMaquina.ContentSize = new CoreGraphics.CGSize(375, 1883);
 			lstobras = new List<clsCmbObras>();
 
-			var bounds = UIScreen.MainScreen.Bounds;
+			/*var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Obteniendo datos de Maquina espera por favor...");
 			View.Add(loadPop);
 
@@ -310,7 +310,7 @@ namespace icom
 
 
 			loadPop.Hide();
-
+			*/
 			
 
 

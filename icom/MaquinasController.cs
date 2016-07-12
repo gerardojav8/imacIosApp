@@ -26,7 +26,7 @@ namespace icom
 		public static List<clsListadoMaquinas> lstMaqServ;
 
 
-		public async  override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -34,7 +34,7 @@ namespace icom
 			lstMaqServ = new List<clsListadoMaquinas>();
 			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
-			Boolean resp = await getAllMaquinas();
+			/*Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
@@ -42,9 +42,9 @@ namespace icom
 				lstMaquinas.ReloadData();
 
 
-			}
+			}*/
 
-			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -73,7 +73,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);*/
+			lstMaqServ.Add(obj3);
 
 			btnAgregar.TouchUpInside += delegate {
 				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
