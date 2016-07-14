@@ -35,6 +35,18 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
+			txtUsuario.ShouldReturn += (txtPass) =>
+			{
+				((UITextField)txtPass).ResignFirstResponder();
+				return true;
+			};
+
+			txtPass.ShouldReturn += (txtUsuario) =>
+			{
+				((UITextField)txtUsuario).ResignFirstResponder();
+				return true;
+			};
+
 
 
 
