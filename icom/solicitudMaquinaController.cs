@@ -51,8 +51,14 @@ namespace icom
 		{
 			base.ViewDidLoad();
 
+			if (UIScreen.MainScreen.Bounds.Width == 414)			
+			{
+				scrViewSolicitudMaquina.ContentSize = new CoreGraphics.CGSize(359, 1783);
+			}
+			else {
+				scrViewSolicitudMaquina.ContentSize = new CoreGraphics.CGSize(316, 1783);
+			}
 
-			scrViewSolicitudMaquina.ContentSize = new CoreGraphics.CGSize(375, 1583);
 
 			lstRequerimientos.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRequerimientos.Layer.BorderWidth = (nfloat)2.0;

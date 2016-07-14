@@ -483,7 +483,7 @@ namespace icom
 			};
 			subheadingLabel = new UILabel()
 			{
-				Font = UIFont.FromName("Arial", 15f),
+				Font = UIFont.FromName("Arial", 13f),
 				TextColor = UIColor.FromRGB(54, 74, 97),
 				TextAlignment = UITextAlignment.Left,
 				BackgroundColor = UIColor.Clear
@@ -502,10 +502,10 @@ namespace icom
 		{
 			base.LayoutSubviews();
 
-			imageView.Frame = new CGRect(5, 5, 55, 55);
-			headingLabel.Frame = new CGRect(80, 4, ContentView.Bounds.Width - 63, 25);
-			imageView2.Frame = new CGRect(300, 6, 25, 25);
-			subheadingLabel.Frame = new CGRect(80, 32, 500, 20);
+			imageView.Frame = new CGRect(4, 4, 50, 50);
+			headingLabel.Frame = new CGRect(70, 4, ContentView.Bounds.Width - 63, 25);
+			imageView2.Frame = new CGRect(250, 6, 25, 25);
+			subheadingLabel.Frame = new CGRect(70, 32, 500, 20);
 		}
 
 	}

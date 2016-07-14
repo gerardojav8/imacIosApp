@@ -203,6 +203,7 @@
     <Content Include="Resources\red.png" />
     <Content Include="Resources\plus.png" />
     <Content Include="Resources\trash.png" />
+    <Content Include="Resources\dtpicker.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

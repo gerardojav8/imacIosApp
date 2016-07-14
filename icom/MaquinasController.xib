@@ -16,34 +16,60 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <subviews>
-                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Busqueda" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4e6-zI-U0l">
-                    <rect key="frame" x="0.0" y="63" width="277" height="46"/>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Busqueda" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4e6-zI-U0l">
+                    <rect key="frame" x="0.0" y="63" width="223" height="46"/>
                     <color key="backgroundColor" red="0.90980392156862744" green="0.9137254901960784" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="q7e-Zb-gE1"/>
+                    </constraints>
                     <color key="textColor" red="0.3187049143540408" green="0.51557123036955022" blue="0.63839083710407241" alpha="1" colorSpace="calibratedRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
-                    <rect key="frame" x="0.0" y="110" width="375" height="557"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PD-L2-1wT">
+                    <rect key="frame" x="270" y="63" width="50" height="46"/>
+                    <color key="backgroundColor" red="0.28627450980392155" green="0.4392156862745098" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="46" id="4Gf-mi-BTG"/>
+                        <constraint firstAttribute="width" constant="50" id="61K-aw-SL8"/>
+                    </constraints>
+                    <state key="normal" image="plus.png"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
+                    <rect key="frame" x="223" y="63" width="50" height="46"/>
+                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="MTa-Pt-wk9"/>
+                        <constraint firstAttribute="height" constant="46" id="gmd-13-wbs"/>
+                    </constraints>
+                    <state key="normal" title="Button" image="search_button.png"/>
+                </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
+                    <rect key="frame" x="0.0" y="110" width="320" height="458"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <color key="separatorColor" red="0.80512820512820504" green="0.80512820512820504" blue="0.80512820512820504" alpha="1" colorSpace="calibratedRGB"/>
                 </tableView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PD-L2-1wT">
-                    <rect key="frame" x="325" y="63" width="50" height="46"/>
-                    <color key="backgroundColor" red="0.28627450980392155" green="0.4392156862745098" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button" image="plus.png"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
-                    <rect key="frame" x="275" y="63" width="50" height="46"/>
-                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
-                    <state key="normal" title="Button" image="search_button.png"/>
-                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-            <point key="canvasLocation" x="412.5" y="406.5"/>
+            <constraints>
+                <constraint firstItem="4e6-zI-U0l" firstAttribute="top" secondItem="2" secondAttribute="top" constant="63" id="98d-66-b01"/>
+                <constraint firstAttribute="trailing" secondItem="6PD-L2-1wT" secondAttribute="trailing" id="9Kv-cG-Mlq"/>
+                <constraint firstAttribute="bottom" secondItem="Jdo-gA-ySt" secondAttribute="bottom" id="Juc-3i-MKc"/>
+                <constraint firstItem="6PV-kT-CDT" firstAttribute="top" secondItem="2" secondAttribute="top" constant="63" id="MqD-K1-DXx"/>
+                <constraint firstItem="6PV-kT-CDT" firstAttribute="leading" secondItem="4e6-zI-U0l" secondAttribute="trailing" id="TuP-IH-iS5"/>
+                <constraint firstItem="Jdo-gA-ySt" firstAttribute="top" secondItem="6PV-kT-CDT" secondAttribute="bottom" constant="1" id="UeX-xR-a9u"/>
+                <constraint firstAttribute="trailing" secondItem="6PD-L2-1wT" secondAttribute="trailing" id="Y93-W0-u8t"/>
+                <constraint firstAttribute="trailing" secondItem="Jdo-gA-ySt" secondAttribute="trailing" id="ZAK-kc-SGE"/>
+                <constraint firstItem="6PD-L2-1wT" firstAttribute="top" secondItem="2" secondAttribute="top" constant="63" id="izI-ce-qnX"/>
+                <constraint firstItem="Jdo-gA-ySt" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="li2-Yg-nnP"/>
+                <constraint firstItem="6PD-L2-1wT" firstAttribute="leading" secondItem="4e6-zI-U0l" secondAttribute="trailing" constant="47" id="nDw-vr-xTF"/>
+                <constraint firstItem="4e6-zI-U0l" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="xGV-Ti-0qB"/>
+                <constraint firstAttribute="bottom" secondItem="Jdo-gA-ySt" secondAttribute="bottom" id="zNg-AA-tYZ"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="412" y="406"/>
         </view>
     </objects>
     <resources>

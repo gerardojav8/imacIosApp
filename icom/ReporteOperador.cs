@@ -48,7 +48,14 @@ namespace icom
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);
+
+			if (UIScreen.MainScreen.Bounds.Width == 414)
+			{
+				ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);
+			}
+			else { 
+				ScrView.ContentSize = new CoreGraphics.CGSize(316, 1200);
+			}
 			txtDescripcion.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";

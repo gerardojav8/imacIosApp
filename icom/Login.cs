@@ -33,6 +33,7 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
+
 			};
 
 			txtUsuario.ShouldReturn += (txtPass) =>

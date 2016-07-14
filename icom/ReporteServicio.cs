@@ -49,7 +49,16 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			scrViewRepServicios.ContentSize = new CoreGraphics.CGSize(359, 1783);
+
+			if (UIScreen.MainScreen.Bounds.Width == 414)
+			{
+				scrViewRepServicios.ContentSize = new CoreGraphics.CGSize(359, 1783);
+			}
+			else {
+				scrViewRepServicios.ContentSize = new CoreGraphics.CGSize(316, 1783);
+			}
+
+
 			txtDescFalla.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescFalla.Layer.BorderWidth = (nfloat)2.0;
 			txtDescFalla.Text = "";

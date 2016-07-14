@@ -39,7 +39,15 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			scrViewFichaMaquina.ContentSize = new CoreGraphics.CGSize(375, 1883);
+
+			if (UIScreen.MainScreen.Bounds.Width == 414)
+			{
+				scrViewFichaMaquina.ContentSize = new CoreGraphics.CGSize(375, 1883);
+			}
+			else {
+				scrViewFichaMaquina.ContentSize = new CoreGraphics.CGSize(316, 1883);
+			}
+
 			lstobras = new List<clsCmbObras>();
 
 			/*var bounds = UIScreen.MainScreen.Bounds;
