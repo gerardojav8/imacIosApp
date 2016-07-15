@@ -337,8 +337,6 @@ namespace icom
 				Camera.TakePicture(this, (obj) =>
 				{
 					var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
-					var documentsDirectory = Environment.GetFolderPath
-										  (Environment.SpecialFolder.Personal);
 					
 					NSData imgData = photo.AsJPEG();
 					NSError err = null;
