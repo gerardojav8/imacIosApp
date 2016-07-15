@@ -326,7 +326,32 @@ namespace icom
 			btnImgMaq.Layer.BorderWidth = (nfloat)2.0;
 
 			btnImgMaq.TouchUpInside += delegate {
-				String pathimagen = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "excavadora.jpg");
+
+
+				String pathimagen = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "imagenficha.jpg");
+				if (File.Exists(pathimagen))
+				{
+					File.Delete(pathimagen);
+				}
+
+				Camera.TakePicture(this, (obj) =>
+				{
+					var photo = obj.ValueForKey(new NSString("UIImagePickerControllerOriginalImage")) as UIImage;
+					var documentsDirectory = Environment.GetFolderPath
+										  (Environment.SpecialFolder.Personal);
+					
+					NSData imgData = photo.AsJPEG();
+					NSError err = null;
+					if (imgData.Save(pathimagen, false, out err))
+					{
+						Console.WriteLine("saved as " + pathimagen);
+					}
+					else {
+						Console.WriteLine("NOT saved as " + pathimagen + " because" + err.LocalizedDescription);
+						funciones.MessageBox("Error", "NOT saved as " + pathimagen + " because" + err.LocalizedDescription);
+					}
+				});
+
 				btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
 
 				UIImage img = UIImage.FromFile(pathimagen);

@@ -193,6 +193,7 @@
     <Compile Include="Entidades\clsFichaMaquina.cs" />
     <Compile Include="Entidades\clsEstadosFisicosMaquinas.cs" />
     <Compile Include="Entidades\clsFiltrosMaquinas.cs" />
+    <Compile Include="globales\Camera.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
