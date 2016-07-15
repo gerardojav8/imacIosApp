@@ -343,6 +343,17 @@ namespace icom
 					if (imgData.Save(pathimagen, false, out err))
 					{
 						Console.WriteLine("saved as " + pathimagen);
+						btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
+
+						UIImage img = UIImage.FromFile(pathimagen);
+						Byte[] imageBytes;
+						using (NSData imagenData = img.AsJPEG())
+						{
+							imageBytes = new Byte[imagenData.Length];
+							System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
+						}
+
+						strimagenbase64 = Convert.ToBase64String(imageBytes);
 					}
 					else {
 						Console.WriteLine("NOT saved as " + pathimagen + " because" + err.LocalizedDescription);
@@ -350,16 +361,7 @@ namespace icom
 					}
 				});
 
-				btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
 
-				UIImage img = UIImage.FromFile(pathimagen);
-				Byte[] imageBytes;
-				using (NSData imagenData = img.AsJPEG()) {
-					imageBytes = new Byte[imagenData.Length];
-					System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
-				}
-
-				strimagenbase64 = Convert.ToBase64String(imageBytes);
 			};
 
 
