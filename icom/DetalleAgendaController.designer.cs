@@ -1,22 +1,82 @@
-﻿// WARNING
+// WARNING
 //
-// This file has been generated automatically by Xamarin Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Xamarin Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
-using UIKit;
 
 namespace icom
 {
-	[Register("DetalleAgendaController")]
+	[Register ("DetalleAgendaController")]
 	partial class DetalleAgendaController
 	{
-		void ReleaseDesignerOutlets()
+		[Outlet]
+		UIKit.UIButton btnAgregarCalendario { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEnviar { get; set; }
+
+		[Outlet]
+		UIKit.UIView ContentDetalleAgencia { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblComentario { get; set; }
+
+		[Outlet]
+		UIKit.UILabel lblLapso { get; set; }
+
+		[Outlet]
+		UIKit.UIScrollView scrDetalleAgencia { get; set; }
+
+		[Outlet]
+		UIKit.UITextField txtChatDetalleAgencia { get; set; }
+
+		[Outlet]
+		UIKit.UITextView txtchatgeneralDetalleAgencia { get; set; }
+		
+		void ReleaseDesignerOutlets ()
 		{
+			if (scrDetalleAgencia != null) {
+				scrDetalleAgencia.Dispose ();
+				scrDetalleAgencia = null;
+			}
+
+			if (ContentDetalleAgencia != null) {
+				ContentDetalleAgencia.Dispose ();
+				ContentDetalleAgencia = null;
+			}
+
+			if (lblComentario != null) {
+				lblComentario.Dispose ();
+				lblComentario = null;
+			}
+
+			if (lblLapso != null) {
+				lblLapso.Dispose ();
+				lblLapso = null;
+			}
+
+			if (btnAgregarCalendario != null) {
+				btnAgregarCalendario.Dispose ();
+				btnAgregarCalendario = null;
+			}
+
+			if (btnEnviar != null) {
+				btnEnviar.Dispose ();
+				btnEnviar = null;
+			}
+
+			if (txtChatDetalleAgencia != null) {
+				txtChatDetalleAgencia.Dispose ();
+				txtChatDetalleAgencia = null;
+			}
+
+			if (txtchatgeneralDetalleAgencia != null) {
+				txtchatgeneralDetalleAgencia.Dispose ();
+				txtchatgeneralDetalleAgencia = null;
+			}
 		}
 	}
 }
-

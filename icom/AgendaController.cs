@@ -187,16 +187,10 @@ namespace icom
 		}
 
 		protected bool isChild(NSIndexPath indexPath)
-		{
-			/*return currentExpandedIndex > -1 &&
-				   indexPath.Row > currentExpandedIndex &&
-				   indexPath.Row <= currentExpandedIndex + 3;*/
-			
+		{			
 			return currentExpandedIndex > -1 &&
 				   indexPath.Row > currentExpandedIndex &&
 				            indexPath.Row <= currentExpandedIndex + icom.AgendaController.LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.Count;
-
-
 		}
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -205,11 +199,26 @@ namespace icom
 			{
 				//Handle selection of child cell
 
-
 				if (indexPath.Row > currentExpandedIndex)
 				{
-					funciones.MessageBox("Aviso", "Click en evento");
+					DetalleAgendaController viewda = new DetalleAgendaController();
+					viewda.Title = "Evento";
+					viewda.viewagenda = viewparent;
+					viewda.idagenda = 0;
+					viewda.idevento = 0;
+
+
+					viewparent.NavigationController.PushViewController(viewda, false);
+					UIView.BeginAnimations(null);
+					UIView.SetAnimationDuration(0.7);
+					UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, viewparent.NavigationController.View, true);
+					UIView.CommitAnimations();
+
+					tableView.DeselectRow(indexPath, true);
+					return;
+					//funciones.MessageBox("Aviso", "Click en evento");
 				}
+
 			}
 
 			tableView.BeginUpdates();
