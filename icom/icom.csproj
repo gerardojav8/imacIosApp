@@ -235,6 +235,7 @@
     <Content Include="Resources\mensajes.png" />
     <Content Include="Resources\planificador.png" />
     <Content Include="Resources\fechaicon.png" />
+    <Content Include="Resources\folder.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

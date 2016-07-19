@@ -7,6 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MensajesController">
             <connections>
+                <outlet property="btnArchivo" destination="7Bf-wv-dok" id="wRo-Ek-v0R"/>
+                <outlet property="btnenviar" destination="JMz-tw-vEK" id="pMt-Vl-uke"/>
+                <outlet property="txtChatGeneral" destination="Gvn-oK-Wik" id="EAM-vl-5rG"/>
+                <outlet property="txtmensaje" destination="bbk-UD-X4P" id="ADS-zC-Zh2"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -14,15 +18,64 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Mensajes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8sS-RQ-Coe">
-                    <rect key="frame" x="108" y="82" width="104" height="21"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Bf-wv-dok">
+                    <rect key="frame" x="8" y="530" width="33" height="30"/>
+                    <color key="backgroundColor" red="0.1938055102" green="0.50120817529999995" blue="0.90351274079999999" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="33" id="AVt-dC-IEC"/>
+                        <constraint firstAttribute="height" constant="30" id="Zdv-nS-AHH"/>
+                    </constraints>
+                    <state key="normal" image="folder.png">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bbk-UD-X4P">
+                    <rect key="frame" x="44" y="530" width="197" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="OPT-iB-6vf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gvn-oK-Wik">
+                    <rect key="frame" x="0.0" y="56" width="320" height="466"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMz-tw-vEK">
+                    <rect key="frame" x="243" y="530" width="69" height="30"/>
+                    <color key="backgroundColor" red="0.1938055102" green="0.50120817529999995" blue="0.90351274079999999" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="69" id="Cu0-0K-zHr"/>
+                        <constraint firstAttribute="height" constant="30" id="PfS-lT-hO7"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                    <state key="normal" title="Enviar">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="bbk-UD-X4P" firstAttribute="top" secondItem="Gvn-oK-Wik" secondAttribute="bottom" constant="8" id="5Ax-FW-OiR"/>
+                <constraint firstItem="Gvn-oK-Wik" firstAttribute="top" secondItem="2" secondAttribute="top" constant="56" id="88b-TK-WmS"/>
+                <constraint firstAttribute="bottom" secondItem="bbk-UD-X4P" secondAttribute="bottom" constant="8" id="8ms-om-FG0"/>
+                <constraint firstItem="Gvn-oK-Wik" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="Ctd-2M-oXs"/>
+                <constraint firstAttribute="bottom" secondItem="JMz-tw-vEK" secondAttribute="bottom" constant="8" id="Mkr-Bi-igC"/>
+                <constraint firstItem="7Bf-wv-dok" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="Txv-QS-Vrn"/>
+                <constraint firstItem="bbk-UD-X4P" firstAttribute="leading" secondItem="7Bf-wv-dok" secondAttribute="trailing" constant="3" id="V3E-6i-kxA"/>
+                <constraint firstAttribute="trailing" secondItem="Gvn-oK-Wik" secondAttribute="trailing" id="qur-1a-hU9"/>
+                <constraint firstItem="JMz-tw-vEK" firstAttribute="leading" secondItem="bbk-UD-X4P" secondAttribute="trailing" constant="2" id="qzY-ae-gkm"/>
+                <constraint firstItem="JMz-tw-vEK" firstAttribute="top" secondItem="Gvn-oK-Wik" secondAttribute="bottom" constant="8" id="r1t-Ht-5IA"/>
+                <constraint firstAttribute="trailing" secondItem="JMz-tw-vEK" secondAttribute="trailing" constant="8" id="vOc-TL-MK7"/>
+                <constraint firstAttribute="bottom" secondItem="7Bf-wv-dok" secondAttribute="bottom" constant="8" id="xDU-4F-5ln"/>
+            </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="folder.png" width="128" height="128"/>
+    </resources>
 </document>
