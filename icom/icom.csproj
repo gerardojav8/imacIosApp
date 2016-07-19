@@ -111,6 +111,10 @@
     <InterfaceDefinition Include="solicitudMaquinaController.xib" />
     <InterfaceDefinition Include="FichaMaquinaController.xib" />
     <InterfaceDefinition Include="EstadoFisicoController.xib" />
+    <InterfaceDefinition Include="MensajesController.xib" />
+    <InterfaceDefinition Include="AgendaController.xib" />
+    <InterfaceDefinition Include="DetalleAgendaController.xib" />
+    <InterfaceDefinition Include="PlanificadorController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -197,6 +201,24 @@
     <Compile Include="Entidades\clsEstadosFisicosMaquinas.cs" />
     <Compile Include="Entidades\clsFiltrosMaquinas.cs" />
     <Compile Include="globales\Camera.cs" />
+    <Compile Include="MensajesController.cs" />
+    <Compile Include="MensajesController.designer.cs">
+      <DependentUpon>MensajesController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AgendaController.cs" />
+    <Compile Include="AgendaController.designer.cs">
+      <DependentUpon>AgendaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DetalleAgendaController.cs" />
+    <Compile Include="DetalleAgendaController.designer.cs">
+      <DependentUpon>DetalleAgendaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PlanificadorController.cs" />
+    <Compile Include="PlanificadorController.designer.cs">
+      <DependentUpon>PlanificadorController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entidades\clsAgenda.cs" />
+    <Compile Include="Entidades\clsEventoAgenda.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -208,6 +230,11 @@
     <Content Include="Resources\plus.png" />
     <Content Include="Resources\trash.png" />
     <Content Include="Resources\dtpicker.png" />
+    <Content Include="globales\mensajes.png" />
+    <Content Include="globales\planificador.png" />
+    <Content Include="Resources\mensajes.png" />
+    <Content Include="Resources\planificador.png" />
+    <Content Include="Resources\fechaicon.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

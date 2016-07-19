@@ -13,7 +13,38 @@ namespace icom
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
-			// Perform any additional setup after loading the view, typically from a nib.
+			btnMensajes.TouchUpInside += delegate {
+				MensajesController viewmen = new MensajesController();
+				viewmen.Title = "Mensajes";
+
+				this.NavigationController.PushViewController(viewmen, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
+
+			btnAgenda.TouchUpInside += delegate {
+				AgendaController viewagen = new AgendaController();
+				viewagen.Title = "Agenda";
+
+				this.NavigationController.PushViewController(viewagen, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
+
+			btnPlanificador.TouchUpInside += delegate {
+				PlanificadorController viewplan = new PlanificadorController();
+				viewplan.Title = "Planificador";
+
+				this.NavigationController.PushViewController(viewplan, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlDown, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
 		}
 
 		public override void DidReceiveMemoryWarning ()
