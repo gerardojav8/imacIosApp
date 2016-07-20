@@ -9,7 +9,7 @@
             <connections>
                 <outlet property="btnArchivo" destination="7Bf-wv-dok" id="wRo-Ek-v0R"/>
                 <outlet property="btnenviar" destination="JMz-tw-vEK" id="pMt-Vl-uke"/>
-                <outlet property="txtChatGeneral" destination="Gvn-oK-Wik" id="EAM-vl-5rG"/>
+                <outlet property="tblChat" destination="Pcy-Hw-weC" id="R5W-aH-pnR"/>
                 <outlet property="txtmensaje" destination="bbk-UD-X4P" id="ADS-zC-Zh2"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -37,13 +37,6 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Gvn-oK-Wik">
-                    <rect key="frame" x="0.0" y="56" width="320" height="466"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                </textView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JMz-tw-vEK">
                     <rect key="frame" x="243" y="530" width="69" height="30"/>
                     <color key="backgroundColor" red="0.1938055102" green="0.50120817529999995" blue="0.90351274079999999" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
@@ -56,19 +49,18 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-Hw-weC">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="522"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="bbk-UD-X4P" firstAttribute="top" secondItem="Gvn-oK-Wik" secondAttribute="bottom" constant="8" id="5Ax-FW-OiR"/>
-                <constraint firstItem="Gvn-oK-Wik" firstAttribute="top" secondItem="2" secondAttribute="top" constant="56" id="88b-TK-WmS"/>
                 <constraint firstAttribute="bottom" secondItem="bbk-UD-X4P" secondAttribute="bottom" constant="8" id="8ms-om-FG0"/>
-                <constraint firstItem="Gvn-oK-Wik" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="Ctd-2M-oXs"/>
                 <constraint firstAttribute="bottom" secondItem="JMz-tw-vEK" secondAttribute="bottom" constant="8" id="Mkr-Bi-igC"/>
                 <constraint firstItem="7Bf-wv-dok" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="Txv-QS-Vrn"/>
                 <constraint firstItem="bbk-UD-X4P" firstAttribute="leading" secondItem="7Bf-wv-dok" secondAttribute="trailing" constant="3" id="V3E-6i-kxA"/>
-                <constraint firstAttribute="trailing" secondItem="Gvn-oK-Wik" secondAttribute="trailing" id="qur-1a-hU9"/>
                 <constraint firstItem="JMz-tw-vEK" firstAttribute="leading" secondItem="bbk-UD-X4P" secondAttribute="trailing" constant="2" id="qzY-ae-gkm"/>
-                <constraint firstItem="JMz-tw-vEK" firstAttribute="top" secondItem="Gvn-oK-Wik" secondAttribute="bottom" constant="8" id="r1t-Ht-5IA"/>
                 <constraint firstAttribute="trailing" secondItem="JMz-tw-vEK" secondAttribute="trailing" constant="8" id="vOc-TL-MK7"/>
                 <constraint firstAttribute="bottom" secondItem="7Bf-wv-dok" secondAttribute="bottom" constant="8" id="xDU-4F-5ln"/>
             </constraints>

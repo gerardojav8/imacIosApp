@@ -19,16 +19,16 @@ namespace icom
 		UIKit.UIButton btnenviar { get; set; }
 
 		[Outlet]
-		UIKit.UITextView txtChatGeneral { get; set; }
+		UIKit.UITableView tblChat { get; set; }
 
 		[Outlet]
 		UIKit.UITextField txtmensaje { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtChatGeneral != null) {
-				txtChatGeneral.Dispose ();
-				txtChatGeneral = null;
+			if (tblChat != null) {
+				tblChat.Dispose ();
+				tblChat = null;
 			}
 
 			if (btnArchivo != null) {
@@ -36,14 +36,14 @@ namespace icom
 				btnArchivo = null;
 			}
 
-			if (txtmensaje != null) {
-				txtmensaje.Dispose ();
-				txtmensaje = null;
-			}
-
 			if (btnenviar != null) {
 				btnenviar.Dispose ();
 				btnenviar = null;
+			}
+
+			if (txtmensaje != null) {
+				txtmensaje.Dispose ();
+				txtmensaje = null;
 			}
 		}
 	}
