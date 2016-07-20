@@ -96,14 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleIncoming.imageset\Contents.json" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleIncoming.imageset\bubble_regular.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleIncoming.imageset\bubble_regular%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleIncoming.imageset\bubble_regular%403x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular%402x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\bubble_regular%403x.png" />
-    <ImageAsset Include="Resources\Images.xcassets\BubbleOutgoing.imageset\Contents.json" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />

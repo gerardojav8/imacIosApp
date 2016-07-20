@@ -29,6 +29,7 @@ namespace icom
 
 			normalBubbleImage = CreateColoredImage(normalColor, mask).CreateResizableImage(cap);
 			highlightedBubbleImage = CreateColoredImage(highlightedColor, mask).CreateResizableImage(cap);
+
 		}
 
 		public IncomingCell(IntPtr handle)
@@ -50,11 +51,12 @@ namespace icom
 		}
 
 		void Initialize()
-		{
+		{			
 			BubbleHighlightedImage = highlightedBubbleImage;
 			BubbleImage = normalBubbleImage;
+				
 
-			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:|[bubble]",
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:|-37-[bubble]",
 				(NSLayoutFormatOptions)0,
 				"bubble", BubbleImageView));
 			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("V:|-2-[bubble]-2-|",
@@ -65,6 +67,20 @@ namespace icom
 				(NSLayoutFormatOptions)0,
 				"bubble", BubbleImageView
 			));
+
+
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:|[usuariolo]",
+				(NSLayoutFormatOptions)0,
+				"usuariolo", UsuarioLabel));
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("V:|-40-[usuariolo]-2-|",
+				(NSLayoutFormatOptions)0,
+				"usuariolo", UsuarioLabel
+			));
+			
+
+
+
+
 
 			var vSpaceTop = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.Top, 1, 10);
 			ContentView.AddConstraint(vSpaceTop);
@@ -77,7 +93,10 @@ namespace icom
 
 			var msgCenter = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.CenterX, 1, 3);
 			ContentView.AddConstraint(msgCenter);
+
+
 		}
+
 	}
 }
 

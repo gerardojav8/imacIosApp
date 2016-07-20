@@ -51,6 +51,7 @@ namespace icom
 
 		void Initialize()
 		{
+			
 			BubbleHighlightedImage = highlightedBubbleImage;
 			BubbleImage = normalBubbleImage;
 

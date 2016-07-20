@@ -49,7 +49,7 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-Hw-weC">
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-Hw-weC">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="522"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
@@ -57,11 +57,15 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="bbk-UD-X4P" secondAttribute="bottom" constant="8" id="8ms-om-FG0"/>
+                <constraint firstItem="JMz-tw-vEK" firstAttribute="top" secondItem="Pcy-Hw-weC" secondAttribute="bottom" constant="8" id="Hne-PN-n2F"/>
                 <constraint firstAttribute="bottom" secondItem="JMz-tw-vEK" secondAttribute="bottom" constant="8" id="Mkr-Bi-igC"/>
+                <constraint firstAttribute="trailing" secondItem="Pcy-Hw-weC" secondAttribute="trailing" id="PRQ-qS-M39"/>
                 <constraint firstItem="7Bf-wv-dok" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="8" id="Txv-QS-Vrn"/>
                 <constraint firstItem="bbk-UD-X4P" firstAttribute="leading" secondItem="7Bf-wv-dok" secondAttribute="trailing" constant="3" id="V3E-6i-kxA"/>
                 <constraint firstItem="JMz-tw-vEK" firstAttribute="leading" secondItem="bbk-UD-X4P" secondAttribute="trailing" constant="2" id="qzY-ae-gkm"/>
+                <constraint firstItem="Pcy-Hw-weC" firstAttribute="top" secondItem="2" secondAttribute="top" id="sEP-uJ-CR6"/>
                 <constraint firstAttribute="trailing" secondItem="JMz-tw-vEK" secondAttribute="trailing" constant="8" id="vOc-TL-MK7"/>
+                <constraint firstItem="Pcy-Hw-weC" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="w3u-zB-KSP"/>
                 <constraint firstAttribute="bottom" secondItem="7Bf-wv-dok" secondAttribute="bottom" constant="8" id="xDU-4F-5ln"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

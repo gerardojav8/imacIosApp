@@ -10,11 +10,12 @@
                 <outlet property="ContentDetalleAgencia" destination="s9F-38-hxr" id="knf-6c-e9P"/>
                 <outlet property="btnAgregarCalendario" destination="xuR-6p-xUr" id="pN5-LG-J4r"/>
                 <outlet property="btnEnviar" destination="0UR-p1-2o9" id="cRV-u3-290"/>
+                <outlet property="btnUsuarios" destination="vih-aY-Dld" id="Dkc-YX-58D"/>
                 <outlet property="lblComentario" destination="bM7-LP-m4o" id="jqp-eN-N7c"/>
                 <outlet property="lblLapso" destination="2Xc-26-jNL" id="34P-aG-Sc9"/>
                 <outlet property="scrDetalleAgencia" destination="pnt-fV-cRb" id="yIh-T4-9Xl"/>
+                <outlet property="tblChatDetalleAgencia" destination="AyL-3M-0jr" id="fVz-5F-7rf"/>
                 <outlet property="txtChatDetalleAgencia" destination="AKT-sc-Oii" id="Os4-ow-Xe3"/>
-                <outlet property="txtchatgeneralDetalleAgencia" destination="rW8-CC-pu0" id="CXr-VF-EjG"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
         </placeholder>
@@ -31,29 +32,15 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Reunion Supervision" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bM7-LP-m4o">
                                     <rect key="frame" x="22" y="199" width="277" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11:00 am - 12:00 pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Xc-26-jNL">
                                     <rect key="frame" x="22" y="228" width="277" height="21"/>
                                     <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="GG" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A0U-B6-Yxw">
-                                    <rect key="frame" x="104" y="257" width="36" height="30"/>
-                                    <color key="backgroundColor" red="0.32026626060000002" green="0.47307095310000002" blue="0.68223157050000005" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="FM" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pl0-Qc-9mM">
-                                    <rect key="frame" x="148" y="257" width="36" height="30"/>
-                                    <color key="backgroundColor" red="0.32026626060000002" green="0.47307095310000002" blue="0.68223157050000005" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-6p-xUr">
                                     <rect key="frame" x="60" y="302" width="200" height="48"/>
                                     <color key="backgroundColor" red="0.1938055102" green="0.50120817529999995" blue="0.90351274079999999" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
@@ -65,7 +52,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Historial de Mensajes" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tG4-18-0Av">
                                     <rect key="frame" x="22" y="371" width="182" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="____________________________________" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7fK-oE-jA2">
@@ -92,13 +79,18 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fechaicon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Op-Np-Mxh">
                                     <rect key="frame" x="104" y="58" width="112" height="114"/>
                                 </imageView>
-                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="rW8-CC-pu0">
-                                    <rect key="frame" x="8" y="431" width="304" height="345"/>
+                                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AyL-3M-0jr">
+                                    <rect key="frame" x="0.0" y="420" width="320" height="356"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                </textView>
+                                </tableView>
+                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vih-aY-Dld">
+                                    <rect key="frame" x="115" y="257" width="89" height="30"/>
+                                    <color key="backgroundColor" red="0.32026626060000002" green="0.47307095310000002" blue="0.68223157050000005" alpha="1" colorSpace="calibratedRGB"/>
+                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                    <state key="normal" title="Usuarios">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </state>
+                                </button>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -112,6 +104,7 @@
                 <constraint firstItem="pnt-fV-cRb" firstAttribute="top" secondItem="2" secondAttribute="top" id="ibe-Ov-hd7"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+            <point key="canvasLocation" x="623" y="411"/>
         </view>
     </objects>
     <resources>

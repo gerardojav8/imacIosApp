@@ -278,9 +278,6 @@ namespace icom
 				String strComentario = objev.comentario;
 				String strLapso = objev.lapso;
 
-
-				UIImage imagesem = UIImage.FromFile("red.png");
-
 				cell.UpdateCell(strComentario, strLapso, imgFecha);
 
 				countEventos++;

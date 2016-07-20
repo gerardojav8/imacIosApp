@@ -8,8 +8,10 @@ namespace icom
 	{
 		public UIImageView BubbleImageView { get; private set; }
 		public UILabel MessageLabel { get; private set; }
+		public UILabel UsuarioLabel { get; private set; }
 		public UIImage BubbleImage { get; set; }
 		public UIImage BubbleHighlightedImage { get; set; }
+		public MessageType typebubble { get; set;}
 
 		Message msg;
 
@@ -26,10 +28,18 @@ namespace icom
 				BubbleImageView.HighlightedImage = BubbleHighlightedImage;
 
 				MessageLabel.Font = UIFont.FromName("Arial", 12f);
-
 				MessageLabel.Text = "Gerardo Javier Gamez Vazquez " + "\n" + "12-01-2012 12:00:00 :" + "\n" + msg.Text;
-
 				MessageLabel.UserInteractionEnabled = true;
+
+				UsuarioLabel.Font = UIFont.FromName("Arial-BoldMT", 12f);
+				UsuarioLabel.Text = "   GG   ";
+				UsuarioLabel.UserInteractionEnabled = true;
+				UsuarioLabel.Layer.CornerRadius = 10;
+				UsuarioLabel.ClipsToBounds = true;
+				UsuarioLabel.BackgroundColor = UIColor.FromRGB(43, 119, 250);
+				UsuarioLabel.TextColor = UIColor.White;
+
+
 				BubbleImageView.UserInteractionEnabled = false;
 			}
 		}
@@ -48,7 +58,15 @@ namespace icom
 		[Export("initWithStyle:reuseIdentifier:")]
 		public BubbleCell(UITableViewCellStyle style, string reuseIdentifier)
 			: base(style, reuseIdentifier)
-		{
+		{			
+			if (reuseIdentifier == IncomingCell.CellId)
+			{
+				typebubble = MessageType.Incoming;
+			}
+			else { 
+				typebubble = MessageType.Outgoing;
+			}
+
 			Initialize();
 		}
 
@@ -58,14 +76,28 @@ namespace icom
 			{
 				TranslatesAutoresizingMaskIntoConstraints = false
 			};
-			MessageLabel = new UILabel
+			MessageLabel = new UILabel				
 			{
 				TranslatesAutoresizingMaskIntoConstraints = false,
 				Lines = 0,
 				PreferredMaxLayoutWidth = 220f
 			};
+			UsuarioLabel = new UILabel
+			{
+				TranslatesAutoresizingMaskIntoConstraints = false
+			};
 
-			ContentView.AddSubviews(BubbleImageView, MessageLabel);
+
+
+
+
+			if (typebubble == MessageType.Incoming)
+			{
+				ContentView.AddSubviews(UsuarioLabel, BubbleImageView, MessageLabel);
+			}
+			else { 
+				ContentView.AddSubviews(BubbleImageView, MessageLabel);
+			}
 		}
 
 		public override void SetSelected(bool selected, bool animated)
