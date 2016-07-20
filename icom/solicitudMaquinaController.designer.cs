@@ -77,11 +77,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSolicitudFecha != null) {
-				btnSolicitudFecha.Dispose ();
-				btnSolicitudFecha = null;
-			}
-
 			if (btnAgregar != null) {
 				btnAgregar.Dispose ();
 				btnAgregar = null;
@@ -120,6 +115,11 @@ namespace icom
 			if (btnSolicitar != null) {
 				btnSolicitar.Dispose ();
 				btnSolicitar = null;
+			}
+
+			if (btnSolicitudFecha != null) {
+				btnSolicitudFecha.Dispose ();
+				btnSolicitudFecha = null;
 			}
 
 			if (contentViewSolicitudMaquina != null) {

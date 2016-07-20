@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using UIKit;
 using Foundation;
 using CoreGraphics;
 namespace icom
 {
 	[Register("OutgoingCell")]
-	public class OutgoingCell : BubbleCell
+	public partial class OutgoingCell : BubbleCell
 	{
 		static readonly UIImage normalBubbleImage;
 		static readonly UIImage highlightedBubbleImage;

@@ -71,16 +71,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtnoserie != null) {
-				txtnoserie.Dispose ();
-				txtnoserie = null;
-			}
-
-			if (txtkmho != null) {
-				txtkmho.Dispose ();
-				txtkmho = null;
-			}
-
 			if (btnAtiende != null) {
 				btnAtiende.Dispose ();
 				btnAtiende = null;
@@ -151,6 +141,11 @@ namespace icom
 				txtFolio = null;
 			}
 
+			if (txtkmho != null) {
+				txtkmho.Dispose ();
+				txtkmho = null;
+			}
+
 			if (txtkmhorometro != null) {
 				txtkmhorometro.Dispose ();
 				txtkmhorometro = null;
@@ -159,6 +154,11 @@ namespace icom
 			if (txtmodelo != null) {
 				txtmodelo.Dispose ();
 				txtmodelo = null;
+			}
+
+			if (txtnoserie != null) {
+				txtnoserie.Dispose ();
+				txtnoserie = null;
 			}
 
 			if (txtreporto != null) {

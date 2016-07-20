@@ -23,14 +23,14 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnMensajes != null) {
-				btnMensajes.Dispose ();
-				btnMensajes = null;
-			}
-
 			if (btnAgenda != null) {
 				btnAgenda.Dispose ();
 				btnAgenda = null;
+			}
+
+			if (btnMensajes != null) {
+				btnMensajes.Dispose ();
+				btnMensajes = null;
 			}
 
 			if (btnPlanificador != null) {

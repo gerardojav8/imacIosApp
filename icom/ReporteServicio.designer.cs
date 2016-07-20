@@ -80,11 +80,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtnoserie != null) {
-				txtnoserie.Dispose ();
-				txtnoserie = null;
-			}
-
 			if (btnaddref != null) {
 				btnaddref.Dispose ();
 				btnaddref = null;
@@ -163,6 +158,11 @@ namespace icom
 			if (txtmodelo != null) {
 				txtmodelo.Dispose ();
 				txtmodelo = null;
+			}
+
+			if (txtnoserie != null) {
+				txtnoserie.Dispose ();
+				txtnoserie = null;
 			}
 
 			if (txtObs != null) {

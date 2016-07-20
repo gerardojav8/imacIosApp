@@ -116,11 +116,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnImgMaq != null) {
-				btnImgMaq.Dispose ();
-				btnImgMaq = null;
-			}
-
 			if (btnDireccion != null) {
 				btnDireccion.Dispose ();
 				btnDireccion = null;
@@ -154,6 +149,11 @@ namespace icom
 			if (btnGuardar != null) {
 				btnGuardar.Dispose ();
 				btnGuardar = null;
+			}
+
+			if (btnImgMaq != null) {
+				btnImgMaq.Dispose ();
+				btnImgMaq = null;
 			}
 
 			if (btnLlantas != null) {

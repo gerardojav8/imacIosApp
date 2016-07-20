@@ -26,11 +26,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (tblChat != null) {
-				tblChat.Dispose ();
-				tblChat = null;
-			}
-
 			if (btnArchivo != null) {
 				btnArchivo.Dispose ();
 				btnArchivo = null;
@@ -39,6 +34,11 @@ namespace icom
 			if (btnenviar != null) {
 				btnenviar.Dispose ();
 				btnenviar = null;
+			}
+
+			if (tblChat != null) {
+				tblChat.Dispose ();
+				tblChat = null;
 			}
 
 			if (txtmensaje != null) {

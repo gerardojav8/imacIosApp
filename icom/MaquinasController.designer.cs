@@ -26,24 +26,24 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnSearch != null) {
-				btnSearch.Dispose ();
-				btnSearch = null;
-			}
-
-			if (txtSearch != null) {
-				txtSearch.Dispose ();
-				txtSearch = null;
-			}
-
 			if (btnAgregar != null) {
 				btnAgregar.Dispose ();
 				btnAgregar = null;
 			}
 
+			if (btnSearch != null) {
+				btnSearch.Dispose ();
+				btnSearch = null;
+			}
+
 			if (lstMaquinas != null) {
 				lstMaquinas.Dispose ();
 				lstMaquinas = null;
+			}
+
+			if (txtSearch != null) {
+				txtSearch.Dispose ();
+				txtSearch = null;
 			}
 		}
 	}

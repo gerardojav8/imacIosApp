@@ -35,26 +35,6 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (txtmarca != null) {
-				txtmarca.Dispose ();
-				txtmarca = null;
-			}
-
-			if (txttipo != null) {
-				txttipo.Dispose ();
-				txttipo = null;
-			}
-
-			if (txtcapacidad != null) {
-				txtcapacidad.Dispose ();
-				txtcapacidad = null;
-			}
-
-			if (txtcalificacion != null) {
-				txtcalificacion.Dispose ();
-				txtcalificacion = null;
-			}
-
 			if (btnGuardarEF != null) {
 				btnGuardarEF.Dispose ();
 				btnGuardarEF = null;
@@ -65,9 +45,29 @@ namespace icom
 				lbltitulo = null;
 			}
 
+			if (txtcalificacion != null) {
+				txtcalificacion.Dispose ();
+				txtcalificacion = null;
+			}
+
+			if (txtcapacidad != null) {
+				txtcapacidad.Dispose ();
+				txtcapacidad = null;
+			}
+
 			if (txtComentarios != null) {
 				txtComentarios.Dispose ();
 				txtComentarios = null;
+			}
+
+			if (txtmarca != null) {
+				txtmarca.Dispose ();
+				txtmarca = null;
+			}
+
+			if (txttipo != null) {
+				txttipo.Dispose ();
+				txttipo = null;
 			}
 		}
 	}

@@ -9,8 +9,7 @@ using System.CodeDom.Compiler;
 
 namespace icom
 {
-	[Register ("Produccion")]
-	partial class Produccion
+	partial class OutgoingCell
 	{
 		
 		void ReleaseDesignerOutlets ()
