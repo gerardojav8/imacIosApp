@@ -23,9 +23,17 @@ namespace icom
 
 		[Outlet]
 		UIKit.UITextField txtmensaje { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewbarrainf { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (viewbarrainf != null) {
+				viewbarrainf.Dispose ();
+				viewbarrainf = null;
+			}
+
 			if (btnArchivo != null) {
 				btnArchivo.Dispose ();
 				btnArchivo = null;

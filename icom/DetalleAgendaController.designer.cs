@@ -38,12 +38,15 @@ namespace icom
 
 		[Outlet]
 		UIKit.UITextField txtChatDetalleAgencia { get; set; }
+
+		[Outlet]
+		UIKit.UIView viewBarraChat { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnUsuarios != null) {
-				btnUsuarios.Dispose ();
-				btnUsuarios = null;
+			if (viewBarraChat != null) {
+				viewBarraChat.Dispose ();
+				viewBarraChat = null;
 			}
 
 			if (btnAgregarCalendario != null) {
@@ -54,6 +57,11 @@ namespace icom
 			if (btnEnviar != null) {
 				btnEnviar.Dispose ();
 				btnEnviar = null;
+			}
+
+			if (btnUsuarios != null) {
+				btnUsuarios.Dispose ();
+				btnUsuarios = null;
 			}
 
 			if (ContentDetalleAgencia != null) {

@@ -18,6 +18,8 @@ namespace icom
 
 		List<clsCmbUsuarios> lstusuarios;
 		UIActionSheet actUsuarios;
+		Boolean blnTecladoArriba = false;
+		double heightact = 0;
 
 		public DetalleAgendaController() : base("DetalleAgendaController", null)
 		{
@@ -28,10 +30,10 @@ namespace icom
 			base.ViewDidLoad();
 			if (UIScreen.MainScreen.Bounds.Width == 414)
 			{
-				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(355, 1200);
+				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(355, 905);
 			}
 			else {
-				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(316, 1200);
+				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(316, 1075);
 			}
 
 			btnUsuarios.Layer.CornerRadius = 10;
@@ -47,6 +49,9 @@ namespace icom
 			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChatDetalleAgencia.Layer.BorderWidth = (nfloat)2.0;
 			SetUpTableView();
+
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
 			txtChatDetalleAgencia.Started += OnTextViewStarted;
 
@@ -68,6 +73,7 @@ namespace icom
 				messages.Add(msg);
 				tblChatDetalleAgencia.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
 				ScrollToBottom(true);
+				txtChatDetalleAgencia.EndEditing(true);
 
 			};
 
@@ -92,7 +98,68 @@ namespace icom
 			lstusuarios.Add(objus2);
 
 			inicializaCombos();
+
+			txtChatDetalleAgencia.ShouldReturn += (txtUsuario) =>
+			{
+				((UITextField)txtUsuario).ResignFirstResponder();
+				return true;
+			};
 		}
+
+		private void TecladoArriba(NSNotification notif)
+		{
+
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
+			var keyboardHeight = r.Height;
+
+
+			if (!blnTecladoArriba)
+			{
+				CGRect newrect = new CGRect(viewBarraChat.Frame.X,
+												viewBarraChat.Frame.Y - keyboardHeight,
+												viewBarraChat.Frame.Width,
+												viewBarraChat.Frame.Height);
+
+				viewBarraChat.Frame = newrect;
+				blnTecladoArriba = true;
+				heightact = keyboardHeight;
+			}else{ 
+				var rr = UIKeyboard.FrameEndFromNotification(notif);
+				var hact = heightact;
+				var hnew = rr.Height;
+				var dif = hact - hnew;
+
+				Console.WriteLine("hact " + hact.ToString());
+				Console.WriteLine("hnew " + hnew.ToString());
+				Console.WriteLine("dif " + dif.ToString());
+
+				CGRect newrect = new CGRect(viewBarraChat.Frame.X,
+											viewBarraChat.Frame.Y + dif,
+											viewBarraChat.Frame.Width,
+											viewBarraChat.Frame.Height);
+
+				viewBarraChat.Frame = newrect;
+				heightact = hnew;
+			}
+		}
+
+		private void TecladoAbajo(NSNotification notif)
+		{
+
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
+			var keyboardHeight = r.Height;
+			CGRect newrect = new CGRect(viewBarraChat.Frame.X,
+										viewBarraChat.Frame.Y + keyboardHeight,
+										viewBarraChat.Frame.Width,
+										viewBarraChat.Frame.Height);
+
+			viewBarraChat.Frame = newrect;
+			blnTecladoArriba = false;
+			heightact = 0;
+
+		}
+
+
 
 		public void inicializaCombos()
 		{

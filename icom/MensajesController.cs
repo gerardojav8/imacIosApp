@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using System.Json;
 using System.Linq;
 using CoreGraphics;
+using CoreAnimation;
 
 
 namespace icom
@@ -20,6 +21,7 @@ namespace icom
 	{
 		List<Message> messages;
 		ChatSource chatSource;
+		Boolean blntecladoarriba = false;
 
 		public MensajesController() : base("MensajesController", null)
 		{
@@ -52,6 +54,15 @@ namespace icom
 			btnArchivo.Layer.CornerRadius = 10;
 			btnArchivo.ClipsToBounds = true;
 
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
+
+			txtmensaje.ShouldReturn += (txtUsuario) =>
+			{
+				((UITextField)txtUsuario).ResignFirstResponder();
+				return true;
+			};
+
 			btnenviar.TouchUpInside += delegate {
 				var text = txtmensaje.Text;
 				txtmensaje.Text = string.Empty; // this will not generate change text event
@@ -69,6 +80,10 @@ namespace icom
 				messages.Add(msg);
 				tblChat.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
 				ScrollToBottom(true);
+
+				txtmensaje.EndEditing(true);
+
+
 
 			};
 
@@ -102,11 +117,6 @@ namespace icom
 			btnenviar.Enabled = !string.IsNullOrWhiteSpace(txtmensaje.Text);
 		}
 
-		public override void DidReceiveMemoryWarning()
-		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
-		}
 
 		void SetUpTableView()
 		{
@@ -121,138 +131,54 @@ namespace icom
 			chatSource = new ChatSource(messages);
 			tblChat.Source = chatSource;
 		}
-	}
 
-	public class ChatSource2 : UITableViewSource
-	{
-		static readonly string idPersonaje = "Celda";
-		protected readonly string ParentCellIdentifier = "ParentCell";
-		protected readonly string ChildCellIndentifier = "ChildCell";
-		protected int currentExpandedIndex = -1;
-		protected UIViewController viewparent;
-		protected Boolean sec = false;
+		private void TecladoArriba(NSNotification notif) {
 
-		public ChatSource2(UIViewController view)
-		{
-			viewparent = view;
-		}
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
 
-
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{			
-			return 3;
-		}
-
-
-
-		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-		{
-			funciones.MessageBox("Aviso", "Seleccion");
-		}
-
-		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
-		{
-			return (nfloat)0.0;
-		}
-
-		public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-		{
-			
-			return (nfloat)70.0;
-
-		}
-
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-
-
-			var cell = tableView.DequeueReusableCell(idPersonaje) as BubbleCell2;
-
-			if (cell == null)
+			var keyboardHeight = r.Height;
+			if (!blntecladoarriba)
 			{
-				cell = new BubbleCell2((NSString)idPersonaje);
+				
+				CGRect newrect = new CGRect(View.Frame.X,
+											View.Frame.Y - keyboardHeight,
+											View.Frame.Width,
+											View.Frame.Height);
+
+				View.Frame = newrect;
+				blntecladoarriba = true;
 			}
+			else {
+				var rr = UIKeyboard.FrameEndFromNotification(notif);
+				var hact = View.Frame.Y * -1;
+				var hnew = rr.Height;
+				var dif = hact - hnew;
+				CGRect newrect = new CGRect(View.Frame.X,
+											View.Frame.Y + dif,
+											View.Frame.Width,
+											View.Frame.Height);
+
+				View.Frame = newrect;
 
 
-			cell.UpdateCell("hola adfadfafdfds adfafadfs");
-
-
-			cell.Accessory = UITableViewCellAccessory.None;
-			sec = !sec;
-			return cell;
-
-
+			}
+			//View.BringSubviewToFront(viewbarrainf);
 		}
-	}
 
-	public class BubbleCell2 : UITableViewCell
-	{
-		UILabel lblmensaje;
-		UIImageView imageView;
-
-
-		public BubbleCell2(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
+		private void TecladoAbajo(NSNotification notif)
 		{
 
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
+			var keyboardHeight = r.Height;
+			CGRect newrect = new CGRect(View.Frame.X,
+										View.Frame.Y + keyboardHeight,
+										View.Frame.Width,
+										View.Frame.Height);
 
-			imageView = new UIImageView();
-			lblmensaje = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 15f),
-				//TextColor = UIColor.FromRGB(54, 74, 97),
-				TextColor = UIColor.White,
-				BackgroundColor = UIColor.Clear
-			};
-
-			ContentView.AddSubviews(new UIView[] { imageView, lblmensaje});
-
+			View.Frame = newrect;
+			blntecladoarriba = false;
+			//View.BringSubviewToFront(viewbarrainf);
 		}
-
-		public void UpdateCell(string strmensaje)
-		{
-			
-			lblmensaje.Text = strmensaje;
-			imageView.Image = CreateBubbleWithBorder(UIColor.FromRGB(82, 121, 174));
-		}
-
-		public override void LayoutSubviews()
-		{
-			base.LayoutSubviews();
-			float ancho = 150;
-			imageView.Frame = new CGRect(4, 4,  ancho, 50);
-			lblmensaje.Frame = new CGRect(imageView.Bounds.X + 30,4, ancho,50);
-		}
-
-		protected static UIImage CreateColoredImage(UIColor color, UIImage mask)
-		{
-			var rect = new CGRect(CGPoint.Empty, mask.Size);
-			UIGraphics.BeginImageContextWithOptions(mask.Size, false, mask.CurrentScale);
-			CGContext context = UIGraphics.GetCurrentContext();
-			mask.DrawAsPatternInRect(rect);
-			context.SetFillColor(color.CGColor);
-			context.SetBlendMode(CGBlendMode.SourceAtop);
-			context.FillRect(rect);
-			UIImage result = UIGraphics.GetImageFromCurrentImageContext();
-			UIGraphics.EndImageContext();
-			return result;
-		}
-
-		protected static UIImage CreateBubbleWithBorder(UIColor bubbleColor)
-		{
-			UIImage bubbleImg = UIImage.FromBundle("BubbleIncoming");
-			bubbleImg = CreateColoredImage(bubbleColor, bubbleImg);
-			CGSize size = bubbleImg.Size;
-
-			UIGraphics.BeginImageContextWithOptions(size, false, 0);
-			var rect = new CGRect(CGPoint.Empty, size);
-			bubbleImg.Draw(rect);
-
-			var result = UIGraphics.GetImageFromCurrentImageContext();
-			UIGraphics.EndImageContext();
-
-			return result;
-		}
-
 	}
 }
 
