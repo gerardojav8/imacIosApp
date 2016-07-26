@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AgendaController">
             <connections>
+                <outlet property="btnNuevoEvento" destination="LE6-Ds-OoT" id="lTC-KH-l3w"/>
                 <outlet property="lstAgenda" destination="bIY-H0-UhB" id="Qqy-lR-7br"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
             </connections>
@@ -14,17 +16,28 @@
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <subviews>
+                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LE6-Ds-OoT">
+                    <rect key="frame" x="0.0" y="59" width="320" height="56"/>
+                    <color key="backgroundColor" red="0.84488707285297526" green="0.87536012823708875" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="42"/>
+                    <state key="normal" title="+">
+                        <color key="titleColor" red="0.29612373011376231" green="0.39043350682259143" blue="0.55859375" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bIY-H0-UhB">
-                    <rect key="frame" x="0.0" y="68" width="320" height="500"/>
+                    <rect key="frame" x="0.0" y="116" width="320" height="452"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="bIY-H0-UhB" secondAttribute="bottom" id="AqQ-g8-dPz"/>
-                <constraint firstItem="bIY-H0-UhB" firstAttribute="centerY" secondItem="2" secondAttribute="centerY" id="CVx-mM-hpI"/>
-                <constraint firstItem="bIY-H0-UhB" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="a3G-XA-Lf4"/>
-                <constraint firstAttribute="trailing" secondItem="bIY-H0-UhB" secondAttribute="trailing" id="irT-lY-J2c"/>
+                <constraint firstItem="LE6-Ds-OoT" firstAttribute="top" secondItem="2" secondAttribute="top" constant="59" id="6cp-Es-9uB"/>
+                <constraint firstAttribute="bottom" secondItem="bIY-H0-UhB" secondAttribute="bottom" id="Gw4-zP-Qrm"/>
+                <constraint firstItem="bIY-H0-UhB" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="PqD-KX-MVo"/>
+                <constraint firstItem="bIY-H0-UhB" firstAttribute="top" secondItem="LE6-Ds-OoT" secondAttribute="bottom" id="VMG-zw-HGE"/>
+                <constraint firstItem="LE6-Ds-OoT" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="fMa-T5-LzZ"/>
+                <constraint firstAttribute="trailing" secondItem="LE6-Ds-OoT" secondAttribute="trailing" id="tid-gG-GqM"/>
+                <constraint firstAttribute="trailing" secondItem="bIY-H0-UhB" secondAttribute="trailing" id="uwx-pq-tMM"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>

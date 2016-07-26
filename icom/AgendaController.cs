@@ -36,6 +36,18 @@ namespace icom
 			LstDatosAgenda = new List<clsAgenda>();
 			lstAgenda.Source = new FuenteTablaAgenda(this);
 
+			btnNuevoEvento.TouchUpInside += delegate {
+				NuevoEventoController viewne = new NuevoEventoController();
+				viewne.Title = "Nuevo Evento";
+
+
+				this.NavigationController.PushViewController(viewne, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View, true);
+				UIView.CommitAnimations();
+			};
+
 
 
 			clsAgenda obj1 = new clsAgenda();
@@ -56,6 +68,8 @@ namespace icom
 
 			lste1.Add(e11);
 			lste1.Add(e12);
+
+
 
 			obj1.lstEventos = lste1;
 

@@ -13,10 +13,18 @@ namespace icom
 	partial class AgendaController
 	{
 		[Outlet]
+		UIKit.UIButton btnNuevoEvento { get; set; }
+
+		[Outlet]
 		UIKit.UITableView lstAgenda { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnNuevoEvento != null) {
+				btnNuevoEvento.Dispose ();
+				btnNuevoEvento = null;
+			}
+
 			if (lstAgenda != null) {
 				lstAgenda.Dispose ();
 				lstAgenda = null;

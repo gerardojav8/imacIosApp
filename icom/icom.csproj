@@ -115,6 +115,7 @@
     <InterfaceDefinition Include="AgendaController.xib" />
     <InterfaceDefinition Include="DetalleAgendaController.xib" />
     <InterfaceDefinition Include="PlanificadorController.xib" />
+    <InterfaceDefinition Include="NuevoEventoController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -233,6 +234,10 @@
     </Compile>
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NuevoEventoController.cs" />
+    <Compile Include="NuevoEventoController.designer.cs">
+      <DependentUpon>NuevoEventoController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
