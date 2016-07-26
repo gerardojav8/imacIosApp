@@ -154,11 +154,11 @@ namespace icom
 
 	public class FuenteTablaAgenda : UITableViewSource
 	{
-		static readonly string idPersonaje = "Celda";
+		static readonly string celdahija = "Celda_hija";
+		static readonly string celdapadre = "Celda_padre";
 		protected readonly string ParentCellIdentifier = "ParentCell";
 		protected readonly string ChildCellIndentifier = "ChildCell";
 		protected int currentExpandedIndex = -1;
-		protected int countEventos = -1;
 		protected UIViewController viewparent;
 		protected Boolean sec = false;
 
@@ -186,7 +186,7 @@ namespace icom
 			{
 				tableView.DeleteRows(new[] { NSIndexPath.FromRowSection(index + i, 0) }, UITableViewRowAnimation.Fade);
 			}
-			countEventos = -1;
+
 		}
 
 		void expandItemAtIndex(UITableView tableView, int index, int cant)
@@ -197,14 +197,16 @@ namespace icom
 				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(insertPos++, 0) }, UITableViewRowAnimation.Fade);
 			}
 
-			countEventos = 0;
+
 		}
 
 		protected bool isChild(NSIndexPath indexPath)
 		{			
-			return currentExpandedIndex > -1 &&
+			bool blnischild = currentExpandedIndex > -1 &&
 				   indexPath.Row > currentExpandedIndex &&
 				            indexPath.Row <= currentExpandedIndex + icom.AgendaController.LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.Count;
+			
+			return blnischild;
 		}
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
@@ -235,13 +237,15 @@ namespace icom
 
 			}
 
+
+
 			tableView.BeginUpdates();
 			if (currentExpandedIndex == indexPath.Row)
 			{
 				this.collapseSubItemsAtIndex(tableView, currentExpandedIndex, icom.AgendaController.LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.Count);
 				currentExpandedIndex = -1;
 			}
-			else {
+			else {	
 				var shouldCollapse = currentExpandedIndex > -1;
 				if (shouldCollapse)
 				{
@@ -276,11 +280,13 @@ namespace icom
 
 			if (isChild(indexPath))
 			{
-				var cell = tableView.DequeueReusableCell(idPersonaje) as CustomAgendaCell;
+				int indicesubarreglo = indexPath.Row - (currentExpandedIndex + 1);
+
+				var cell = tableView.DequeueReusableCell(celdahija) as CustomAgendaCell;
 
 				if (cell == null)
 				{
-					cell = new CustomAgendaCell((NSString)idPersonaje, sec);
+					cell = new CustomAgendaCell((NSString)celdahija, sec);
 				}
 
 
@@ -288,13 +294,12 @@ namespace icom
 
 				UIImage imgFecha = UIImage.FromFile("fechaicon.png");
 
-				clsEventoAgenda objev = objagenda.lstEventos.ElementAt(countEventos);
+				clsEventoAgenda objev = objagenda.lstEventos.ElementAt(indicesubarreglo);
 				String strComentario = objev.comentario;
 				String strLapso = objev.lapso;
 
 				cell.UpdateCell(strComentario, strLapso, imgFecha);
 
-				countEventos++;
 
 				cell.Accessory = UITableViewCellAccessory.None;
 
@@ -302,21 +307,20 @@ namespace icom
 			}
 			else {
 
-				var cell = tableView.DequeueReusableCell(idPersonaje);
-				if (cell == null)
-				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, idPersonaje);
-				}
-
-
 				int indicearreglo = indexPath.Row;
 
 				if (currentExpandedIndex > -1 && indexPath.Row > currentExpandedIndex)
 				{
 					indicearreglo -= icom.AgendaController.LstDatosAgenda.ElementAt(currentExpandedIndex).lstEventos.Count;
 				}
-					
 
+				var cell = tableView.DequeueReusableCell(celdapadre);
+
+				if (cell == null)
+				{
+					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, celdapadre);
+				}
+															
 				clsAgenda objagenda = icom.AgendaController.LstDatosAgenda.ElementAt(indicearreglo);
 
 				cell.TextLabel.Text = funciones.getNombreMes(objagenda.mes);
@@ -341,7 +345,6 @@ namespace icom
 	{
 		UILabel headingLabel, subheadingLabel;
 		UIImageView imageView;
-		UIImageView imageView2;
 
 		public CustomAgendaCell(NSString cellId, Boolean sec) : base(UITableViewCellStyle.Default, cellId)
 		{
