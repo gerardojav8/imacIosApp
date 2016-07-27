@@ -11,6 +11,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using System.IO;
 using Foundation;
+using System.Drawing;
 
 
 namespace icom
@@ -780,6 +781,59 @@ namespace icom
 
 			btnGuardar.TouchUpInside += guardarFicha;
 
+			bajatecladoinputs();
+
+		}
+
+		private void bajatecladoinputs()
+		{
+			UIToolbar toolbar;
+			UIBarButtonItem doneButton;
+
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroMotor.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroMotor.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroHid.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroHid.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroComb.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroComb.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroTrans.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroTrans.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroAgua.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroAgua.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtFiltroOtro.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtFiltroOtro.InputAccessoryView = toolbar;
+
+
+			txtDescripcion.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtMarca.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtModelo.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtSerie.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+
+
 		}
 
 		async void guardarFicha(object sender, EventArgs e)
@@ -1021,6 +1075,8 @@ namespace icom
 			return "Exito";
 
 		}
+
+
 
 		public async Task<clsFichaMaquina> getFichaMaquina()
 		{

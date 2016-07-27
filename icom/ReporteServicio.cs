@@ -11,6 +11,7 @@ using icom.globales;
 using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using System.Drawing;
 
 
 namespace icom
@@ -146,6 +147,37 @@ namespace icom
 
 			inicializaCombos();
 			loadPop.Hide();*/
+
+			bajatecladoinputs();
+
+		}
+
+		private void bajatecladoinputs()
+		{
+			UIToolbar toolbar;
+			UIBarButtonItem doneButton;
+
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtkmho.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtkmho.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txttiemporep.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txttiemporep.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtObs.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtObs.InputAccessoryView = toolbar;
+
+			txtaddref.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+
 
 		}
 

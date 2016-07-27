@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using icom.globales;
 using System.Text;
+using System.Drawing;
 
 
 
@@ -166,6 +167,27 @@ namespace icom
 			btnSolicitudFecha.TouchUpInside += DatePickerButtonTapped;
 
 			btnSolicitar.TouchUpInside += guardarSolicitud;
+
+			bajatecladoinputs();
+
+		}
+
+		private void bajatecladoinputs()
+		{
+			UIToolbar toolbar;
+			UIBarButtonItem doneButton;
+
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtCantidad.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtCantidad.InputAccessoryView = toolbar;
+
+			txtEquiposolicitado.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtmarca.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtModelo.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+
 
 		}
 
@@ -623,15 +645,18 @@ namespace icom
 
 	public class FuenteTablaRequerimientos : UITableViewSource
 	{
-		static readonly string idPersonaje = "Celda";
+		static readonly string celda = "Celda";
+
 
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell(idPersonaje) as CustomSolMaqCell;
+			
+
+			var cell = tableView.DequeueReusableCell(celda) as CustomSolMaqCell;
 			if (cell == null)
 			{
-				cell = new CustomSolMaqCell((NSString)idPersonaje);
+				cell = new CustomSolMaqCell((NSString)celda);
 			}
 
 			clsSolicitudesMaquinas sol = icom.solicitudMaquinaController.lstsolmaq.ElementAt(indexPath.Row);
