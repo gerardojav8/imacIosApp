@@ -34,13 +34,6 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="ICOM.png" translatesAutoresizingMaskIntoConstraints="NO" id="fto-Vb-XO2">
-                    <rect key="frame" x="71" y="80" width="178" height="169"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="169" id="bpi-pt-bfz"/>
-                    </constraints>
-                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
-                </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Usuario:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s7d-zw-iWp">
                     <rect key="frame" x="36" y="294" width="74" height="23"/>
                     <constraints>
@@ -64,9 +57,18 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                 </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ICOM.png" translatesAutoresizingMaskIntoConstraints="NO" id="fto-Vb-XO2">
+                    <rect key="frame" x="71" y="80" width="178" height="169"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="169" id="bpi-pt-bfz"/>
+                        <constraint firstAttribute="width" constant="178" id="iA4-yA-gnh"/>
+                    </constraints>
+                    <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="fto-Vb-XO2" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="1QY-om-k19"/>
                 <constraint firstAttribute="trailingMargin" secondItem="YZ1-7g-IhT" secondAttribute="trailing" constant="99" id="Fpi-Ke-iHT"/>
                 <constraint firstItem="fto-Vb-XO2" firstAttribute="top" secondItem="2" secondAttribute="top" constant="80" id="I1O-1S-Zv6"/>
                 <constraint firstItem="frT-e0-4MC" firstAttribute="top" secondItem="Zbe-oV-SRF" secondAttribute="bottom" constant="32" id="JS7-8Z-lW1"/>
@@ -75,12 +77,10 @@
                 <constraint firstItem="Zbe-oV-SRF" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="36" id="Kzf-1d-xmy"/>
                 <constraint firstItem="frT-e0-4MC" firstAttribute="leading" secondItem="2" secondAttribute="leadingMargin" constant="28" id="L1C-e5-Y0E"/>
                 <constraint firstAttribute="trailing" secondItem="Zbe-oV-SRF" secondAttribute="trailing" constant="42" id="MvE-Bm-y2r"/>
-                <constraint firstItem="fto-Vb-XO2" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="82" id="Pxt-2u-Ael"/>
                 <constraint firstItem="s7d-zw-iWp" firstAttribute="top" secondItem="fto-Vb-XO2" secondAttribute="bottom" constant="45" id="Qea-Ey-9oO"/>
                 <constraint firstAttribute="trailing" secondItem="KFt-JC-ZIQ" secondAttribute="trailing" constant="42" id="hPT-4U-6HK"/>
                 <constraint firstItem="KFt-JC-ZIQ" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="36" id="hnD-s3-bKW"/>
                 <constraint firstItem="KFt-JC-ZIQ" firstAttribute="top" secondItem="frT-e0-4MC" secondAttribute="bottom" constant="8" id="i1c-RY-zCf"/>
-                <constraint firstAttribute="trailing" secondItem="fto-Vb-XO2" secondAttribute="trailing" constant="82" id="tt9-Oq-CoG"/>
                 <constraint firstAttribute="bottom" secondItem="YZ1-7g-IhT" secondAttribute="bottom" constant="53" id="uPM-6v-sCn"/>
                 <constraint firstItem="s7d-zw-iWp" firstAttribute="leading" secondItem="2" secondAttribute="leadingMargin" constant="28" id="unm-Od-T8C"/>
             </constraints>

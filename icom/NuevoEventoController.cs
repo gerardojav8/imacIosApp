@@ -16,13 +16,25 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			if (UIScreen.MainScreen.Bounds.Width == 414)
+			{
+				scrNuevoEvento.ContentSize = new CoreGraphics.CGSize(355, 1200);
+			}
+			else {
+				scrNuevoEvento.ContentSize = new CoreGraphics.CGSize(316, 1200);
+
+			}
+
 			btnfecha.TouchUpInside += DatePickerFechaEvento;
-			btnhora.TouchUpInside += TimePikerHoraInicio;
-			btnhorafin.TouchUpInside += TimePikerHoraFin;
+			btnFechafin.TouchUpInside += DateTimePikerFechafin;
 
 			txtComentario.Layer.BorderColor = UIColor.Black.CGColor;
 			txtComentario.Layer.BorderWidth = (nfloat)2.0;
 			txtComentario.Text = "";
+
+			tblAsistentes.Layer.BorderColor = UIColor.Black.CGColor;
+			tblAsistentes.Layer.BorderWidth = (nfloat)2.0;
 
 			txtTitulo.ShouldReturn += (txtUsuario) =>
 			{
@@ -66,24 +78,25 @@ namespace icom
 				ModalPresentationStyle = UIModalPresentationStyle.Custom
 			};
 
-			modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+			modalPicker.DatePicker.Mode = UIDatePickerMode.DateAndTime;
 
 			modalPicker.OnModalPickerDismissed += (s, ea) =>
 			{
-				var dateFormatter = new NSDateFormatter()
-				{
-					DateFormat = "yyyy-MM-dd"
-				};
+				var dateFormatterFecha = new NSDateFormatter(){DateFormat = "yyyy-MM-dd"};
+				var dateFormatterHora = new NSDateFormatter() { DateFormat = "HH:mm:ss" };
 
 				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
-				dateFormatter.Locale = locale;
-				txtfechaevento.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
+				dateFormatterFecha.Locale = locale;
+				dateFormatterHora.Locale = locale;
+
+				txtfechaevento.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+				txthorainicio.Text = dateFormatterHora.ToString(modalPicker.DatePicker.Date);
 			};
 
 			await PresentViewControllerAsync(modalPicker, true);
 		}
 
-		async void TimePikerHoraInicio(object sender, EventArgs e)
+		async void DateTimePikerFechafin(object sender, EventArgs e)
 		{
 			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Hora", this)
 			{
@@ -93,49 +106,24 @@ namespace icom
 				ModalPresentationStyle = UIModalPresentationStyle.Custom
 			};
 
-			modalPicker.DatePicker.Mode = UIDatePickerMode.Time;
+			modalPicker.DatePicker.Mode = UIDatePickerMode.DateAndTime;
 
 			modalPicker.OnModalPickerDismissed += (s, ea) =>
 			{
-				var dateFormatter = new NSDateFormatter()
-				{
-					DateFormat = "HH:mm:ss"
-				};
+				var dateFormatterFecha = new NSDateFormatter() { DateFormat = "yyyy-MM-dd" };
+				var dateFormatterHora = new NSDateFormatter() { DateFormat = "HH:mm:ss" };
 
 				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
-				dateFormatter.Locale = locale;
-				txthorainicio.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
+				dateFormatterFecha.Locale = locale;
+				dateFormatterHora.Locale = locale;
+
+				txtFechaFin.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+				txtHoraFin.Text = dateFormatterHora.ToString(modalPicker.DatePicker.Date);
 			};
 
 			await PresentViewControllerAsync(modalPicker, true);
 		}
 
-		async void TimePikerHoraFin(object sender, EventArgs e)
-		{
-			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Hora", this)
-			{
-				HeaderBackgroundColor = UIColor.Red,
-				HeaderTextColor = UIColor.White,
-				TransitioningDelegate = new ModalPickerTransitionDelegate(),
-				ModalPresentationStyle = UIModalPresentationStyle.Custom
-			};
-
-			modalPicker.DatePicker.Mode = UIDatePickerMode.Time;
-
-			modalPicker.OnModalPickerDismissed += (s, ea) =>
-			{
-				var dateFormatter = new NSDateFormatter()
-				{
-					DateFormat = "HH:mm:ss"
-				};
-
-				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
-				dateFormatter.Locale = locale;
-				txthorafin.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
-			};
-
-			await PresentViewControllerAsync(modalPicker, true);
-		}
 	}
 }
 

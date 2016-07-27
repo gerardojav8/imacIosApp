@@ -192,6 +192,9 @@
                             </constraints>
                         </view>
                     </subviews>
+                    <constraints>
+                        <constraint firstItem="201-sk-BJm" firstAttribute="centerX" secondItem="wgw-J7-T1F" secondAttribute="centerX" id="HDh-hL-HMR"/>
+                    </constraints>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
