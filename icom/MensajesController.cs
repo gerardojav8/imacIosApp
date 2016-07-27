@@ -162,7 +162,7 @@ namespace icom
 
 
 			}
-			//View.BringSubviewToFront(viewbarrainf);
+
 		}
 
 		private void TecladoAbajo(NSNotification notif)
@@ -177,7 +177,7 @@ namespace icom
 
 			View.Frame = newrect;
 			blntecladoarriba = false;
-			//View.BringSubviewToFront(viewbarrainf);
+
 		}
 	}
 }

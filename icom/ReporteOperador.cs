@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace icom
 {
@@ -150,6 +151,29 @@ namespace icom
 			}*/
 
 			btnGuardar.TouchUpInside += guardarReporte;
+
+			bajatecladoinputs();
+
+		}
+
+		private void bajatecladoinputs()
+		{
+			UIToolbar toolbar;
+			UIBarButtonItem doneButton;
+
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate {txtkmho.EndEditing(true);});
+			toolbar.Items = new UIBarButtonItem[] {new UIBarButtonItem (UIBarButtonSystemItem.FlexibleSpace), doneButton};
+			this.txtkmho.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtDescripcion.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtDescripcion.InputAccessoryView = toolbar;
+
 
 		}
 

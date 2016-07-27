@@ -7,6 +7,10 @@ using Newtonsoft.Json.Linq;
 using System.Text;
 using System.IO;
 using icom.globales;
+using CoreAnimation;
+using Foundation;
+using CoreGraphics;
+
 namespace icom
 {
 	public partial class Login : UIViewController
@@ -17,9 +21,15 @@ namespace icom
 
 		LoadingOverlay loadPop;
 		HttpClient client;
+		Boolean blntecladoarriba = false;
+
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
+
+
 			//btnLogin.TouchUpInside += loginboton;
 
 			btnLogin.TouchUpInside += delegate {
@@ -145,12 +155,57 @@ namespace icom
 			return true;
 		}
 
+		double ajuste = 40;
 
-
-		public override void DidReceiveMemoryWarning ()
+		private void TecladoArriba(NSNotification notif)
 		{
-			base.DidReceiveMemoryWarning ();
-			// Release any cached data, images, etc that aren't in use.
+
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
+
+			var keyboardHeight = r.Height;
+			if (!blntecladoarriba)
+			{
+				var desface = (View.Frame.Y - keyboardHeight) + ajuste;
+				CGRect newrect = new CGRect(View.Frame.X,
+											desface,
+											View.Frame.Width,
+											View.Frame.Height);
+
+				View.Frame = newrect;
+				blntecladoarriba = true;
+			}
+			else {
+				var rr = UIKeyboard.FrameEndFromNotification(notif);
+				var hact = View.Frame.Y * -1;
+				var hnew = rr.Height;
+				var dif = hact - hnew;
+				var desface = (View.Frame.Y + dif) + ajuste;
+				CGRect newrect = new CGRect(View.Frame.X,
+											desface,
+											View.Frame.Width,
+											View.Frame.Height);
+
+				View.Frame = newrect;
+
+
+			}
+
+		}
+
+		private void TecladoAbajo(NSNotification notif)
+		{
+
+			var r = UIKeyboard.FrameBeginFromNotification(notif);
+			var keyboardHeight = r.Height;
+			var desface = View.Frame.Y + keyboardHeight - ajuste;
+			CGRect newrect = new CGRect(View.Frame.X,
+			                            desface,
+										View.Frame.Width,
+										View.Frame.Height);
+
+			View.Frame = newrect;
+			blntecladoarriba = false;
+
 		}
 
 

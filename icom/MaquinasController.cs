@@ -92,11 +92,18 @@ namespace icom
 				funciones.MessageBox("Aviso", "Boton de buscar");
 			};
 
-
+			bajatecladoinputs();
 
 		}
 
+		private void bajatecladoinputs() { 
 
+			txtSearch.ShouldReturn += (txtUsuario) =>
+			{
+				((UITextField)txtUsuario).ResignFirstResponder();
+				return true;
+			};
+		}
 
 		public async void recargarListado() {
 			
@@ -209,8 +216,7 @@ namespace icom
 
 
 	public class FuenteTablaExpandible : UITableViewSource
-	{		
-		static readonly string idPersonaje = "Celda";
+	{				
 		protected readonly string ParentCellIdentifier = "ParentCell";
 		protected readonly string ChildCellIndentifier = "ChildCell";
 		protected int currentExpandedIndex = -1;
@@ -367,10 +373,10 @@ namespace icom
 
 			if (isChild(indexPath))
 			{
-				var cell = tableView.DequeueReusableCell(idPersonaje);
+				var cell = tableView.DequeueReusableCell(ChildCellIndentifier);
 				if (cell == null)
 				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, idPersonaje);
+					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, ChildCellIndentifier);
 				}
 
 				if (indexPath.Row == currentExpandedIndex + 1)
@@ -392,11 +398,11 @@ namespace icom
 				return cell;
 			}
 			else {
-				var cell = tableView.DequeueReusableCell(idPersonaje) as CustomVegeCell;
+				var cell = tableView.DequeueReusableCell(ChildCellIndentifier) as CustomVegeCell;
 
 				if (cell == null)
 				{
-					cell = new CustomVegeCell((NSString)idPersonaje, sec);
+					cell = new CustomVegeCell((NSString)ChildCellIndentifier, sec);
 				}
 
 				int indicearreglo = indexPath.Row;
