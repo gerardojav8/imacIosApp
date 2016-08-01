@@ -24,9 +24,11 @@ namespace icom
 		public string strpass{ get; set; }
 
 
-		public  override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
+
+
 
 			btnMaquinaria.TouchUpInside += delegate {
 				//Maquinaria viewmaq = new Maquinaria();
@@ -81,7 +83,9 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
-			/*Boolean resp = await TraeUsuario();
+
+
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -89,9 +93,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}*/
-
-
+			}
 
 
 		}
