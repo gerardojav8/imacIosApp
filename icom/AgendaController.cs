@@ -48,7 +48,13 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
+			/*Boolean resp = await getAgenda();
 
+			if (resp)
+			{
+				loadPop.Hide();
+				lstAgenda.ReloadData();
+			}*/
 
 			clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
@@ -145,10 +151,112 @@ namespace icom
 			// Perform any additional setup after loading the view, typically from a nib.
 		}
 
-		public override void DidReceiveMemoryWarning()
+		public async Task<Boolean> getAgenda()
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Agenda ...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/getListadoAgenda";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los mensajes del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+
+
+
+			foreach (var jsonag in jrarray)
+			{
+				clsAgenda objag = getobjAgenda(jsonag);
+				LstDatosAgenda.Add(objag);
+			}
+
+
+			return true;
+		}
+
+		private clsAgenda getobjAgenda(Object varjson) {
+			clsAgenda obj = new clsAgenda();
+			JObject json = (JObject)varjson;
+
+			obj.mes = Int32.Parse(json["mes"].ToString());
+			obj.comentario = "";
+
+			List<clsEventoAgenda> lste = new List<clsEventoAgenda>();
+			JArray jrarray;
+			try
+			{
+				var jsoneventos = JArray.Parse(json["eventos"].ToString());
+				jrarray = jsoneventos;
+			}
+			catch (Exception e){
+				jrarray = null;
+			}
+
+			if (jrarray != null) {
+				
+				foreach (var ev in jrarray) { 
+					clsEventoAgenda e = new clsEventoAgenda();
+					JObject jsonev = (JObject)ev;
+					e.idevento = Int32.Parse(jsonev["idevento"].ToString());
+					e.dia = Int32.Parse(jsonev["dia"].ToString());
+					e.comentario = jsonev["titulo"].ToString();
+					e.lapso = jsonev["lapso"].ToString();
+					lste.Add(e);
+				}
+			}
+
+			obj.lstEventos = lste;
+			return obj;
 		}
 	}
 
@@ -314,24 +422,24 @@ namespace icom
 					indicearreglo -= icom.AgendaController.LstDatosAgenda.ElementAt(currentExpandedIndex).lstEventos.Count;
 				}
 
-				var cell = tableView.DequeueReusableCell(celdapadre);
+				Boolean blnTieneEventos = false;
+				if (icom.AgendaController.LstDatosAgenda.ElementAt(indicearreglo).lstEventos.Count > 0) {
+					blnTieneEventos = true;
+				}
+
+				clsAgenda objagenda = icom.AgendaController.LstDatosAgenda.ElementAt(indicearreglo);
+				var cell = tableView.DequeueReusableCell(celdapadre) as CustomPadreAgendaCell;
 
 				if (cell == null)
 				{
-					cell = new UITableViewCell(UITableViewCellStyle.Subtitle, celdapadre);
+					cell = new CustomPadreAgendaCell((NSString)ChildCellIndentifier, funciones.getColorMes(objagenda.mes));
 				}
-															
-				clsAgenda objagenda = icom.AgendaController.LstDatosAgenda.ElementAt(indicearreglo);
 
-				cell.TextLabel.Text = funciones.getNombreMes(objagenda.mes);
-
-
-				cell.TextLabel.TextColor = UIColor.FromRGB(227, 234, 243);
-
-				cell.TextLabel.Font = UIFont.FromName("Arial-BoldMT", 20f);
-
-				cell.ImageView.Image = null;
-				cell.ContentView.BackgroundColor = funciones.getColorMes(objagenda.mes);
+				UIImage img = null;
+				if (blnTieneEventos)
+					img = UIImage.FromFile("more.png");
+				
+				cell.UpdateCell(funciones.getNombreMes(objagenda.mes), img);
 
 				return cell;
 
@@ -339,6 +447,44 @@ namespace icom
 			}
 
 		}
+	}
+
+	public class CustomPadreAgendaCell : UITableViewCell
+	{
+		UILabel headingLabel;
+		UIImageView imageView;
+
+		public CustomPadreAgendaCell(NSString cellId, UIColor colorcell) : base(UITableViewCellStyle.Default, cellId)
+		{
+
+			SelectionStyle = UITableViewCellSelectionStyle.Gray;
+
+			ContentView.BackgroundColor = colorcell;
+
+			imageView = new UIImageView();			
+			headingLabel = new UILabel()
+			{
+				Font = UIFont.FromName("Arial-BoldMT", 20f),
+				TextColor = UIColor.FromRGB(227, 234, 243),
+				BackgroundColor = UIColor.Clear
+			};
+			ContentView.AddSubviews(new UIView[] { headingLabel, imageView});
+
+		}
+		public void UpdateCell(string caption, UIImage image)
+		{
+			imageView.Image = image;
+			headingLabel.Text = caption;
+		}
+		public override void LayoutSubviews()
+		{
+			base.LayoutSubviews();
+
+			headingLabel.Frame = new CGRect(10, 7, ContentView.Bounds.Width - 63, 25);
+			imageView.Frame = new CGRect(250, 6, 20, 20);
+
+		}
+
 	}
 
 	public class CustomAgendaCell : UITableViewCell

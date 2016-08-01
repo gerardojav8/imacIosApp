@@ -22,30 +22,30 @@ namespace icom
 		List<Message> messages;
 		ChatSource chatSource;
 		Boolean blntecladoarriba = false;
+		LoadingOverlay loadPop;
+		HttpClient client;
 
 		public MensajesController() : base("MensajesController", null)
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-
-			messages = new List<Message>() {
-				new Message { Type = MessageType.Incoming, Text = "Hola" },
-				new Message { Type = MessageType.Outgoing, Text = "Que onda" },
-				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba" },
-				new Message { Type = MessageType.Outgoing, Text = "si si" },
-				new Message { Type = MessageType.Incoming, Text = "Mas pruebas" },
-				new Message { Type = MessageType.Outgoing, Text = "Este es otro mensaje de prueba" },
-				new Message { Type = MessageType.Incoming, Text = "Excelente" },
-				new Message { Type = MessageType.Outgoing, Text = "Prueba de conversacion" },
-				new Message { Type = MessageType.Incoming, Text = "Mas pruebas" },
-			};
-
+			messages = new List<Message>();
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
-			SetUpTableView();
+
+			Boolean resp = await getAllMensajes();
+
+			if (resp)
+			{
+				loadPop.Hide();
+				SetUpTableView();
+				tblChat.ReloadData();
+			}
+
+
 			txtmensaje.Started += OnTextViewStarted;
 
 			btnenviar.Layer.CornerRadius = 10;
@@ -71,13 +71,21 @@ namespace icom
 				if (string.IsNullOrWhiteSpace(text))
 					return;
 
+				DateTime dtahora = DateTime.Now;
+
 				var msg = new Message
 				{
 					Type = MessageType.Outgoing,
-					Text = text.Trim()
+					Text = text.Trim(),
+					nombre = "",
+					iniciales = "",
+					fecha = dtahora.Year + "-" + dtahora.Month + "-" + dtahora.Day,
+					hora = dtahora.TimeOfDay.ToString()
 				};
 
+
 				messages.Add(msg);
+
 				tblChat.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
 				ScrollToBottom(true);
 
@@ -89,6 +97,103 @@ namespace icom
 
 			ScrollToBottom(true);
 
+		}
+
+		public async Task<Boolean> getAllMensajes()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Mensajes ...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/getMensajesChat";
+			var uri = new Uri(string.Format(url));
+
+			var content = new StringContent("", Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los mensajes del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+
+
+
+			foreach (var mensaje in jrarray)
+			{
+				Message objm = getobjMensaje(mensaje);
+				messages.Add(objm);
+			}
+
+
+			return true;
+		}
+
+		private Message getobjMensaje(Object varjson) {
+
+			Message objm = new Message();
+			JObject json = (JObject)varjson;
+
+			if (Consts.idusuarioapp.Equals(json["idusuario"].ToString()))
+			{
+				objm.Type = MessageType.Outgoing;
+				objm.nombre = "";
+				objm.iniciales = "";
+			}
+			else { 
+				objm.Type = MessageType.Incoming;
+				objm.nombre = json["nombre"].ToString();
+				objm.iniciales = json["iniciales"].ToString();
+			}
+
+			objm.Text = json["mensaje"].ToString();
+			objm.fecha = json["fecha"].ToString();
+			objm.hora = json["hora"].ToString();
+
+			return objm;
 		}
 
 

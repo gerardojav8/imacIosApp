@@ -257,6 +257,7 @@
     <Content Include="Resources\fechaicon.png" />
     <Content Include="Resources\folder.png" />
     <Content Include="Resources\bubble_regular.png" />
+    <Content Include="Resources\more.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

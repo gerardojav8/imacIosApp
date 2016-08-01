@@ -24,7 +24,7 @@ namespace icom
 		public string strpass{ get; set; }
 
 
-		public override void ViewDidLoad ()
+		public  override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -157,6 +157,7 @@ namespace icom
 			string apepaterno = jsonresponse["apepaterno"].ToString();
 			string apematerno = jsonresponse["apematerno"].ToString();
 			lblUsuario.Text = nombre + " " + apepaterno + " " + apematerno;
+			Consts.idusuarioapp = jsonresponse["idusuario"].ToString();
 
 			return true;
 		}

@@ -19,6 +19,9 @@ namespace icom
 		UIKit.UIButton btnAgregarAsistentes { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnBuscarUsuarios { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnEliminarAsistentes { get; set; }
 
 		[Outlet]
@@ -65,29 +68,14 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (scrNuevoEvento != null) {
-				scrNuevoEvento.Dispose ();
-				scrNuevoEvento = null;
+			if (btnBuscarUsuarios != null) {
+				btnBuscarUsuarios.Dispose ();
+				btnBuscarUsuarios = null;
 			}
 
-			if (ContentNuevoEvento != null) {
-				ContentNuevoEvento.Dispose ();
-				ContentNuevoEvento = null;
-			}
-
-			if (swNotificarInvitados != null) {
-				swNotificarInvitados.Dispose ();
-				swNotificarInvitados = null;
-			}
-
-			if (tblAsistentes != null) {
-				tblAsistentes.Dispose ();
-				tblAsistentes = null;
-			}
-
-			if (txtAsistentes != null) {
-				txtAsistentes.Dispose ();
-				txtAsistentes = null;
+			if (btnaceptar != null) {
+				btnaceptar.Dispose ();
+				btnaceptar = null;
 			}
 
 			if (btnAgregarAsistentes != null) {
@@ -100,19 +88,9 @@ namespace icom
 				btnEliminarAsistentes = null;
 			}
 
-			if (swTodoeldia != null) {
-				swTodoeldia.Dispose ();
-				swTodoeldia = null;
-			}
-
-			if (txtFechaFin != null) {
-				txtFechaFin.Dispose ();
-				txtFechaFin = null;
-			}
-
-			if (txtHoraFin != null) {
-				txtHoraFin.Dispose ();
-				txtHoraFin = null;
+			if (btnfecha != null) {
+				btnfecha.Dispose ();
+				btnfecha = null;
 			}
 
 			if (btnFechafin != null) {
@@ -120,14 +98,34 @@ namespace icom
 				btnFechafin = null;
 			}
 
-			if (btnaceptar != null) {
-				btnaceptar.Dispose ();
-				btnaceptar = null;
+			if (ContentNuevoEvento != null) {
+				ContentNuevoEvento.Dispose ();
+				ContentNuevoEvento = null;
 			}
 
-			if (btnfecha != null) {
-				btnfecha.Dispose ();
-				btnfecha = null;
+			if (scrNuevoEvento != null) {
+				scrNuevoEvento.Dispose ();
+				scrNuevoEvento = null;
+			}
+
+			if (swNotificarInvitados != null) {
+				swNotificarInvitados.Dispose ();
+				swNotificarInvitados = null;
+			}
+
+			if (swTodoeldia != null) {
+				swTodoeldia.Dispose ();
+				swTodoeldia = null;
+			}
+
+			if (tblAsistentes != null) {
+				tblAsistentes.Dispose ();
+				tblAsistentes = null;
+			}
+
+			if (txtAsistentes != null) {
+				txtAsistentes.Dispose ();
+				txtAsistentes = null;
 			}
 
 			if (txtComentario != null) {
@@ -138,6 +136,16 @@ namespace icom
 			if (txtfechaevento != null) {
 				txtfechaevento.Dispose ();
 				txtfechaevento = null;
+			}
+
+			if (txtFechaFin != null) {
+				txtFechaFin.Dispose ();
+				txtFechaFin = null;
+			}
+
+			if (txtHoraFin != null) {
+				txtHoraFin.Dispose ();
+				txtHoraFin = null;
 			}
 
 			if (txthorainicio != null) {

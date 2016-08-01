@@ -3,7 +3,7 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string ipserv = "192.168.0.16";
+		public static readonly string ipserv = "172.18.16.223";
 		public static readonly string urltoken = "http://"+ ipserv + "/icomtoken/oauth2/token";
 		public static readonly string ulrserv = "http://"+ ipserv + "/icomApi/";
 
@@ -12,6 +12,7 @@ namespace icom.globales
 		public static readonly int Excabadora = 3;
 
 		public static string token = "";
+		public static string idusuarioapp = "";
 
 
 	}

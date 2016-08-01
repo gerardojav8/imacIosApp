@@ -28,11 +28,17 @@ namespace icom
 				BubbleImageView.HighlightedImage = BubbleHighlightedImage;
 
 				MessageLabel.Font = UIFont.FromName("Arial", 12f);
-				MessageLabel.Text = "Gerardo Javier Gamez Vazquez " + "\n" + "12-01-2012 12:00:00 :" + "\n" + msg.Text;
+				if (msg.nombre.Equals(""))
+				{
+					MessageLabel.Text = msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+				}
+				else { 
+					MessageLabel.Text = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+				}
 				MessageLabel.UserInteractionEnabled = true;
 
 				UsuarioLabel.Font = UIFont.FromName("Arial-BoldMT", 12f);
-				UsuarioLabel.Text = "   GG   ";
+				UsuarioLabel.Text = "   "+ msg.iniciales +"   ";
 				UsuarioLabel.UserInteractionEnabled = true;
 				UsuarioLabel.Layer.CornerRadius = 10;
 				UsuarioLabel.ClipsToBounds = true;
