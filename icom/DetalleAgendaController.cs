@@ -4,30 +4,42 @@ using UIKit;
 using System.Collections.Generic;
 using Foundation;
 using CoreGraphics;
+using System.Threading.Tasks;
+using System.Net.Http;
+using icom.globales;
+using Newtonsoft.Json;
+using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace icom
 {
 	public partial class DetalleAgendaController : UIViewController
 	{
+		LoadingOverlay loadPop;
+		HttpClient client;
+
 		public UIViewController viewagenda { get; set; }
-		public int idagenda { get; set; }
 		public int idevento { get; set; }
+
 
 		List<Message> messages;
 		ChatSource chatSource;
 
-		List<clsCmbUsuarios> lstusuarios;
+		List<String> lstusuarios;
 		UIActionSheet actUsuarios;
 		Boolean blnTecladoArriba = false;
 		double heightact = 0;
+
+
 
 		public DetalleAgendaController() : base("DetalleAgendaController", null)
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
 			if (UIScreen.MainScreen.Bounds.Width == 414)
 			{
 				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(355, 905);
@@ -40,10 +52,10 @@ namespace icom
 			btnUsuarios.ClipsToBounds = true;
 
 			messages = new List<Message>() {
-				new Message { Type = MessageType.Incoming, Text = "Hola" },
-				new Message { Type = MessageType.Outgoing, Text = "Que onda" },
-				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba" },
-				new Message { Type = MessageType.Outgoing, Text = "si si" }
+				new Message { Type = MessageType.Incoming, Text = "Hola", nombre = "Manuel Gamez", iniciales = "MG", fecha = "2012-01-01",hora = "12:00:00" },
+				new Message { Type = MessageType.Outgoing, Text = "Que onda", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00" },
+				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba", nombre = "Manuel Gamez", iniciales = "MG" , fecha = "2012-01-01",hora = "12:00:00" },
+				new Message { Type = MessageType.Outgoing, Text = "si si", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00"  }
 			};
 
 			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
@@ -67,7 +79,11 @@ namespace icom
 				var msg = new Message
 				{
 					Type = MessageType.Outgoing,
-					Text = text.Trim()
+					Text = text.Trim(),
+					nombre = "",
+					iniciales = "",
+					fecha = "2012-01-01",
+					hora = "12:00:00"
 				};
 
 				messages.Add(msg);
@@ -78,32 +94,104 @@ namespace icom
 			};
 
 			ScrollToBottom(true);
+			lstusuarios = new List<String>();
 
-			clsCmbUsuarios objus1 = new clsCmbUsuarios();
+			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
+			if (objde != null) {
 
-			objus1.nombre = "Gerardo Javier";
-			objus1.apepaterno = "Gamez";
-			objus1.apematerno = "Vazquez";
-			objus1.idusuario = 1;
+				lblComentario.Text = objde.titulo;
+				lblLapso.Text = objde.lapso;
+				lstusuarios = objde.usuarios;					
+				inicializaCombos();
+			}
 
-			clsCmbUsuarios objus2 = new clsCmbUsuarios();
+			/*
+			lstusuarios.Add("Gerardo Javier Gamez Vazquez");
+			lstusuarios.Add("Fermin Mojica Araujo");
+			*/
 
-			objus2.nombre = "Fermin";
-			objus2.apepaterno = "Mojica";
-			objus2.apematerno = "Araujo";
-			objus2.idusuario = 2;
 
-			lstusuarios = new List<clsCmbUsuarios>();
-			lstusuarios.Add(objus1);
-			lstusuarios.Add(objus2);
-
-			inicializaCombos();
 
 			txtChatDetalleAgencia.ShouldReturn += (txtUsuario) =>
 			{
 				((UITextField)txtUsuario).ResignFirstResponder();
 				return true;
 			};
+		}
+
+		public async Task<clsDetalleEventoAgenda> getDetalleEventoAgenda()
+		{
+
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/getEventoAgenda";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("idevento", idevento.ToString());
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return null;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return null;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return null;
+			}
+
+			clsDetalleEventoAgenda objde = new clsDetalleEventoAgenda();
+
+			objde.mes = Int32.Parse(jsonresponse["mes"].ToString());
+			objde.dia = Int32.Parse(jsonresponse["dia"].ToString());
+			objde.titulo = jsonresponse["titulo"].ToString();
+			objde.comentario = jsonresponse["comentario"].ToString();
+			objde.lapso = jsonresponse["lapso"].ToString();
+
+			JArray jarrAsistentes = JArray.Parse(jsonresponse["usuarios"].ToString());
+			List<String> lstAsistentes = new List<String>();
+			foreach (var jas in jarrAsistentes)
+			{
+				JObject jsonasistente = (JObject)jas;
+				lstAsistentes.Add(jsonasistente["nombre"].ToString());
+			}
+
+			objde.usuarios = lstAsistentes;
+
+			return objde;
 		}
 
 		private void TecladoArriba(NSNotification notif)
@@ -164,11 +252,10 @@ namespace icom
 		public void inicializaCombos()
 		{
 
-			//--------Combo Reporto---------------------
 			actUsuarios = new UIActionSheet("Usuarios en el evento");
-			foreach (clsCmbUsuarios us in lstusuarios)
+			foreach (String us in lstusuarios)
 			{
-				String nombre = us.nombre + " " + us.apepaterno + " " + us.apematerno;
+				String nombre = us;
 				actUsuarios.Add(nombre);
 			}
 			actUsuarios.Add("Cancelar");

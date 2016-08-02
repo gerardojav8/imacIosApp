@@ -239,6 +239,8 @@
     <Compile Include="NuevoEventoController.designer.cs">
       <DependentUpon>NuevoEventoController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Entidades\clsGuardaNuevoEvento.cs" />
+    <Compile Include="Entidades\clsDetalleEventoAgenda.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

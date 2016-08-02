@@ -28,6 +28,8 @@ namespace icom
 		UIActionSheet actShAsistentes;
 		int idasistentesel = -1;
 
+		public UIViewController viewagenda { get; set; }
+
 
 		public NuevoEventoController() : base("NuevoEventoController", null)
 		{
@@ -100,6 +102,120 @@ namespace icom
 				lstidasistentes.Clear();
 				tblAsistentes.ReloadData();
 			};
+
+			btnaceptar.TouchUpInside += guardaEvento;
+
+		}
+
+		async void guardaEvento(object sender, EventArgs e) {
+			Boolean resp = await saveEve();
+
+			if (resp) { 				
+				this.NavigationController.PopToViewController(viewagenda, true);
+			}
+		}
+
+		public async Task<Boolean> saveEve()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Evento...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/guardaEventoAgenda";
+			var uri = new Uri(string.Format(url));
+
+			clsGuardaNuevoEvento objev = new clsGuardaNuevoEvento();
+
+			objev.titulo = txtTitulo.Text;
+			objev.fechaini = txtfechaevento.Text;
+			objev.fechafin = txtFechaFin.Text;
+			objev.horaini = txthorainicio.Text;
+			objev.horafin = txtHoraFin.Text;
+			objev.notas = txtComentario.Text;
+
+			if (swTodoeldia.On)
+			{
+				objev.diacompleto = "1";
+			}
+			else { 
+				objev.diacompleto = "0";
+			}
+
+			if (swNotificarInvitados.On)
+			{
+				objev.notificaasistentes = "1";
+			}
+			else {
+				objev.notificaasistentes = "0";
+			}
+
+			List<Dictionary<String, String>> lstasis = new List<Dictionary<string, string>>();
+
+			foreach (int id in lstidasistentes) {
+				Dictionary<String, String> asis = new Dictionary<string, string>();
+				asis.Add("idusuario", id.ToString());
+				lstasis.Add(asis);
+			}
+
+			objev.asistentes = lstasis;
+
+			var json = JsonConvert.SerializeObject(objev);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			jtokenerror = jsonresponse["result"].ToString();
+
+
+			if (jtokenerror.Equals("1"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			funciones.MessageBox("Aviso", "Se ha guardado el evento!!");
+			return true;
 
 		}
 
@@ -335,11 +451,6 @@ namespace icom
 
 			return cell;
 		}
-
-
-
-
-
 
 	}
 

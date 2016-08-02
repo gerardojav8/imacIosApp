@@ -28,7 +28,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -39,7 +39,7 @@ namespace icom
 			btnNuevoEvento.TouchUpInside += delegate {
 				NuevoEventoController viewne = new NuevoEventoController();
 				viewne.Title = "Nuevo Evento";
-
+				viewne.viewagenda = this;
 
 				this.NavigationController.PushViewController(viewne, false);
 				UIView.BeginAnimations(null);
@@ -48,14 +48,14 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			/*Boolean resp = await getAgenda();
+			Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}*/
-
+			}
+			/*
 			clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
@@ -144,11 +144,11 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);
+			LstDatosAgenda.Add(obj12);*/
 
 
 			
-			// Perform any additional setup after loading the view, typically from a nib.
+
 		}
 
 		public async Task<Boolean> getAgenda()
@@ -328,8 +328,8 @@ namespace icom
 					DetalleAgendaController viewda = new DetalleAgendaController();
 					viewda.Title = "Evento";
 					viewda.viewagenda = viewparent;
-					viewda.idagenda = 0;
-					viewda.idevento = 0;
+					int indiceevento = indexPath.Row - currentExpandedIndex - 1;
+					viewda.idevento = icom.AgendaController.LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.ElementAt(indiceevento).idevento;
 
 
 					viewparent.NavigationController.PushViewController(viewda, false);
