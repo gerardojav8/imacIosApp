@@ -48,6 +48,30 @@ namespace icom
 				scrNuevoEvento.ContentSize = new CoreGraphics.CGSize(316, 1200);
 
 			}
+			swTodoeldia.On = false;
+			swTodoeldia.ValueChanged += delegate
+			{
+				if (swTodoeldia.On)
+				{
+					txthorainicio.Text = "00:00:00";
+					txtHoraFin.Text = "23:59:59";
+					if (!txtfechaevento.Text.Equals(""))
+					{
+						txtFechaFin.Text = txtfechaevento.Text;
+					}
+					else {
+						txtFechaFin.Text = "";
+					}
+					btnFechafin.Enabled = false;
+				}
+				else {
+					txthorainicio.Text = "";
+					txtHoraFin.Text = "";
+					txtFechaFin.Text = "";
+					btnFechafin.Enabled = true;
+				}
+			};
+
 
 			btnfecha.TouchUpInside += DatePickerFechaEvento;
 			btnFechafin.TouchUpInside += DateTimePikerFechafin;
@@ -60,6 +84,8 @@ namespace icom
 			tblAsistentes.Layer.BorderWidth = (nfloat)2.0;
 			icom.NuevoEventoController.lstasistentes.Clear();
 			tblAsistentes.Source = new FuenteTablaAsistentes();
+
+
 
 			txtTitulo.ShouldReturn += (txtUsuario) =>
 			{
@@ -108,6 +134,30 @@ namespace icom
 		}
 
 		async void guardaEvento(object sender, EventArgs e) {
+
+			if (txtTitulo.Text.Equals("")) {
+				funciones.MessageBox("Error", "Debe de ingresar un titulo al evento");
+				return;
+			}
+
+			if (txtfechaevento.Text.Equals("") || txthorainicio.Text.Equals("")) { 						
+
+				funciones.MessageBox("Error", "Debe de ingresar una fecha y hora de inicio al evento");
+				return;
+			}
+
+			if (txtFechaFin.Text.Equals("") || txtHoraFin.Text.Equals(""))
+			{
+
+				funciones.MessageBox("Error", "Debe de ingresar una fecha y hora de fin al evento");
+				return;
+			}
+
+			if (lstidasistentes.Count <= 0) { 
+				funciones.MessageBox("Error", "Debe de agregar al menos a un asistente");
+				return;
+			}
+
 			Boolean resp = await saveEve();
 
 			if (resp) { 				
@@ -376,27 +426,42 @@ namespace icom
 				ModalPresentationStyle = UIModalPresentationStyle.Custom
 			};
 
-			modalPicker.DatePicker.Mode = UIDatePickerMode.DateAndTime;
-
-			modalPicker.OnModalPickerDismissed += (s, ea) =>
+			if (!swTodoeldia.On)
 			{
-				var dateFormatterFecha = new NSDateFormatter(){DateFormat = "yyyy-MM-dd"};
-				var dateFormatterHora = new NSDateFormatter() { DateFormat = "HH:mm:ss" };
+				modalPicker.DatePicker.Mode = UIDatePickerMode.DateAndTime;
+				modalPicker.OnModalPickerDismissed += (s, ea) =>
+				{
+					var dateFormatterFecha = new NSDateFormatter() { DateFormat = "yyyy-MM-dd" };
+					var dateFormatterHora = new NSDateFormatter() { DateFormat = "HH:mm:ss" };
 
-				NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
-				dateFormatterFecha.Locale = locale;
-				dateFormatterHora.Locale = locale;
+					NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
+					dateFormatterFecha.Locale = locale;
+					dateFormatterHora.Locale = locale;
 
-				txtfechaevento.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
-				txthorainicio.Text = dateFormatterHora.ToString(modalPicker.DatePicker.Date);
-			};
+					txtfechaevento.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+					txthorainicio.Text = dateFormatterHora.ToString(modalPicker.DatePicker.Date);
+				};
+			}
+			else { 
+				modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+				modalPicker.OnModalPickerDismissed += (s, ea) =>
+				{
+					var dateFormatterFecha = new NSDateFormatter() { DateFormat = "yyyy-MM-dd" };
+
+					NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
+					dateFormatterFecha.Locale = locale;
+
+					txtfechaevento.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+					txtFechaFin.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+				};
+			}
 
 			await PresentViewControllerAsync(modalPicker, true);
 		}
 
 		async void DateTimePikerFechafin(object sender, EventArgs e)
 		{
-			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Hora", this)
+			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije Fecha", this)
 			{
 				HeaderBackgroundColor = UIColor.Red,
 				HeaderTextColor = UIColor.White,

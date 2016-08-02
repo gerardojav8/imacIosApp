@@ -50,17 +50,39 @@ namespace icom
 
 			btnUsuarios.Layer.CornerRadius = 10;
 			btnUsuarios.ClipsToBounds = true;
+			lstusuarios = new List<String>();
 
-			messages = new List<Message>() {
+
+			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
+			if (objde != null)
+			{
+
+				lblComentario.Text = objde.titulo;
+				lblLapso.Text = objde.lapso;
+				lstusuarios = objde.usuarios;
+				inicializaCombos();
+			}
+
+			messages = new List<Message>();
+			Boolean resp = await getMessagesEvento();
+			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
+			tblChatDetalleAgencia.Layer.BorderWidth = (nfloat)2.0;
+			if (resp)
+			{
+				loadPop.Hide();
+				tblChatDetalleAgencia.ReloadData();
+			}
+
+			SetUpTableView();
+
+			/*messages = new List<Message>() {
 				new Message { Type = MessageType.Incoming, Text = "Hola", nombre = "Manuel Gamez", iniciales = "MG", fecha = "2012-01-01",hora = "12:00:00" },
 				new Message { Type = MessageType.Outgoing, Text = "Que onda", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00" },
 				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba", nombre = "Manuel Gamez", iniciales = "MG" , fecha = "2012-01-01",hora = "12:00:00" },
 				new Message { Type = MessageType.Outgoing, Text = "si si", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00"  }
 			};
-
-			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
-			tblChatDetalleAgencia.Layer.BorderWidth = (nfloat)2.0;
 			SetUpTableView();
+			*/
 
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
@@ -75,6 +97,8 @@ namespace icom
 
 				if (string.IsNullOrWhiteSpace(text))
 					return;
+				
+				DateTime dtahora = DateTime.Now;
 
 				var msg = new Message
 				{
@@ -82,8 +106,8 @@ namespace icom
 					Text = text.Trim(),
 					nombre = "",
 					iniciales = "",
-					fecha = "2012-01-01",
-					hora = "12:00:00"
+					fecha = dtahora.Year + "-" + dtahora.Month + "-" + dtahora.Day,
+					hora = dtahora.TimeOfDay.ToString()
 				};
 
 				messages.Add(msg);
@@ -94,16 +118,7 @@ namespace icom
 			};
 
 			ScrollToBottom(true);
-			lstusuarios = new List<String>();
 
-			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
-			if (objde != null) {
-
-				lblComentario.Text = objde.titulo;
-				lblLapso.Text = objde.lapso;
-				lstusuarios = objde.usuarios;					
-				inicializaCombos();
-			}
 
 			/*
 			lstusuarios.Add("Gerardo Javier Gamez Vazquez");
@@ -117,6 +132,108 @@ namespace icom
 				((UITextField)txtUsuario).ResignFirstResponder();
 				return true;
 			};
+		}
+
+		public async Task<Boolean> getMessagesEvento()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Mensajes ...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/getChatEvento";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<String, String> param = new Dictionary<string, string>();
+			param.Add("idevento", idevento.ToString());
+			var json = JsonConvert.SerializeObject(param);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer los mensajes del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+
+
+
+			foreach (var mensaje in jrarray)
+			{
+				Message objm = getobjMensaje(mensaje);
+				messages.Add(objm);
+			}
+
+
+			return true;
+		}
+
+		private Message getobjMensaje(Object varjson)
+		{
+
+			Message objm = new Message();
+			JObject json = (JObject)varjson;
+
+			if (Consts.idusuarioapp.Equals(json["idusuario"].ToString()))
+			{
+				objm.Type = MessageType.Outgoing;
+				objm.nombre = "";
+				objm.iniciales = "";
+			}
+			else {
+				objm.Type = MessageType.Incoming;
+				objm.nombre = json["nombre"].ToString();
+				objm.iniciales = json["iniciales"].ToString();
+			}
+
+			objm.Text = json["mensaje"].ToString();
+			objm.fecha = json["fecha"].ToString();
+			objm.hora = json["hora"].ToString();
+
+			return objm;
 		}
 
 		public async Task<clsDetalleEventoAgenda> getDetalleEventoAgenda()
