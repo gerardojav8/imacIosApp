@@ -241,6 +241,14 @@
     </Compile>
     <Compile Include="Entidades\clsGuardaNuevoEvento.cs" />
     <Compile Include="Entidades\clsDetalleEventoAgenda.cs" />
+    <Compile Include="globales\chat\OutgoingFileCell.cs" />
+    <Compile Include="globales\chat\OutgoingFileCell.designer.cs">
+      <DependentUpon>OutgoingFileCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="globales\chat\IncomingFileCell.cs" />
+    <Compile Include="globales\chat\IncomingFileCell.designer.cs">
+      <DependentUpon>IncomingFileCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

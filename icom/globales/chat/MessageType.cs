@@ -5,6 +5,8 @@ namespace icom
 	{
 		Incoming,
 		Outgoing,
+		IncomingFile,
+		OutgoingFile
 	}
 }
 

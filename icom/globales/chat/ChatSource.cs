@@ -10,6 +10,8 @@ namespace icom
 	{
 		static readonly NSString IncomingCellId = new NSString("Incoming");
 		static readonly NSString OutgoingCellId = new NSString("Outgoing");
+		static readonly NSString IncomingFileCellId = new NSString("IncomingFile");
+		static readonly NSString OutgoingFileCellId = new NSString("OutgoingFile");
 
 		IList<Message> messages;
 
@@ -21,7 +23,7 @@ namespace icom
 				throw new ArgumentNullException("messages");
 
 			this.messages = messages;
-			sizingCells = new BubbleCell[2];
+			sizingCells = new BubbleCell[4];
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
@@ -34,6 +36,7 @@ namespace icom
 			BubbleCell cell = null;
 			Message msg = messages[indexPath.Row];
 
+				
 			cell = (BubbleCell)tableView.DequeueReusableCell(GetReuseId(msg.Type));
 			cell.Message = msg;
 
@@ -56,6 +59,7 @@ namespace icom
 		{
 			var index = (int)msg.Type;
 			BubbleCell cell = sizingCells[index];
+
 			if (cell == null)
 				cell = sizingCells[index] = (BubbleCell) tableView.DequeueReusableCell(GetReuseId(msg.Type));
 
@@ -69,7 +73,14 @@ namespace icom
 
 		NSString GetReuseId(MessageType msgType)
 		{
-			return msgType == MessageType.Incoming ? IncomingCellId : OutgoingCellId;
+			switch (msgType) {
+				case MessageType.Incoming: return IncomingCellId ;				
+				case MessageType.Outgoing: return OutgoingCellId ;
+				case MessageType.IncomingFile: return IncomingFileCellId;
+				case MessageType.OutgoingFile: return OutgoingFileCellId;
+				default: return null;
+			}				
+
 		}
 	}
 }

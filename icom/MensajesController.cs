@@ -13,6 +13,7 @@ using System.Json;
 using System.Linq;
 using CoreGraphics;
 using CoreAnimation;
+using System.IO;
 
 
 namespace icom
@@ -29,21 +30,29 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public  override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			messages = new List<Message>();
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
 
-			Boolean resp = await getAllMensajes();
+			/*Boolean resp = await getAllMensajes();
 
 			if (resp)
 			{
 				loadPop.Hide();
-				SetUpTableView();
 				tblChat.ReloadData();
-			}
+			}*/
+
+			messages = new List<Message>() {
+				new Message { Type = MessageType.IncomingFile, Text = "Hola", nombre = "Manuel Gamez", iniciales = "MG", fecha = "2012-01-01",hora = "12:00:00", filename="test.pdf", idmensaje="5" },
+				new Message { Type = MessageType.Outgoing, Text = "Que onda", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00", filename="", idmensaje="" },
+				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba", nombre = "Manuel Gamez", iniciales = "MG" , fecha = "2012-01-01",hora = "12:00:00", filename="", idmensaje="" },
+				new Message { Type = MessageType.OutgoingFile, Text = "si si", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00" , filename="test.pdf", idmensaje="5" }
+			};
+
+			SetUpTableView();
 
 
 			txtmensaje.Started += OnTextViewStarted;
@@ -80,7 +89,10 @@ namespace icom
 					nombre = "",
 					iniciales = "",
 					fecha = dtahora.Year + "-" + dtahora.Month + "-" + dtahora.Day,
-					hora = dtahora.TimeOfDay.ToString()
+					hora = dtahora.TimeOfDay.ToString(),
+					filename = "",
+					idmensaje = ""
+						
 				};
 
 
@@ -93,6 +105,21 @@ namespace icom
 
 
 
+			};
+
+			btnArchivo.TouchUpInside += delegate {
+				String pathfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "primerplus.pdf");
+				var bytes = default(byte[]);
+				using (var streamReader = new StreamReader(pathfile)) {					
+					using (var memstream = new MemoryStream()) {
+						streamReader.BaseStream.CopyTo(memstream);
+						bytes = memstream.ToArray();
+					}
+				}
+
+				String strbase64 = Convert.ToBase64String(bytes);
+
+				Console.WriteLine(strbase64);
 			};
 
 			ScrollToBottom(true);
@@ -232,6 +259,8 @@ namespace icom
 
 			tblChat.RegisterClassForCellReuse(typeof(IncomingCell), IncomingCell.CellId);
 			tblChat.RegisterClassForCellReuse(typeof(OutgoingCell), OutgoingCell.CellId);
+			tblChat.RegisterClassForCellReuse(typeof(IncomingFileCell), IncomingFileCell.CellId);
+			tblChat.RegisterClassForCellReuse(typeof(OutgoingFileCell), OutgoingFileCell.CellId);
 
 			chatSource = new ChatSource(messages);
 			tblChat.Source = chatSource;

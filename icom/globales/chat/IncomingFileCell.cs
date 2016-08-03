@@ -1,65 +1,62 @@
-using System;
-using UIKit;
 using Foundation;
+using UIKit;
 using CoreGraphics;
+using System;
 namespace icom
 {
-	[Register("OutgoingCell")]
-	public partial class OutgoingCell : BubbleCell
+	[Register("IncomingFileCell")]
+	public partial class IncomingFileCell : BubbleCell
 	{
 		static readonly UIImage normalBubbleImage;
 		static readonly UIImage highlightedBubbleImage;
 
+		public static readonly NSString CellId = new NSString("IncomingFile");
 
-
-		public static readonly NSString CellId = new NSString("Outgoing");
-
-		static OutgoingCell()
+		static IncomingFileCell()
 		{
-			UIImage mask = UIImage.FromFile("bubble_outgoing.png");
+			UIImage mask = UIImage.FromFile("bubble_regular.png");
 
 			var cap = new UIEdgeInsets
 			{
 				Top = 17f,
-				Left = 21f,
+				Left = 26f,
 				Bottom = 17f,
-				Right = 26f
+				Right = 21f,
 			};
 
-			var normalColor = UIColor.FromRGB(43, 119, 250);
-			var highlightedColor = UIColor.FromRGB(32, 96, 200);
+			var normalColor = UIColor.FromRGB(105, 178, 174);
+			var highlightedColor = UIColor.FromRGB(125, 212, 207);
 
 			normalBubbleImage = CreateColoredImage(normalColor, mask).CreateResizableImage(cap);
 			highlightedBubbleImage = CreateColoredImage(highlightedColor, mask).CreateResizableImage(cap);
+
 		}
 
-		public OutgoingCell(IntPtr handle)
+		public IncomingFileCell(IntPtr handle)
 			: base(handle)
 		{
 			Initialize();
 		}
 
-		public OutgoingCell()
+		public IncomingFileCell()
 		{
 			Initialize();
 		}
 
 		[Export("initWithStyle:reuseIdentifier:")]
-		public OutgoingCell(UITableViewCellStyle style, string reuseIdentifier)
+		public IncomingFileCell(UITableViewCellStyle style, string reuseIdentifier)
 			: base(style, reuseIdentifier)
 		{
-			
-
 			Initialize();
 		}
 
 		void Initialize()
-		{
-			
+		{			
 			BubbleHighlightedImage = highlightedBubbleImage;
 			BubbleImage = normalBubbleImage;
+				
 
-			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:[bubble]|",
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:|-37-[bubble]",
 				(NSLayoutFormatOptions)0,
 				"bubble", BubbleImageView));
 			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("V:|-2-[bubble]-2-|",
@@ -72,22 +69,34 @@ namespace icom
 			));
 
 
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("H:|[usuariolo]",
+				(NSLayoutFormatOptions)0,
+				"usuariolo", UsuarioLabel));
+			ContentView.AddConstraints(NSLayoutConstraint.FromVisualFormat("V:|-40-[usuariolo]-2-|",
+				(NSLayoutFormatOptions)0,
+				"usuariolo", UsuarioLabel
+			));
+			
+
+
+
+
+
 			var vSpaceTop = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.Top, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.Top, 1, 10);
 			ContentView.AddConstraint(vSpaceTop);
 
 			var vSpaceBottom = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.Bottom, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.Bottom, 1, -10);
 			ContentView.AddConstraint(vSpaceBottom);
 
-			var msgTrailing = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.Trailing, NSLayoutRelation.LessThanOrEqual, BubbleImageView, NSLayoutAttribute.Trailing, 1, -16);
-			ContentView.AddConstraint(msgTrailing);
+			var msgLeading = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.Leading, NSLayoutRelation.GreaterThanOrEqual, BubbleImageView, NSLayoutAttribute.Leading, 1, 16);
+			ContentView.AddConstraint(msgLeading);
 
-			var msgCenter = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.CenterX, 1, -3);
+			var msgCenter = NSLayoutConstraint.Create(MessageLabel, NSLayoutAttribute.CenterX, NSLayoutRelation.Equal, BubbleImageView, NSLayoutAttribute.CenterX, 1, 3);
 			ContentView.AddConstraint(msgCenter);
-			MessageLabel.TextColor = UIColor.White;
-
 
 
 		}
+
 	}
 }
 

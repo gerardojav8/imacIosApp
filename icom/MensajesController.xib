@@ -65,19 +65,19 @@
                     </constraints>
                 </view>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Pcy-Hw-weC">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="526"/>
+                    <rect key="frame" x="0.0" y="60" width="320" height="466"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="0.41299282980714103" green="0.69721436651583701" blue="0.68298023827099952" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="PrQ-IM-A9A" secondAttribute="trailing" id="1Zd-qH-jRi"/>
-                <constraint firstItem="Pcy-Hw-weC" firstAttribute="top" secondItem="2" secondAttribute="top" id="Kx2-LO-4t1"/>
                 <constraint firstAttribute="bottom" secondItem="PrQ-IM-A9A" secondAttribute="bottom" id="R2A-Ek-SIs"/>
                 <constraint firstItem="PrQ-IM-A9A" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="R8R-8f-PUr"/>
                 <constraint firstItem="PrQ-IM-A9A" firstAttribute="top" secondItem="Pcy-Hw-weC" secondAttribute="bottom" constant="1" id="Utb-Js-uny"/>
                 <constraint firstItem="Pcy-Hw-weC" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="h8f-ZD-w6z"/>
                 <constraint firstAttribute="trailing" secondItem="Pcy-Hw-weC" secondAttribute="trailing" id="p9T-6Q-t3L"/>
+                <constraint firstItem="Pcy-Hw-weC" firstAttribute="top" secondItem="2" secondAttribute="top" constant="60" id="tb6-Bs-Rz4"/>
             </constraints>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>

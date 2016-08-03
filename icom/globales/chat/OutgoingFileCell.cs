@@ -4,17 +4,17 @@ using Foundation;
 using CoreGraphics;
 namespace icom
 {
-	[Register("OutgoingCell")]
-	public partial class OutgoingCell : BubbleCell
+	[Register("OutgoingFileCell")]
+	public partial class OutgoingFileCell : BubbleCell
 	{
 		static readonly UIImage normalBubbleImage;
 		static readonly UIImage highlightedBubbleImage;
 
 
 
-		public static readonly NSString CellId = new NSString("Outgoing");
+		public static readonly NSString CellId = new NSString("OutgoingFile");
 
-		static OutgoingCell()
+		static OutgoingFileCell()
 		{
 			UIImage mask = UIImage.FromFile("bubble_outgoing.png");
 
@@ -26,26 +26,26 @@ namespace icom
 				Right = 26f
 			};
 
-			var normalColor = UIColor.FromRGB(43, 119, 250);
-			var highlightedColor = UIColor.FromRGB(32, 96, 200);
+			var normalColor = UIColor.FromRGB(105, 178, 174);
+			var highlightedColor = UIColor.FromRGB(125, 212, 207);
 
 			normalBubbleImage = CreateColoredImage(normalColor, mask).CreateResizableImage(cap);
 			highlightedBubbleImage = CreateColoredImage(highlightedColor, mask).CreateResizableImage(cap);
 		}
 
-		public OutgoingCell(IntPtr handle)
+		public OutgoingFileCell(IntPtr handle)
 			: base(handle)
 		{
 			Initialize();
 		}
 
-		public OutgoingCell()
+		public OutgoingFileCell()
 		{
 			Initialize();
 		}
 
 		[Export("initWithStyle:reuseIdentifier:")]
-		public OutgoingCell(UITableViewCellStyle style, string reuseIdentifier)
+		public OutgoingFileCell(UITableViewCellStyle style, string reuseIdentifier)
 			: base(style, reuseIdentifier)
 		{
 			

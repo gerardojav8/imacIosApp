@@ -11,8 +11,8 @@ namespace icom
 		public UILabel UsuarioLabel { get; private set; }
 		public UIImage BubbleImage { get; set; }
 		public UIImage BubbleHighlightedImage { get; set; }
-		public MessageType typebubble { get; set;}
-
+		private bool blnTieneArchivo;
+		private MessageType typebubble;
 		Message msg;
 
 		public Message Message
@@ -27,15 +27,51 @@ namespace icom
 				BubbleImageView.Image = BubbleImage;
 				BubbleImageView.HighlightedImage = BubbleHighlightedImage;
 
-				MessageLabel.Font = UIFont.FromName("Arial", 12f);
-				if (msg.nombre.Equals(""))
+
+
+
+
+				if (blnTieneArchivo)
 				{
-					MessageLabel.Text = msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+					MessageLabel.Font = UIFont.FromName("Arial-BoldMT", 12f);
+					String strmsg = "";
+
+					if (msg.nombre.Equals(""))
+					{
+						strmsg = msg.fecha + " " + msg.hora + " :" + "\n Archivo:\n" + msg.filename;
+					}
+					else {
+						strmsg = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :" + "\n Archivo\n" + msg.filename;
+					}
+
+					MessageLabel.AttributedText = new NSAttributedString(strmsg, underlineStyle:NSUnderlineStyle.Single);
+					MessageLabel.UserInteractionEnabled = true;
+
+
+
+
+					UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>
+					{
+						funciones.MessageBox("Aviso", "idmensaje: " + msg.idmensaje);
+					});
+					MessageLabel.AddGestureRecognizer(tgrLabel);
+
+					MessageLabel.TextColor = UIColor.White;
+
 				}
 				else { 
-					MessageLabel.Text = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+
+					MessageLabel.Font = UIFont.FromName("Arial", 12f);
+					if (msg.nombre.Equals(""))
+					{
+						MessageLabel.Text = msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+					}
+					else {
+						MessageLabel.Text = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :" + "\n" + msg.Text;
+					}
+				
 				}
-				MessageLabel.UserInteractionEnabled = true;
+
 
 				UsuarioLabel.Font = UIFont.FromName("Arial-BoldMT", 12f);
 				UsuarioLabel.Text = "   "+ msg.iniciales +"   ";
@@ -64,13 +100,29 @@ namespace icom
 		[Export("initWithStyle:reuseIdentifier:")]
 		public BubbleCell(UITableViewCellStyle style, string reuseIdentifier)
 			: base(style, reuseIdentifier)
-		{			
+		{
 			if (reuseIdentifier == IncomingCell.CellId)
 			{
 				typebubble = MessageType.Incoming;
 			}
-			else { 
+			else if (reuseIdentifier == IncomingFileCell.CellId)
+			{
+				typebubble = MessageType.IncomingFile;
+			}
+			else if (reuseIdentifier == OutgoingCell.CellId) { 
 				typebubble = MessageType.Outgoing;
+			}
+			else if (reuseIdentifier == OutgoingFileCell.CellId)
+			{
+				typebubble = MessageType.OutgoingFile;
+			}
+			
+			if (reuseIdentifier == IncomingFileCell.CellId || reuseIdentifier == OutgoingFileCell.CellId)
+			{
+				blnTieneArchivo = true;
+			}
+			else {
+				blnTieneArchivo = false;
 			}
 
 			Initialize();
@@ -82,28 +134,32 @@ namespace icom
 			{
 				TranslatesAutoresizingMaskIntoConstraints = false
 			};
-			MessageLabel = new UILabel				
-			{
-				TranslatesAutoresizingMaskIntoConstraints = false,
-				Lines = 0,
-				PreferredMaxLayoutWidth = 220f
-			};
+
 			UsuarioLabel = new UILabel
 			{
 				TranslatesAutoresizingMaskIntoConstraints = false
 			};
 
 
+				MessageLabel = new UILabel
+				{
+					TranslatesAutoresizingMaskIntoConstraints = false,
+					Lines = 0,
+					PreferredMaxLayoutWidth = 220f
+				};
 
 
 
-			if (typebubble == MessageType.Incoming)
+
+
+			if (typebubble == MessageType.IncomingFile || typebubble == MessageType.Incoming)
 			{
 				ContentView.AddSubviews(UsuarioLabel, BubbleImageView, MessageLabel);
 			}
-			else { 
+			else {
 				ContentView.AddSubviews(BubbleImageView, MessageLabel);
 			}
+
 		}
 
 		public override void SetSelected(bool selected, bool animated)
