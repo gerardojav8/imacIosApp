@@ -4,8 +4,6 @@
 <dict>
 	<key>CFBundleName</key>
 	<string>icom</string>
-	<key>CFBundleIdentifier</key>
-	<string>com.gjgvinc.icom</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

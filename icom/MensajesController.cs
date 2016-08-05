@@ -14,6 +14,8 @@ using System.Linq;
 using CoreGraphics;
 using CoreAnimation;
 using System.IO;
+using MobileCoreServices;
+using Quobject.SocketIoClientDotNet.Client;
 
 
 namespace icom
@@ -25,14 +27,35 @@ namespace icom
 		Boolean blntecladoarriba = false;
 		LoadingOverlay loadPop;
 		HttpClient client;
+		Socket socket;
 
 		public MensajesController() : base("MensajesController", null)
 		{
 		}
 
-		public  override void ViewDidLoad()
+		private void socketioinit() {
+			socket = IO.Socket(Consts.urlserverchat);
+
+			socket.On(Socket.EVENT_CONNECT, () =>
+			{
+				socket.Emit("hi");
+			});
+
+			socket.On("listenMessage", (data) =>
+			{
+				var json = JObject.Parse(data.ToString());
+				UIApplication.SharedApplication.InvokeOnMainThread(delegate {
+					agregaMensaje(json);		
+				});
+									
+			});
+
+		}
+
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			socketioinit();
 			messages = new List<Message>();
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
@@ -79,35 +102,27 @@ namespace icom
 
 				if (string.IsNullOrWhiteSpace(text))
 					return;
+				
+				Dictionary<string, string> datos = new Dictionary<string, string>();
+				datos.Add("idusuario", Consts.idusuarioapp);
+				datos.Add("mensaje", text);
+				datos.Add("fecha", "");
+				datos.Add("hora", "");
+				datos.Add("filename", "");
+				datos.Add("idmensaje", "");
+				datos.Add("nombre", Consts.nombreusuarioapp);
+				datos.Add("iniciales", Consts.inicialesusuarioapp);
 
-				DateTime dtahora = DateTime.Now;
+				var json = JsonConvert.SerializeObject(datos);
 
-				var msg = new Message
-				{
-					Type = MessageType.Outgoing,
-					Text = text.Trim(),
-					nombre = "",
-					iniciales = "",
-					fecha = dtahora.Year + "-" + dtahora.Month + "-" + dtahora.Day,
-					hora = dtahora.TimeOfDay.ToString(),
-					filename = "",
-					idmensaje = ""
-						
-				};
-
-
-				messages.Add(msg);
-
-				tblChat.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
-				ScrollToBottom(true);
+				socket.Emit("newMessage", json);
 
 				txtmensaje.EndEditing(true);
 
-
-
 			};
 
-			btnArchivo.TouchUpInside += delegate {
+			/*btnArchivo.TouchUpInside += delegate {
+				
 				String pathfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "primerplus.pdf");
 				var bytes = default(byte[]);
 				using (var streamReader = new StreamReader(pathfile)) {					
@@ -120,10 +135,118 @@ namespace icom
 				String strbase64 = Convert.ToBase64String(bytes);
 
 				Console.WriteLine(strbase64);
-			};
+			};*/
+
+			btnArchivo.TouchUpInside += abreDocumento;
 
 			ScrollToBottom(true);
 
+		}
+
+
+		void agregaMensaje(JObject json) {
+			
+			String mensaje = json["mensaje"].ToString();
+			String idusmensaje = json["idusuario"].ToString();
+			String strfecha = json["fecha"].ToString();
+			String strhora = json["hora"].ToString();
+			String strfilename = json["filename"].ToString();
+			String stridmensaje = json["idmensaje"].ToString();
+			String strnombre = json["nombre"].ToString();
+			String striniciales = json["iniciales"].ToString();
+
+			MessageType tipomensaje;
+
+			if (Consts.idusuarioapp.Equals(idusmensaje))
+			{
+				tipomensaje = MessageType.Outgoing;
+				strnombre = "";
+				striniciales = "";
+			}
+			else {
+				tipomensaje = MessageType.Incoming;
+			}
+
+			var msg = new Message
+			{
+				Type = tipomensaje,
+				Text = mensaje.Trim(),
+				nombre = strnombre,
+				iniciales = striniciales,
+				fecha = strfecha,
+				hora = strhora,
+				filename = strfilename,
+				idmensaje = stridmensaje
+
+			};
+
+
+			messages.Add(msg);
+
+
+			tblChat.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
+			ScrollToBottom(true);
+		}
+
+		void abreDocumento(object s, EventArgs e)
+		{
+			// Allow the Document picker to select a range of document types
+			var allowedUTIs = new string[] {
+					UTType.UTF8PlainText,
+					UTType.PlainText,
+					UTType.RTF,
+					UTType.PNG,
+					UTType.Text,
+					UTType.PDF,
+					UTType.Image
+				};
+
+			// Display the picker
+			//var picker = new UIDocumentPickerViewController (allowedUTIs, UIDocumentPickerMode.Open);
+			var pickerMenu = new UIDocumentMenuViewController(allowedUTIs, UIDocumentPickerMode.Open);
+			pickerMenu.DidPickDocumentPicker += (sender, args) =>
+			{
+
+					// Wireup Document Picker
+					args.DocumentPicker.DidPickDocument += (sndr, pArgs) =>
+				{
+
+						// IMPORTANT! You must lock the security scope before you can
+						// access this file
+						var securityEnabled = pArgs.Url.StartAccessingSecurityScopedResource();
+
+						// Open the document
+						funciones.MessageBox("Aviso", pArgs.Url.ToString());
+
+						// TODO: This should work but doesn't
+						// Apple's WWDC 2014 sample project does this but it blows
+						// up in Xamarin
+						NSFileCoordinator fileCoordinator = new NSFileCoordinator();
+					NSError err;
+					fileCoordinator.CoordinateRead(pArgs.Url, 0, out err, (NSUrl newUrl) =>
+					{
+						NSData data = NSData.FromUrl(newUrl);
+						Console.WriteLine("Data: {0}", data);
+					});
+
+						// IMPORTANT! You must release the security lock established
+						// above.
+						pArgs.Url.StopAccessingSecurityScopedResource();
+				};
+
+					// Display the document picker
+					PresentViewController(args.DocumentPicker, true, null);
+			};
+
+			pickerMenu.ModalPresentationStyle = UIModalPresentationStyle.Popover;
+			PresentViewController(pickerMenu, true, null);
+			UIPopoverPresentationController presentationPopover = pickerMenu.PopoverPresentationController;
+			if (presentationPopover != null)
+			{
+				presentationPopover.SourceView = this.View;
+				presentationPopover.PermittedArrowDirections = UIPopoverArrowDirection.Down;
+				presentationPopover.SourceRect = ((UIButton)s).Frame;
+			}
 		}
 
 		public async Task<Boolean> getAllMensajes()

@@ -24,7 +24,7 @@ namespace icom
 		public string strpass{ get; set; }
 
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -85,7 +85,7 @@ namespace icom
 
 
 
-			/*Boolean resp = await TraeUsuario();
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -93,7 +93,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}*/
+			}
 
 
 		}
@@ -160,6 +160,8 @@ namespace icom
 			string apematerno = jsonresponse["apematerno"].ToString();
 			lblUsuario.Text = nombre + " " + apepaterno + " " + apematerno;
 			Consts.idusuarioapp = jsonresponse["idusuario"].ToString();
+			Consts.nombreusuarioapp = nombre + " " + apepaterno + " " + apematerno;
+			Consts.inicialesusuarioapp = nombre.Substring(0, 1) + apepaterno.Substring(0, 1);
 
 			return true;
 		}
