@@ -10,6 +10,7 @@ using icom.globales;
 using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using Quobject.SocketIoClientDotNet.Client;
 
 namespace icom
 {
@@ -17,6 +18,7 @@ namespace icom
 	{
 		LoadingOverlay loadPop;
 		HttpClient client;
+		Socket socket;
 
 		public UIViewController viewagenda { get; set; }
 		public int idevento { get; set; }
@@ -31,14 +33,88 @@ namespace icom
 		double heightact = 0;
 
 
-
 		public DetalleAgendaController() : base("DetalleAgendaController", null)
 		{
+		}
+
+		private void socketioinit()
+		{
+			socket = IO.Socket(Consts.urlserverchat);
+
+			socket.On(Socket.EVENT_CONNECT, () =>
+			{
+				socket.Emit("hi");
+			});
+
+			socket.On("listenMessageEvento", (data) =>
+			{
+				var jsonlisten = JObject.Parse(data.ToString());
+				UIApplication.SharedApplication.InvokeOnMainThread(delegate
+				{
+					agregaMensaje(jsonlisten);
+				});
+
+			});
+
+
+
+		}
+
+		void agregaMensaje(JObject json)
+		{
+
+			String mensaje = json["mensaje"].ToString();
+			String idusmensaje = json["idusuario"].ToString();
+			String strfecha = json["fecha"].ToString();
+			String strhora = json["hora"].ToString();
+			String strfilename = "";
+			String stridmensaje = "";
+			String strnombre = json["nombre"].ToString();
+			String striniciales = json["iniciales"].ToString();
+
+			MessageType tipomensaje;
+
+			if (Consts.idusuarioapp.Equals(idusmensaje))
+			{
+				tipomensaje = MessageType.Outgoing;
+				strnombre = "";
+				striniciales = "";
+			}
+			else {
+				tipomensaje = MessageType.Incoming;
+			}
+
+			var msg = new Message
+			{
+				Type = tipomensaje,
+				Text = mensaje.Trim(),
+				nombre = strnombre,
+				iniciales = striniciales,
+				fecha = strfecha,
+				hora = strhora,
+				filename = strfilename,
+				idmensaje = stridmensaje
+
+			};
+
+
+			messages.Add(msg);
+
+
+			tblChatDetalleAgencia.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
+			ScrollToBottom(true);
 		}
 
 		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+
+			socketioinit();
+			Dictionary<string, string> datosmetegrupo = new Dictionary<string, string>();
+			datosmetegrupo.Add("idusuario", Consts.idusuarioapp);
+			datosmetegrupo.Add("idevento", idevento.ToString());
+			var jsonmetegrupo = JsonConvert.SerializeObject(datosmetegrupo);
+			socket.Emit("meteUsuarioaGrupo", jsonmetegrupo);
 
 			if (UIScreen.MainScreen.Bounds.Width == 414)
 			{
@@ -84,6 +160,8 @@ namespace icom
 			SetUpTableView();
 			*/
 
+
+
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
@@ -97,23 +175,23 @@ namespace icom
 
 				if (string.IsNullOrWhiteSpace(text))
 					return;
-				
-				DateTime dtahora = DateTime.Now;
 
-				var msg = new Message
-				{
-					Type = MessageType.Outgoing,
-					Text = text.Trim(),
-					nombre = "",
-					iniciales = "",
-					fecha = dtahora.Year + "-" + dtahora.Month + "-" + dtahora.Day,
-					hora = dtahora.TimeOfDay.ToString()
-				};
+				Dictionary<string, string> datos = new Dictionary<string, string>();
+				datos.Add("idusuario", Consts.idusuarioapp);
+				datos.Add("mensaje", text);
+				datos.Add("fecha", "");
+				datos.Add("hora", "");
+				datos.Add("nombre", Consts.nombreusuarioapp);
+				datos.Add("iniciales", Consts.inicialesusuarioapp);
+				datos.Add("idevento", idevento.ToString());
 
-				messages.Add(msg);
-				tblChatDetalleAgencia.InsertRows(new NSIndexPath[] { NSIndexPath.FromRowSection(messages.Count - 1, 0) }, UITableViewRowAnimation.None);
-				ScrollToBottom(true);
+				var json = JsonConvert.SerializeObject(datos);
+
+				socket.Emit("newMessageEvento", json);
+
 				txtChatDetalleAgencia.EndEditing(true);
+
+
 
 			};
 
@@ -132,6 +210,8 @@ namespace icom
 				((UITextField)txtUsuario).ResignFirstResponder();
 				return true;
 			};
+
+
 		}
 
 		public async Task<Boolean> getMessagesEvento()
