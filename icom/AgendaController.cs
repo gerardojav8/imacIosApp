@@ -28,13 +28,16 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
 
 			LstDatosAgenda = new List<clsAgenda>();
 			lstAgenda.Source = new FuenteTablaAgenda(this);
+
+
+
 
 			btnNuevoEvento.TouchUpInside += delegate {
 				NuevoEventoController viewne = new NuevoEventoController();
@@ -48,14 +51,14 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			Boolean resp = await getAgenda();
+			/*Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}
-			/*
+			}*/
+
 			clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
@@ -117,6 +120,23 @@ namespace icom
 			obj8.mes = 8;
 			obj8.comentario = "";
 
+
+			List<clsEventoAgenda> lste8 = new List<clsEventoAgenda>();
+			clsEventoAgenda e81 = new clsEventoAgenda();
+			e81.dia = 15;
+			e81.comentario = "Evento en agosto";
+			e81.lapso = "11:00 am - 12:00 pm";
+
+			clsEventoAgenda e82 = new clsEventoAgenda();
+			e82.dia = 25;
+			e82.comentario = "Segundo evento en agosto";
+			e82.lapso = "1:00 am - 2:00 pm";
+
+			lste8.Add(e81);
+			lste8.Add(e82);
+			obj8.lstEventos = lste8;
+
+
 			clsAgenda obj9 = new clsAgenda();
 			obj9.mes = 9;
 			obj9.comentario = "";
@@ -144,10 +164,31 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);*/
+			LstDatosAgenda.Add(obj12);
 
 
-			
+			NSIndexPath myindex = NSIndexPath.FromItemSection(7, 0);
+
+			lstAgenda.Source.RowSelected(lstAgenda, myindex);
+
+			var poss = UITableViewScrollPosition.Middle;
+			lstAgenda.ScrollToRow(myindex, poss, true);
+
+
+		}
+
+		public async void recargarListadoAgenda()
+		{
+
+			LstDatosAgenda = new List<clsAgenda>();
+
+			Boolean resp = await getAgenda();
+
+			if (resp)
+			{
+				loadPop.Hide();
+				lstAgenda.ReloadData();
+			}
 
 		}
 
@@ -239,6 +280,7 @@ namespace icom
 				jrarray = jsoneventos;
 			}
 			catch (Exception e){
+				Console.WriteLine(e.ToString());
 				jrarray = null;
 			}
 
@@ -340,7 +382,6 @@ namespace icom
 
 					tableView.DeselectRow(indexPath, true);
 					return;
-					//funciones.MessageBox("Aviso", "Click en evento");
 				}
 
 			}

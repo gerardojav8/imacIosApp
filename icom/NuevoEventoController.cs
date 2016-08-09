@@ -39,6 +39,8 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
+			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
 			if (UIScreen.MainScreen.Bounds.Width == 414)
 			{
@@ -88,6 +90,12 @@ namespace icom
 
 
 			txtTitulo.ShouldReturn += (txtUsuario) =>
+			{
+				((UITextField)txtUsuario).ResignFirstResponder();
+				return true;
+			};
+
+			txtAsistentes.ShouldReturn += (txtUsuario) =>
 			{
 				((UITextField)txtUsuario).ResignFirstResponder();
 				return true;
@@ -153,6 +161,17 @@ namespace icom
 				return;
 			}
 
+			DateTime dtfechaini = DateTime.Parse(txtfechaevento.Text + " " + txthorainicio.Text);
+			DateTime dtfechafin = DateTime.Parse(txtFechaFin.Text + " " + txtHoraFin.Text);
+
+			int respcomp = DateTime.Compare(dtfechafin, dtfechaini);
+
+			if (respcomp < 0)
+			{
+				funciones.MessageBox("Error", "la fecha de fin del evento debe de ser mayor o igual a la fecha de inicio del evento");
+				return;
+			}
+
 			if (lstidasistentes.Count <= 0) { 
 				funciones.MessageBox("Error", "Debe de agregar al menos a un asistente");
 				return;
@@ -161,6 +180,7 @@ namespace icom
 			Boolean resp = await saveEve();
 
 			if (resp) { 				
+				((AgendaController)viewagenda).recargarListadoAgenda();
 				this.NavigationController.PopToViewController(viewagenda, true);
 			}
 		}
@@ -205,9 +225,20 @@ namespace icom
 			List<Dictionary<String, String>> lstasis = new List<Dictionary<string, string>>();
 
 			foreach (int id in lstidasistentes) {
+
+				if (existeUsuarioenLista(id, lstasis))
+					continue;
+				
 				Dictionary<String, String> asis = new Dictionary<string, string>();
 				asis.Add("idusuario", id.ToString());
 				lstasis.Add(asis);
+			}
+
+			if (!existeUsuarioenLista(Int32.Parse(Consts.idusuarioapp), lstasis))
+			{
+				Dictionary<String, String> asisusuarioap = new Dictionary<string, string>();
+				asisusuarioap.Add("idusuario", Consts.idusuarioapp);
+				lstasis.Add(asisusuarioap);
 			}
 
 			objev.asistentes = lstasis;
@@ -267,6 +298,17 @@ namespace icom
 			funciones.MessageBox("Aviso", "Se ha guardado el evento!!");
 			return true;
 
+		}
+
+		public Boolean existeUsuarioenLista(int idus, List<Dictionary<String, String>> lstasis)
+		{
+
+			foreach (Dictionary<String, String> asis in lstasis) {
+				if (asis["idusuario"].Equals(idus.ToString())) {
+					return true;
+				}
+			}
+			return false;			
 		}
 
 		async void buscaUsuarios(object sender, EventArgs e)
@@ -485,6 +527,65 @@ namespace icom
 			};
 
 			await PresentViewControllerAsync(modalPicker, true);
+		}
+
+		double ajuste = 7;
+		Boolean blntecladoarriba = false;
+
+		private void TecladoArriba(NSNotification notif)
+		{
+
+			if (txtComentario.IsFirstResponder)
+			{
+				var r = UIKeyboard.FrameBeginFromNotification(notif);
+
+				var keyboardHeight = r.Height;
+				if (!blntecladoarriba)
+				{
+					var desface = (View.Frame.Y - keyboardHeight) + ajuste;
+					CGRect newrect = new CGRect(View.Frame.X,
+												desface,
+												View.Frame.Width,
+												View.Frame.Height);
+
+					View.Frame = newrect;
+					blntecladoarriba = true;
+				}
+				else {
+					var rr = UIKeyboard.FrameEndFromNotification(notif);
+					var hact = View.Frame.Y * -1;
+					var hnew = rr.Height;
+					var dif = hact - hnew;
+					var desface = (View.Frame.Y + dif) + ajuste;
+					CGRect newrect = new CGRect(View.Frame.X,
+												desface,
+												View.Frame.Width,
+												View.Frame.Height);
+
+					View.Frame = newrect;
+
+
+				}
+			}
+
+		}
+
+		private void TecladoAbajo(NSNotification notif)
+		{
+			if (blntecladoarriba)
+			{
+				var r = UIKeyboard.FrameBeginFromNotification(notif);
+				var keyboardHeight = r.Height;
+				var desface = View.Frame.Y + keyboardHeight - ajuste;
+				CGRect newrect = new CGRect(View.Frame.X,
+											desface,
+											View.Frame.Width,
+											View.Frame.Height);
+
+				View.Frame = newrect;
+				blntecladoarriba = false;
+			}
+
 		}
 
 	}
