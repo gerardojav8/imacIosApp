@@ -260,6 +260,7 @@
     <Compile Include="globales\chat\IncomingFileCell.designer.cs">
       <DependentUpon>IncomingFileCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="globales\App.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -279,6 +280,37 @@
     <Content Include="Resources\folder.png" />
     <Content Include="Resources\bubble_regular.png" />
     <Content Include="Resources\more.png" />
+    <Content Include="Resources\calendario\schedule_1.png" />
+    <Content Include="Resources\calendario\schedule_10.png" />
+    <Content Include="Resources\calendario\schedule_11.png" />
+    <Content Include="Resources\calendario\schedule_2.png" />
+    <Content Include="Resources\calendario\schedule_12.png" />
+    <Content Include="Resources\calendario\schedule_13.png" />
+    <Content Include="Resources\calendario\schedule_14.png" />
+    <Content Include="Resources\calendario\schedule_15.png" />
+    <Content Include="Resources\calendario\schedule_16.png" />
+    <Content Include="Resources\calendario\schedule_17.png" />
+    <Content Include="Resources\calendario\schedule_18.png" />
+    <Content Include="Resources\calendario\schedule_19.png" />
+    <Content Include="Resources\calendario\schedule_20.png" />
+    <Content Include="Resources\calendario\schedule_21.png" />
+    <Content Include="Resources\calendario\schedule_22.png" />
+    <Content Include="Resources\calendario\schedule_23.png" />
+    <Content Include="Resources\calendario\schedule_24.png" />
+    <Content Include="Resources\calendario\schedule_25.png" />
+    <Content Include="Resources\calendario\schedule_26.png" />
+    <Content Include="Resources\calendario\schedule_27.png" />
+    <Content Include="Resources\calendario\schedule_28.png" />
+    <Content Include="Resources\calendario\schedule_29.png" />
+    <Content Include="Resources\calendario\schedule_3.png" />
+    <Content Include="Resources\calendario\schedule_4.png" />
+    <Content Include="Resources\calendario\schedule_5.png" />
+    <Content Include="Resources\calendario\schedule_6.png" />
+    <Content Include="Resources\calendario\schedule_7.png" />
+    <Content Include="Resources\calendario\schedule_8.png" />
+    <Content Include="Resources\calendario\schedule_9.png" />
+    <Content Include="Resources\calendario\schedule_30.png" />
+    <Content Include="Resources\calendario\schedule_31.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
@@ -297,6 +329,7 @@
     <Folder Include="Resources\Images.xcassets\BubbleIncoming.imageset\" />
     <Folder Include="Resources\Images.xcassets\BubbleOutgoing.imageset\" />
     <Folder Include="globales\chat\" />
+    <Folder Include="Resources\calendario\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\down.png" />

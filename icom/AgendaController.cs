@@ -28,7 +28,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,15 +51,15 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			/*Boolean resp = await getAgenda();
+			Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}*/
+			}
 
-			clsAgenda obj1 = new clsAgenda();
+			/*clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
 
@@ -164,10 +164,11 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);
+			LstDatosAgenda.Add(obj12);*/
 
-
-			NSIndexPath myindex = NSIndexPath.FromItemSection(7, 0);
+			DateTime dthoy = DateTime.Now;
+			int mesact = dthoy.Month - 1;
+			NSIndexPath myindex = NSIndexPath.FromItemSection(mesact, 0);
 
 			lstAgenda.Source.RowSelected(lstAgenda, myindex);
 
@@ -202,7 +203,11 @@ namespace icom
 			string url = Consts.ulrserv + "controldeobras/getListadoAgenda";
 			var uri = new Uri(string.Format(url));
 
-			var content = new StringContent("", Encoding.UTF8, "application/json");
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("idusuario", Consts.idusuarioapp);
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
 			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
 
 			HttpResponseMessage response = null;
@@ -441,12 +446,13 @@ namespace icom
 
 				clsAgenda objagenda = icom.AgendaController.LstDatosAgenda.ElementAt(currentExpandedIndex);
 
-				UIImage imgFecha = UIImage.FromFile("fechaicon.png");
+
 
 				clsEventoAgenda objev = objagenda.lstEventos.ElementAt(indicesubarreglo);
 				String strComentario = objev.comentario;
 				String strLapso = objev.lapso;
 
+				UIImage imgFecha = UIImage.FromFile("calendario/schedule_"+ objev.dia +".png");
 				cell.UpdateCell(strComentario, strLapso, imgFecha);
 
 

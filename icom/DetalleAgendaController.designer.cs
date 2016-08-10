@@ -25,6 +25,9 @@ namespace icom
 		UIKit.UIView ContentDetalleAgencia { get; set; }
 
 		[Outlet]
+		UIKit.UIImageView imgFecha { get; set; }
+
+		[Outlet]
 		UIKit.UILabel lblComentario { get; set; }
 
 		[Outlet]
@@ -44,9 +47,9 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (viewBarraChat != null) {
-				viewBarraChat.Dispose ();
-				viewBarraChat = null;
+			if (imgFecha != null) {
+				imgFecha.Dispose ();
+				imgFecha = null;
 			}
 
 			if (btnAgregarCalendario != null) {
@@ -92,6 +95,11 @@ namespace icom
 			if (txtChatDetalleAgencia != null) {
 				txtChatDetalleAgencia.Dispose ();
 				txtChatDetalleAgencia = null;
+			}
+
+			if (viewBarraChat != null) {
+				viewBarraChat.Dispose ();
+				viewBarraChat = null;
 			}
 		}
 	}

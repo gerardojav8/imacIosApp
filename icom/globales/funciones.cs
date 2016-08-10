@@ -1,5 +1,6 @@
 ﻿using System;
 using UIKit;
+using Foundation;
 
 namespace icom
 {
@@ -51,6 +52,14 @@ namespace icom
 				case 12: return UIColor.FromRGB(255, 149, 151);
 				default: return UIColor.FromRGB(82, 121, 174);
 			}
+		}
+
+		public static NSDate ConvertDateTimeToNSDate(DateTime date)
+		{
+			DateTime newDate = TimeZone.CurrentTimeZone.ToLocalTime(
+				new DateTime(2001, 1, 1, 0, 0, 0));
+			return NSDate.FromTimeIntervalSinceReferenceDate(
+				(date - newDate).TotalSeconds);
 		}
 	}
 }

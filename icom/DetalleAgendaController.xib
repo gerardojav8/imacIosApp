@@ -11,6 +11,7 @@
                 <outlet property="btnAgregarCalendario" destination="xuR-6p-xUr" id="pN5-LG-J4r"/>
                 <outlet property="btnEnviar" destination="0UR-p1-2o9" id="cRV-u3-290"/>
                 <outlet property="btnUsuarios" destination="vih-aY-Dld" id="Dkc-YX-58D"/>
+                <outlet property="imgFecha" destination="3Op-Np-Mxh" id="2Ue-Xj-Itk"/>
                 <outlet property="lblComentario" destination="bM7-LP-m4o" id="jqp-eN-N7c"/>
                 <outlet property="lblLapso" destination="2Xc-26-jNL" id="34P-aG-Sc9"/>
                 <outlet property="scrDetalleAgencia" destination="pnt-fV-cRb" id="yIh-T4-9Xl"/>
@@ -58,9 +59,6 @@
                                     <color key="shadowColor" red="0.14442154930000001" green="0.19305678870000001" blue="0.39097267670000002" alpha="0.92109929079999997" colorSpace="calibratedRGB"/>
                                     <size key="shadowOffset" width="2" height="1"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fechaicon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Op-Np-Mxh">
-                                    <rect key="frame" x="104" y="58" width="112" height="114"/>
-                                </imageView>
                                 <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="AyL-3M-0jr">
                                     <rect key="frame" x="0.0" y="420" width="320" height="356"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -98,6 +96,9 @@
                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="fechaicon.png" translatesAutoresizingMaskIntoConstraints="NO" id="3Op-Np-Mxh">
+                                    <rect key="frame" x="104" y="58" width="112" height="114"/>
+                                </imageView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>

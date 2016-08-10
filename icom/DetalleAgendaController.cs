@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Linq;
 using Quobject.SocketIoClientDotNet.Client;
+using EventKit;
+
 
 namespace icom
 {
@@ -31,6 +33,11 @@ namespace icom
 		UIActionSheet actUsuarios;
 		Boolean blnTecladoArriba = false;
 		double heightact = 0;
+
+		DateTime fechainicio;
+		DateTime fechafin;
+		String notas;
+		String titulo;
 
 
 		public DetalleAgendaController() : base("DetalleAgendaController", null)
@@ -136,7 +143,11 @@ namespace icom
 				lblComentario.Text = objde.titulo;
 				lblLapso.Text = objde.lapso;
 				lstusuarios = objde.usuarios;
+				imgFecha.Image = UIImage.FromFile("calendario/schedule_" + objde.dia + ".png");
+				notas = objde.comentario;
+				titulo = objde.titulo;
 				inicializaCombos();
+				loadPop.Hide();
 			}
 
 			messages = new List<Message>();
@@ -211,7 +222,73 @@ namespace icom
 				return true;
 			};
 
+			btnAgregarCalendario.TouchUpInside += delegate {
 
+				App.Current.EventStore.RequestAccess(EKEntityType.Event, (bool granted, NSError err) =>
+				{
+					if (granted) {
+
+						UIApplication.SharedApplication.InvokeOnMainThread(delegate
+						{
+							agregaEventoaCalendario();
+						});
+
+					} else {
+						UIApplication.SharedApplication.InvokeOnMainThread(delegate
+						{
+							funciones.MessageBox("Permiso denegado", "No se ha concedido permiso para agregar el evento");
+						});
+					}
+						
+				});
+
+			};
+
+
+		}
+
+		private void agregaEventoaCalendario() { 
+
+
+			NSPredicate query = App.Current.EventStore.PredicateForEvents(funciones.ConvertDateTimeToNSDate(fechainicio), funciones.ConvertDateTimeToNSDate(fechafin), null);
+			EKCalendarItem[] events = App.Current.EventStore.EventsMatching(query);
+
+			if (events != null)
+			{
+				foreach (EKCalendarItem ev in events)
+				{
+					if (ev.Title.Equals(titulo))
+					{
+						funciones.MessageBox("Error", "Ya tiene un evento con este titulo y a esa hora en su calendario");
+						return;
+					}
+				}
+			}
+
+
+			EKEvent newEvent = EKEvent.FromStore(App.Current.EventStore);
+
+			// set the alarm for 10 minutes from now
+			DateTime fechaalarma = fechainicio.AddMinutes(-10);
+			newEvent.AddAlarm(EKAlarm.FromDate(funciones.ConvertDateTimeToNSDate(fechaalarma)));
+			// make the event start 20 minutes from now and last 30 minutes
+			newEvent.StartDate = funciones.ConvertDateTimeToNSDate(fechainicio);
+			newEvent.EndDate = funciones.ConvertDateTimeToNSDate(fechafin);
+			newEvent.Title = titulo;
+			newEvent.Notes = notas;
+			newEvent.Calendar = App.Current.EventStore.DefaultCalendarForNewEvents;
+
+			NSError e;
+			App.Current.EventStore.SaveEvent(newEvent, EKSpan.ThisEvent, out e);
+
+			if (e != null)
+			{
+				funciones.MessageBox("Error al guardar el evento", e.ToString());
+				return;
+			}
+			else {
+				funciones.MessageBox("Evento guardado", "Se ha guardado el evento en tu calendario!!");
+			}
 		}
 
 		public async Task<Boolean> getMessagesEvento()
@@ -274,7 +351,9 @@ namespace icom
 					mensaje = jtokenerror.ToString();
 				}
 
-				funciones.MessageBox("Error", mensaje);
+				if(!mensaje.Equals("No se han Encontrado Mensajes"))
+					funciones.MessageBox("Error", mensaje);
+
 				return false;
 			}
 
@@ -318,7 +397,9 @@ namespace icom
 
 		public async Task<clsDetalleEventoAgenda> getDetalleEventoAgenda()
 		{
-
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Datos ...");
+			View.Add(loadPop);
 
 			client = new HttpClient();
 			string url = Consts.ulrserv + "controldeobras/getEventoAgenda";
@@ -377,6 +458,19 @@ namespace icom
 			objde.titulo = jsonresponse["titulo"].ToString();
 			objde.comentario = jsonresponse["comentario"].ToString();
 			objde.lapso = jsonresponse["lapso"].ToString();
+
+			String strfechaini = jsonresponse["fechaini"].ToString();
+			String strfechafin = jsonresponse["fechafin"].ToString();
+			String strhoraini = jsonresponse["horaini"].ToString();
+			String strhorafin = jsonresponse["horafin"].ToString();
+
+			String patron = "yyyy-MM-dd HH:mm:ss";
+		
+
+			DateTime.TryParseExact(strfechaini + " " + strhoraini, patron, null, System.Globalization.DateTimeStyles.None, out fechainicio);
+			DateTime.TryParseExact(strfechafin + " " + strhorafin, patron, null, System.Globalization.DateTimeStyles.None, out fechafin);
+
+
 
 			JArray jarrAsistentes = JArray.Parse(jsonresponse["usuarios"].ToString());
 			List<String> lstAsistentes = new List<String>();
