@@ -52,7 +52,7 @@ namespace icom
 
 		}
 
-		public async override void ViewDidLoad()
+		public  override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			socketioinit();
@@ -60,20 +60,15 @@ namespace icom
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
 
-			Boolean resp = await getAllMensajes();
+			/*Boolean resp = await getAllMensajes();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChat.ReloadData();
-			}
+			}*/
 
-			/*messages = new List<Message>() {
-				new Message { Type = MessageType.IncomingFile, Text = "Hola", nombre = "Manuel Gamez", iniciales = "MG", fecha = "2012-01-01",hora = "12:00:00", filename="test.pdf", idmensaje="5" },
-				new Message { Type = MessageType.Outgoing, Text = "Que onda", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00", filename="", idmensaje="" },
-				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba", nombre = "Manuel Gamez", iniciales = "MG" , fecha = "2012-01-01",hora = "12:00:00", filename="", idmensaje="" },
-				new Message { Type = MessageType.OutgoingFile, Text = "si si", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00" , filename="test.pdf", idmensaje="5" }
-			};*/
+			messages = new List<Message>();
 
 			SetUpTableView();
 

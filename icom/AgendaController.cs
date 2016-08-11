@@ -28,7 +28,7 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,26 +51,28 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			Boolean resp = await getAgenda();
+			/*Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}
+			}*/
 
-			/*clsAgenda obj1 = new clsAgenda();
+			clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
 
 			List<clsEventoAgenda> lste1 = new List<clsEventoAgenda>();
 
 			clsEventoAgenda e11 = new clsEventoAgenda();
+			e11.idevento = 1;
 			e11.dia = 15;
 			e11.comentario = "Reunion supervision";
 			e11.lapso = "11:00 am - 12:00 pm";
 
 			clsEventoAgenda e12 = new clsEventoAgenda();
+			e12.idevento = 2;
 			e12.dia = 25;
 			e12.comentario = "Junta planeacion";
 			e12.lapso = "1:00 am - 2:00 pm";
@@ -89,6 +91,7 @@ namespace icom
 			List<clsEventoAgenda> lste2 = new List<clsEventoAgenda>();
 
 			clsEventoAgenda e21 = new clsEventoAgenda();
+			e21.idevento = 3;
 			e21.dia = 17;
 			e21.comentario = "Reunion supervision";
 			e21.lapso = "11:00 am - 12:00 pm";
@@ -123,11 +126,13 @@ namespace icom
 
 			List<clsEventoAgenda> lste8 = new List<clsEventoAgenda>();
 			clsEventoAgenda e81 = new clsEventoAgenda();
+			e81.idevento = 4;
 			e81.dia = 15;
 			e81.comentario = "Evento en agosto";
 			e81.lapso = "11:00 am - 12:00 pm";
 
 			clsEventoAgenda e82 = new clsEventoAgenda();
+			e82.idevento = 5;
 			e82.dia = 25;
 			e82.comentario = "Segundo evento en agosto";
 			e82.lapso = "1:00 am - 2:00 pm";
@@ -164,7 +169,7 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);*/
+			LstDatosAgenda.Add(obj12);
 
 			DateTime dthoy = DateTime.Now;
 			int mesact = dthoy.Month - 1;

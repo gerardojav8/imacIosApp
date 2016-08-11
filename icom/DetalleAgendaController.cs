@@ -112,7 +112,7 @@ namespace icom
 			ScrollToBottom(true);
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -136,7 +136,7 @@ namespace icom
 			lstusuarios = new List<String>();
 
 
-			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
+			/*clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
 			if (objde != null)
 			{
 
@@ -148,29 +148,34 @@ namespace icom
 				titulo = objde.titulo;
 				inicializaCombos();
 				loadPop.Hide();
-			}
+			}*/
 
-			messages = new List<Message>();
-			Boolean resp = await getMessagesEvento();
+			lblComentario.Text = "Test de titulo";
+			lblLapso.Text = "2016-01-01 12:00:00 a 2016-01-01 12:00:00";
+			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechainicio);
+			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechafin);
+			lstusuarios.Add("Gerardo Javier Gamez Vazquez");
+			lstusuarios.Add("Fermin Mojica Araujo");
+			imgFecha.Image = UIImage.FromFile("calendario/schedule_7.png");
+			notas = "Evento prueba";
+			titulo = "Test de titulo";
+			inicializaCombos();
+
+
 			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChatDetalleAgencia.Layer.BorderWidth = (nfloat)2.0;
+
+			messages = new List<Message>();
+
+			/*Boolean resp = await getMessagesEvento();
+
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChatDetalleAgencia.ReloadData();
-			}
+			}*/
 
 			SetUpTableView();
-
-			/*messages = new List<Message>() {
-				new Message { Type = MessageType.Incoming, Text = "Hola", nombre = "Manuel Gamez", iniciales = "MG", fecha = "2012-01-01",hora = "12:00:00" },
-				new Message { Type = MessageType.Outgoing, Text = "Que onda", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00" },
-				new Message { Type = MessageType.Incoming, Text = "Mensaje de prueba", nombre = "Manuel Gamez", iniciales = "MG" , fecha = "2012-01-01",hora = "12:00:00" },
-				new Message { Type = MessageType.Outgoing, Text = "si si", nombre = "", iniciales= "", fecha = "2012-01-01",hora = "12:00:00"  }
-			};
-			SetUpTableView();
-			*/
-
 
 
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
@@ -208,11 +213,6 @@ namespace icom
 
 			ScrollToBottom(true);
 
-
-			/*
-			lstusuarios.Add("Gerardo Javier Gamez Vazquez");
-			lstusuarios.Add("Fermin Mojica Araujo");
-			*/
 
 
 

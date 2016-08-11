@@ -24,7 +24,7 @@ namespace icom
 		public string strpass{ get; set; }
 
 
-		public async override void ViewDidLoad ()
+		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -83,9 +83,31 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			};
 
+			if (strusuario.ToLower().Equals("fermin"))
+			{
+				Consts.idusuarioapp = "1";
+				Consts.nombreusuarioapp = "Fermin Mojica Araujo";
+				Consts.inicialesusuarioapp = "FM";
+			}
+			else if (strusuario.ToLower().Equals("evelyne")) { 
+				Consts.idusuarioapp = "2";
+				Consts.nombreusuarioapp = "Evelyne";
+				Consts.inicialesusuarioapp = "E";
+			}else if (strusuario.ToLower().Equals("enith"))
+			{
+				Consts.idusuarioapp = "3";
+				Consts.nombreusuarioapp = "Enith";
+				Consts.inicialesusuarioapp = "EN";
+			}else
+			{
+				Consts.idusuarioapp = "4";
+				Consts.nombreusuarioapp = "Gerardo Javier Gamez Vazquez";
+				Consts.inicialesusuarioapp = "GG";
+			}
 
 
-			Boolean resp = await TraeUsuario();
+
+			/*Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -93,7 +115,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}
+			}*/
 
 
 		}
