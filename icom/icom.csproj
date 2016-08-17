@@ -127,6 +127,7 @@
     <InterfaceDefinition Include="DetalleAgendaController.xib" />
     <InterfaceDefinition Include="PlanificadorController.xib" />
     <InterfaceDefinition Include="NuevoEventoController.xib" />
+    <InterfaceDefinition Include="PreviewDocsController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -261,6 +262,10 @@
       <DependentUpon>IncomingFileCell.cs</DependentUpon>
     </Compile>
     <Compile Include="globales\App.cs" />
+    <Compile Include="PreviewDocsController.cs" />
+    <Compile Include="PreviewDocsController.designer.cs">
+      <DependentUpon>PreviewDocsController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

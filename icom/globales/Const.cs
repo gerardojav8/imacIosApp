@@ -3,7 +3,7 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string ipserv = "192.168.0.57";
+		public static readonly string ipserv = "192.168.0.18";
 		public static readonly string ipservchat = "icom-chat-server-jav85861.c9users.io";
 		public static readonly string puertochat = "";
 

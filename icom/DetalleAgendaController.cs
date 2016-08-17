@@ -581,7 +581,7 @@ namespace icom
 			tblChatDetalleAgencia.RegisterClassForCellReuse(typeof(IncomingCell), IncomingCell.CellId);
 			tblChatDetalleAgencia.RegisterClassForCellReuse(typeof(OutgoingCell), OutgoingCell.CellId);
 
-			chatSource = new ChatSource(messages);
+			chatSource = new ChatSource(messages, this);
 			tblChatDetalleAgencia.Source = chatSource;
 		}
 

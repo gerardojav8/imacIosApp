@@ -2,6 +2,16 @@
 using UIKit;
 using CoreGraphics;
 using Foundation;
+using System.Threading.Tasks;
+using icom.globales;
+using System.Net.Http;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Text;
+using QuickLook;
+using System.IO;
+
 namespace icom
 {
 	public abstract class BubbleCell : UITableViewCell
@@ -11,8 +21,15 @@ namespace icom
 		public UILabel UsuarioLabel { get; private set; }
 		public UIImage BubbleImage { get; set; }
 		public UIImage BubbleHighlightedImage { get; set; }
+		public UIViewController vcpadre { get; set; }
 		private bool blnTieneArchivo;
 		private MessageType typebubble;
+		LoadingOverlay loadPop;
+		HttpClient client;
+		String base64file;
+		String filename;
+
+
 		Message msg;
 
 		public Message Message
@@ -52,7 +69,9 @@ namespace icom
 
 					UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>
 					{
-						funciones.MessageBox("Aviso", "idmensaje: " + msg.idmensaje);
+						traeArchivo(Int32.Parse(msg.idmensaje));
+						//funciones.MessageBox("Aviso", "idmensaje: " + msg.idmensaje);
+
 					});
 					MessageLabel.AddGestureRecognizer(tgrLabel);
 
@@ -84,6 +103,128 @@ namespace icom
 
 				BubbleImageView.UserInteractionEnabled = false;
 			}
+
+
+
+		}
+
+		async void traeArchivo(int id) {
+
+
+			
+			Boolean resp = await getArchivoMensaje(id);
+			if (resp)
+			{
+				loadPop.Hide();
+				char[] delimitantes = { '.' };
+				string[] separacion = filename.Split(delimitantes);
+
+				string nombrearchivo = "";
+				string extensionarchivo = "";
+
+				for (int i = 0; i < separacion.Length; i++)
+				{
+					if (i == separacion.Length - 1)
+					{
+						extensionarchivo = separacion[i];
+					}
+					else {
+						if (i > 0)
+						{
+							nombrearchivo = "."+ separacion[i];
+						}else{
+							nombrearchivo = separacion[i];
+						}
+					}
+				}
+
+				string nombretemp = "archivotemp." + extensionarchivo;
+
+				String pathtemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nombretemp);
+				if (File.Exists(pathtemp))
+				{
+					File.Delete(pathtemp);
+				}
+
+				//Convertir en archivo y guardar
+				Byte[] bytesfile = Convert.FromBase64String(base64file);
+				File.WriteAllBytes(pathtemp, bytesfile);
+
+				PreviewDocsController previewDocs = new PreviewDocsController();
+				previewDocs.tituloDocumento = nombrearchivo + "." + extensionarchivo;
+				previewDocs.urlDocumento = pathtemp;
+				vcpadre.NavigationController.PushViewController(previewDocs, true);
+			}
+
+
+		}
+
+		async Task<Boolean> getArchivoMensaje(int idmensajearchivo)
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Obteniendo Archivo ...");
+			vcpadre.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/getArchivodeMensaje";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<String, String> objpet = new Dictionary<string, string>();
+			objpet.Add("idmensaje", idmensajearchivo.ToString());
+			var json = JsonConvert.SerializeObject(objpet);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			base64file = jsonresponse["archivo"].ToString();
+			filename = jsonresponse["nombre"].ToString();
+			return true;
 		}
 
 		public BubbleCell(IntPtr handle)
@@ -124,6 +265,7 @@ namespace icom
 			else {
 				blnTieneArchivo = false;
 			}
+
 
 			Initialize();
 		}

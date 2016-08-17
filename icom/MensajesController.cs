@@ -16,6 +16,7 @@ using CoreAnimation;
 using System.IO;
 using MobileCoreServices;
 using Quobject.SocketIoClientDotNet.Client;
+using QuickLook;
 
 
 namespace icom
@@ -70,6 +71,18 @@ namespace icom
 
 			messages = new List<Message>();
 
+			messages.Add(new Message
+			{
+				Type = MessageType.IncomingFile,
+				Text = "prueba de archivo",
+				nombre = "Gerardo Javier Gamez Vazquez",
+				iniciales = "GG",
+				fecha = "2012-01-01",
+				hora = " 12:00:00",
+				filename = "primeraplus.pdf",
+				idmensaje = "10026" 
+			});
+
 			SetUpTableView();
 
 
@@ -116,25 +129,52 @@ namespace icom
 
 			};
 
-			/*btnArchivo.TouchUpInside += delegate {
-				
-				String pathfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "primerplus.pdf");
-				var bytes = default(byte[]);
-				using (var streamReader = new StreamReader(pathfile)) {					
-					using (var memstream = new MemoryStream()) {
-						streamReader.BaseStream.CopyTo(memstream);
-						bytes = memstream.ToArray();
-					}
-				}
-
-				String strbase64 = Convert.ToBase64String(bytes);
-
-				Console.WriteLine(strbase64);
-			};*/
-
-			btnArchivo.TouchUpInside += abreDocumento;
+			btnArchivo.TouchUpInside += mandaArchivoaServer;
+			//btnArchivo.TouchUpInside += abreDocumento;
+		
 
 			ScrollToBottom(true);
+
+		}
+
+
+		async void mandaArchivoaServer(object sender, EventArgs e)
+		{
+			String namefile = "uno.xlsx";
+			String pathfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), namefile);
+			var bytes = default(byte[]);
+			using (var streamReader = new StreamReader(pathfile))
+			{
+				using (var memstream = new MemoryStream())
+				{
+					streamReader.BaseStream.CopyTo(memstream);
+					bytes = memstream.ToArray();
+				}
+			}
+
+			String strbase64 = Convert.ToBase64String(bytes);
+
+			int intidmensaje = await guardaMensajeArchivo(strbase64, namefile, txtmensaje.Text);
+			if (intidmensaje > -1)
+			{
+				loadPop.Hide();
+				Dictionary<string, string> datos = new Dictionary<string, string>();
+				datos.Add("idusuario", Consts.idusuarioapp);
+				datos.Add("mensaje", txtmensaje.Text);
+				datos.Add("fecha", "");
+				datos.Add("hora", "");
+				datos.Add("filename", namefile);
+				datos.Add("idmensaje", intidmensaje.ToString());
+				datos.Add("nombre", Consts.nombreusuarioapp);
+				datos.Add("iniciales", Consts.inicialesusuarioapp);
+
+				var json = JsonConvert.SerializeObject(datos);
+
+				socket.Emit("newMessage", json);
+
+				txtmensaje.Text = string.Empty;
+				txtmensaje.EndEditing(true);
+			}
 
 		}
 
@@ -317,6 +357,76 @@ namespace icom
 			return true;
 		}
 
+		public async Task<int> guardaMensajeArchivo(String strarchivo, String strnombre, String strMensaje)
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Archivo ...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "controldeobras/guardaMensajeconArchivo";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<String, String> objpet = new Dictionary<string, string>();
+			objpet.Add("archivo", strarchivo);
+			objpet.Add("mensaje", strMensaje);
+			objpet.Add("idusuario", Consts.idusuarioapp);
+			objpet.Add("nombre", strnombre);
+			var json = JsonConvert.SerializeObject(objpet);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return -1;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return -1;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);
+
+			var jtokenerror = jsonresponse["error_description"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			jtokenerror = jsonresponse["error"];
+
+
+			if (jtokenerror != null)
+			{
+				loadPop.Hide();
+				string error = jtokenerror.ToString();
+				funciones.MessageBox("Error", error);
+				return -1;
+			}
+
+			int idmensaje = Int32.Parse(jsonresponse["idmensaje"].ToString());
+			return idmensaje;
+		}
+
 		private Message getobjMensaje(Object varjson) {
 
 			Message objm = new Message();
@@ -380,7 +490,7 @@ namespace icom
 			tblChat.RegisterClassForCellReuse(typeof(IncomingFileCell), IncomingFileCell.CellId);
 			tblChat.RegisterClassForCellReuse(typeof(OutgoingFileCell), OutgoingFileCell.CellId);
 
-			chatSource = new ChatSource(messages);
+			chatSource = new ChatSource(messages, this);
 			tblChat.Source = chatSource;
 		}
 

@@ -10,6 +10,8 @@ using icom.globales;
 using CoreAnimation;
 using Foundation;
 using CoreGraphics;
+using QuickLook;
+
 
 namespace icom
 {
@@ -30,9 +32,9 @@ namespace icom
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
 
-			//btnLogin.TouchUpInside += loginboton;
+			btnLogin.TouchUpInside += loginboton;
 
-			btnLogin.TouchUpInside += delegate {
+			/*btnLogin.TouchUpInside += delegate {
 				Principal viewprin = new Principal();
 				viewprin.strusuario = txtUsuario.Text;
 				viewprin.strpass = txtPass.Text;
@@ -44,7 +46,7 @@ namespace icom
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
 
-			};
+			};*/
 
 			txtUsuario.ShouldReturn += (txtPass) =>
 			{
@@ -62,6 +64,7 @@ namespace icom
 
 
 		}
+
 
 		async void loginboton(object sender, EventArgs e)
 		{

@@ -12,18 +12,21 @@ namespace icom
 		static readonly NSString OutgoingCellId = new NSString("Outgoing");
 		static readonly NSString IncomingFileCellId = new NSString("IncomingFile");
 		static readonly NSString OutgoingFileCellId = new NSString("OutgoingFile");
+		private UIViewController vcontroller { get; set; }
 
 		IList<Message> messages;
 
 		readonly BubbleCell[] sizingCells;
 
-		public ChatSource(IList<Message> messages)
+		public ChatSource(IList<Message> messages, UIViewController viewpadre)
 		{
 			if (messages == null)
 				throw new ArgumentNullException("messages");
 
 			this.messages = messages;
 			sizingCells = new BubbleCell[4];
+
+			vcontroller = viewpadre;
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
@@ -38,6 +41,7 @@ namespace icom
 
 				
 			cell = (BubbleCell)tableView.DequeueReusableCell(GetReuseId(msg.Type));
+			cell.vcpadre = vcontroller;
 			cell.Message = msg;
 
 			return cell;
@@ -61,7 +65,10 @@ namespace icom
 			BubbleCell cell = sizingCells[index];
 
 			if (cell == null)
-				cell = sizingCells[index] = (BubbleCell) tableView.DequeueReusableCell(GetReuseId(msg.Type));
+			{
+				cell = sizingCells[index] = (BubbleCell)tableView.DequeueReusableCell(GetReuseId(msg.Type));
+				cell.vcpadre = vcontroller;
+			}
 
 			cell.Message = msg;
 

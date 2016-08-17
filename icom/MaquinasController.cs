@@ -26,7 +26,7 @@ namespace icom
 		public static List<clsListadoMaquinas> lstMaqServ;
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -34,15 +34,13 @@ namespace icom
 			lstMaqServ = new List<clsListadoMaquinas>();
 			lstMaquinas.Source = new FuenteTablaExpandible(this);
 
-			/*Boolean resp = await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-
-
-			}*/
+			}
 
 			clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
