@@ -52,16 +52,29 @@ namespace icom
 				{
 					MessageLabel.Font = UIFont.FromName("Arial-BoldMT", 12f);
 					String strmsg = "";
+					int tamnombrearchivo = msg.filename.Length;
 
 					if (msg.nombre.Equals(""))
 					{
-						strmsg = msg.fecha + " " + msg.hora + " :" + "\n Archivo:\n" + msg.filename;
+						strmsg = msg.fecha + " " + msg.hora + " :\n"  + msg.Text + "\n" + "Archivo:\n"  + msg.filename;
+
 					}
 					else {
-						strmsg = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :" + "\n Archivo\n" + msg.filename;
+						strmsg = msg.nombre + "\n" + msg.fecha + " " + msg.hora + " :\n"  + msg.Text + "\n"+ "Archivo\n" + msg.filename;
 					}
 
-					MessageLabel.AttributedText = new NSAttributedString(strmsg, underlineStyle:NSUnderlineStyle.Single);
+					var atributos = new UIStringAttributes
+					{
+						UnderlineStyle = NSUnderlineStyle.Single
+					};
+										
+
+					var stringstyle = new NSMutableAttributedString(strmsg);
+					stringstyle.SetAttributes(atributos, new NSRange(strmsg.Length - tamnombrearchivo - 1, tamnombrearchivo+1));
+
+					MessageLabel.AttributedText = stringstyle;
+					//MessageLabel.AttributedText = new NSAttributedString(strmsg, underlineStyle:NSUnderlineStyle.Single);
+
 					MessageLabel.UserInteractionEnabled = true;
 
 

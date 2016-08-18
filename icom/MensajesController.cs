@@ -53,7 +53,7 @@ namespace icom
 
 		}
 
-		public  override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			socketioinit();
@@ -61,17 +61,17 @@ namespace icom
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
 
-			/*Boolean resp = await getAllMensajes();
-
+			Boolean resp = await getAllMensajes();
+			SetUpTableView();
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChat.ReloadData();
-			}*/
+			}
 
-			messages = new List<Message>();
 
-			messages.Add(new Message
+
+			/*messages.Add(new Message
 			{
 				Type = MessageType.IncomingFile,
 				Text = "prueba de archivo",
@@ -83,7 +83,7 @@ namespace icom
 				idmensaje = "10026" 
 			});
 
-			SetUpTableView();
+			SetUpTableView();*/
 
 
 			txtmensaje.Started += OnTextViewStarted;
@@ -194,12 +194,26 @@ namespace icom
 
 			if (Consts.idusuarioapp.Equals(idusmensaje))
 			{
-				tipomensaje = MessageType.Outgoing;
+				if (strfilename.Equals(""))
+				{
+					tipomensaje = MessageType.Outgoing;
+				}
+				else { 
+					tipomensaje = MessageType.OutgoingFile;
+				}
+
 				strnombre = "";
 				striniciales = "";
 			}
 			else {
-				tipomensaje = MessageType.Incoming;
+				
+				if (strfilename.Equals(""))
+				{
+					tipomensaje = MessageType.Incoming;
+				}
+				else {
+					tipomensaje = MessageType.IncomingFile;
+				}
 			}
 
 			var msg = new Message
@@ -431,15 +445,31 @@ namespace icom
 
 			Message objm = new Message();
 			JObject json = (JObject)varjson;
+			objm.filename = json["nombrearchivo"].ToString();
+			objm.idmensaje = json["idmensaje"].ToString();
 
 			if (Consts.idusuarioapp.Equals(json["idusuario"].ToString()))
 			{
-				objm.Type = MessageType.Outgoing;
+				if (objm.filename.Equals(""))
+				{
+					objm.Type = MessageType.Outgoing;
+				}
+				else {
+					objm.Type = MessageType.OutgoingFile;
+				}
+
 				objm.nombre = "";
 				objm.iniciales = "";
 			}
-			else { 
-				objm.Type = MessageType.Incoming;
+			else {
+				if (objm.filename.Equals(""))
+				{
+					objm.Type = MessageType.Incoming;
+				}
+				else {
+					objm.Type = MessageType.IncomingFile;
+				}
+
 				objm.nombre = json["nombre"].ToString();
 				objm.iniciales = json["iniciales"].ToString();
 			}
