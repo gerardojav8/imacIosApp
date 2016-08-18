@@ -73,8 +73,6 @@ namespace icom
 					stringstyle.SetAttributes(atributos, new NSRange(strmsg.Length - tamnombrearchivo - 1, tamnombrearchivo+1));
 
 					MessageLabel.AttributedText = stringstyle;
-					//MessageLabel.AttributedText = new NSAttributedString(strmsg, underlineStyle:NSUnderlineStyle.Single);
-
 					MessageLabel.UserInteractionEnabled = true;
 
 
@@ -83,7 +81,6 @@ namespace icom
 					UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>
 					{
 						traeArchivo(Int32.Parse(msg.idmensaje));
-						//funciones.MessageBox("Aviso", "idmensaje: " + msg.idmensaje);
 
 					});
 					MessageLabel.AddGestureRecognizer(tgrLabel);
