@@ -1,7 +1,7 @@
 ﻿using System;
 using UIKit;
 using Foundation;
-
+using icom.globales;
 namespace icom
 {
 	public static class funciones
@@ -60,6 +60,19 @@ namespace icom
 				new DateTime(2001, 1, 1, 0, 0, 0));
 			return NSDate.FromTimeIntervalSinceReferenceDate(
 				(date - newDate).TotalSeconds);
+		}
+
+		public static void SalirSesion(UIViewController controllerFrom) {
+			var logcont = (Login)Consts.logincontroller;
+			logcont.limpiacampos();
+
+			Consts.token = "";
+			Consts.idusuarioapp = "";
+			Consts.nombreusuarioapp = "";
+			Consts.inicialesusuarioapp = "";
+
+			controllerFrom.NavigationController.PopToViewController(logcont, true);
+
 		}
 	}
 }

@@ -46,7 +46,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -61,7 +61,7 @@ namespace icom
 			txtDescripcion.Layer.BorderWidth = (nfloat) 2.0;
 			txtDescripcion.Text = "";
 
-			/*var bounds = UIScreen.MainScreen.Bounds;
+			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
 
@@ -148,7 +148,7 @@ namespace icom
 				inicializadatos();
 				btnGuardar.Hidden = false;
 			
-			}*/
+			}
 
 			btnGuardar.TouchUpInside += guardarReporte;
 

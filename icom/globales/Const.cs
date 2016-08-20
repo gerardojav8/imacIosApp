@@ -1,9 +1,10 @@
 ﻿using System;
+using UIKit;
 namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string ipserv = "192.168.0.25";
+		public static readonly string ipserv = "192.168.0.28";
 		//public static readonly string ipservchat = "icom-chat-server-jav85861.c9users.io";
 		public static readonly string ipservchat = "192.168.0.25";
 		public static readonly string puertochat = ":3000";
@@ -20,6 +21,7 @@ namespace icom.globales
 		public static string idusuarioapp = "";
 		public static string nombreusuarioapp = "";
 		public static string inicialesusuarioapp = "";
+		public static UIViewController logincontroller;
 
 
 	}

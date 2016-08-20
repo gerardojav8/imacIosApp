@@ -60,9 +60,15 @@ namespace icom
 				return true;
 			};
 
+			Consts.logincontroller = this;
 
 
 
+		}
+
+		public void limpiacampos() {
+			txtPass.Text = "";
+			txtUsuario.Text = "";
 		}
 
 
@@ -90,6 +96,8 @@ namespace icom
 				UIView.CommitAnimations();
 			}
 		}
+
+
 
 		public async Task<Boolean> login()
 		{

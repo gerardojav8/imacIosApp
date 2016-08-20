@@ -37,7 +37,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,7 +51,7 @@ namespace icom
 
 			lstobras = new List<clsCmbObras>();
 
-			/*var bounds = UIScreen.MainScreen.Bounds;
+			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Obteniendo datos de Maquina espera por favor...");
 			View.Add(loadPop);
 
@@ -319,7 +319,7 @@ namespace icom
 
 
 			loadPop.Hide();
-			*/
+
 			
 
 

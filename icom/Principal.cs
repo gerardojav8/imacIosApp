@@ -80,7 +80,7 @@ namespace icom
 			};
 
 			btnCerrarSesion.TouchUpInside += delegate {
-				this.NavigationController.PopToRootViewController(true);
+				funciones.SalirSesion(this);
 			};
 
 			if (strusuario.ToLower().Equals("fermin"))

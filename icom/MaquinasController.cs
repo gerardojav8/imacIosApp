@@ -42,7 +42,7 @@ namespace icom
 				lstMaquinas.ReloadData();
 			}
 
-			clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -71,7 +71,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 			btnAgregar.TouchUpInside += delegate {
 				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
@@ -86,8 +86,9 @@ namespace icom
 			};
 
 			btnSearch.TouchUpInside += delegate
-			{
-				funciones.MessageBox("Aviso", "Boton de buscar");
+			{				
+				txtSearch.EndEditing(true);
+				buscarMaquinas();
 			};
 
 			bajatecladoinputs();
@@ -112,6 +113,21 @@ namespace icom
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
+			}
+		}
+
+		public async void buscarMaquinas() {
+			if (txtSearch.Text.Equals(""))
+			{
+				recargarListado();
+			}
+			else {
+				lstMaqServ = new List<clsListadoMaquinas>();
+				Boolean resp = await getMaquinasBusqueda(txtSearch.Text);
+				if (resp) {
+					loadPop.Hide();
+					lstMaquinas.ReloadData();
+				}
 			}
 		}
 
@@ -186,6 +202,84 @@ namespace icom
 
 
 			foreach(var maquina in jrarray)
+			{
+				clsListadoMaquinas objm = getobjMaquina(maquina);
+				lstMaqServ.Add(objm);
+			}
+
+
+			return true;
+		}
+
+		public async Task<Boolean> getMaquinasBusqueda(String strbusqueda)
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Buscando Maquinas ...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			string url = Consts.ulrserv + "maquinas/getListadoMaquinasBusqueda";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> obj = new Dictionary<string, string>();
+			obj.Add("busqueda", strbusqueda);
+			var json = JsonConvert.SerializeObject(obj);
+
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return false;
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
+				return false;
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			JArray jrarray;
+
+
+			try
+			{
+				var jsonresponse = JArray.Parse(responseString);
+				jrarray = jsonresponse;
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+
+				var jsonresponse = JObject.Parse(responseString);
+
+				string mensaje = "error al traer maquinas del servidor: " + e.HResult;
+
+				var jtokenerror = jsonresponse["error"];
+				if (jtokenerror != null)
+				{
+					mensaje = jtokenerror.ToString();
+				}
+
+				funciones.MessageBox("Error", mensaje);
+				return false;
+			}
+
+
+
+
+			foreach (var maquina in jrarray)
 			{
 				clsListadoMaquinas objm = getobjMaquina(maquina);
 				lstMaqServ.Add(objm);
@@ -396,11 +490,10 @@ namespace icom
 				return cell;
 			}
 			else {
-				var cell = tableView.DequeueReusableCell(ChildCellIndentifier) as CustomVegeCell;
-
+				var cell = tableView.DequeueReusableCell(ParentCellIdentifier) as CustomVegeCell;
 				if (cell == null)
 				{
-					cell = new CustomVegeCell((NSString)ChildCellIndentifier, sec);
+					cell = new CustomVegeCell((NSString)ParentCellIdentifier, sec);
 				}
 
 				int indicearreglo = indexPath.Row;

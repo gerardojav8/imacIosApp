@@ -140,7 +140,7 @@ namespace icom
 
 		async void mandaArchivoaServer(object sender, EventArgs e)
 		{
-			String namefile = "uno.xlsx";
+			String namefile = "primerplus.pdf";
 			String pathfile = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), namefile);
 			var bytes = default(byte[]);
 			using (var streamReader = new StreamReader(pathfile))
