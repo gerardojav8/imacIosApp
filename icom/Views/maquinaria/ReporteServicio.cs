@@ -33,10 +33,7 @@ namespace icom
 		private List<clsTipoMnto> lsttipomnto;
 		int idtipomnto = -1;
 
-		public static List<String> lstref = new List<String>();
-		public static Boolean stacsec = false;
-
-
+		private List<String> lstref = new List<String>();
 
 		public String strNoSerie { get; set; }
 		public UIViewController viewmaq { get; set; }
@@ -47,7 +44,7 @@ namespace icom
 			
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -71,8 +68,8 @@ namespace icom
 
 			tblRefacciones.Layer.BorderColor = UIColor.Black.CGColor;
 			tblRefacciones.Layer.BorderWidth = (nfloat)2.0;
-			icom.ReporteServicio.lstref.Clear();
-			tblRefacciones.Source = new FuenteTablaRefacciones();
+			lstref.Clear();
+			tblRefacciones.Source = new FuenteTablaRefacciones(lstref);
 
 			lstusuarios = new List<clsCmbUsuarios>();
 			lsttipofallas = new List<clsTipoFallas>();
@@ -87,14 +84,14 @@ namespace icom
 
 			btnLimpiarRefacciones.TouchUpInside += delegate
 			{
-				icom.ReporteServicio.lstref.Clear();
+				lstref.Clear();
 				tblRefacciones.ReloadData();
 			};
 
 			btnGuardar.TouchUpInside += guardarReporte;
 
 
-			var bounds = UIScreen.MainScreen.Bounds;
+			/*var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
 
@@ -146,7 +143,7 @@ namespace icom
 			}
 
 			inicializaCombos();
-			loadPop.Hide();
+			loadPop.Hide();*/
 
 			bajatecladoinputs();
 
@@ -784,82 +781,6 @@ namespace icom
 	}
 
 
-
-	public class FuenteTablaRefacciones : UITableViewSource
-	{
-		static readonly string idPersonaje = "Celda";
-
-
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			var cell = tableView.DequeueReusableCell(idPersonaje) as CustomrefaccionesCell;
-			if (cell == null)
-			{
-				cell = new CustomrefaccionesCell((NSString)idPersonaje);
-			}
-
-			String refa = icom.ReporteServicio.lstref.ElementAt(indexPath.Row);
-
-			cell.UpdateCell(refa);
-
-
-			cell.Accessory = UITableViewCellAccessory.None;
-
-
-			return cell;
-		}
-
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			return icom.ReporteServicio.lstref.Count;
-		}
-	}
-
-	public class CustomrefaccionesCell : UITableViewCell
-	{
-		UILabel Refaccion;
-
-		public CustomrefaccionesCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
-		{
-			icom.ReporteServicio.stacsec = !icom.ReporteServicio.stacsec;
-			SelectionStyle = UITableViewCellSelectionStyle.Gray;
-
-			if (icom.ReporteServicio.stacsec)
-			{
-				ContentView.BackgroundColor = UIColor.FromRGB(220, 224, 231);
-			}
-			else {
-				ContentView.BackgroundColor = UIColor.White;
-			}
-
-
-
-			Refaccion = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 15f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-
-
-
-			ContentView.AddSubviews(new UIView[] { Refaccion });
-
-		}
-		public void UpdateCell(string refaccion)
-		{
-			Refaccion.Text = refaccion;
-
-		}
-		public override void LayoutSubviews()
-		{
-			base.LayoutSubviews();
-
-			Refaccion.Frame = new CGRect(20, 10, 200, 20);
-
-		}
-
-	}
 }
 
 

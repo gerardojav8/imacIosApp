@@ -110,24 +110,23 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />
-    <InterfaceDefinition Include="Principal.xib" />
     <InterfaceDefinition Include="Login.xib" />
-    <InterfaceDefinition Include="Maquinaria.xib" />
-    <InterfaceDefinition Include="CtrlObra.xib" />
-    <InterfaceDefinition Include="Informacion.xib" />
-    <InterfaceDefinition Include="Produccion.xib" />
-    <InterfaceDefinition Include="ReporteOperador.xib" />
-    <InterfaceDefinition Include="ReporteServicio.xib" />
-    <InterfaceDefinition Include="MaquinasController.xib" />
-    <InterfaceDefinition Include="solicitudMaquinaController.xib" />
-    <InterfaceDefinition Include="FichaMaquinaController.xib" />
-    <InterfaceDefinition Include="EstadoFisicoController.xib" />
-    <InterfaceDefinition Include="MensajesController.xib" />
-    <InterfaceDefinition Include="AgendaController.xib" />
-    <InterfaceDefinition Include="DetalleAgendaController.xib" />
-    <InterfaceDefinition Include="PlanificadorController.xib" />
-    <InterfaceDefinition Include="NuevoEventoController.xib" />
-    <InterfaceDefinition Include="PreviewDocsController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\AgendaController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\CtrlObra.xib" />
+    <InterfaceDefinition Include="Views\controlObra\DetalleAgendaController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\MensajesController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\NuevoEventoController.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\EstadoFisicoController.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\FichaMaquinaController.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\MaquinasController.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\ReporteOperador.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\ReporteServicio.xib" />
+    <InterfaceDefinition Include="Views\maquinaria\solicitudMaquinaController.xib" />
+    <InterfaceDefinition Include="Views\common\PlanificadorController.xib" />
+    <InterfaceDefinition Include="Views\common\Informacion.xib" />
+    <InterfaceDefinition Include="Views\common\PreviewDocsController.xib" />
+    <InterfaceDefinition Include="Views\common\Principal.xib" />
+    <InterfaceDefinition Include="Views\common\Produccion.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -136,42 +135,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Principal.cs" />
-    <Compile Include="Principal.designer.cs">
-      <DependentUpon>Principal.cs</DependentUpon>
-    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="Login.cs" />
     <Compile Include="Login.designer.cs">
       <DependentUpon>Login.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Maquinaria.cs" />
-    <Compile Include="Maquinaria.designer.cs">
-      <DependentUpon>Maquinaria.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CtrlObra.cs" />
-    <Compile Include="CtrlObra.designer.cs">
-      <DependentUpon>CtrlObra.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Informacion.cs" />
-    <Compile Include="Informacion.designer.cs">
-      <DependentUpon>Informacion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Produccion.cs" />
-    <Compile Include="Produccion.designer.cs">
-      <DependentUpon>Produccion.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ReporteOperador.cs" />
-    <Compile Include="ReporteOperador.designer.cs">
-      <DependentUpon>ReporteOperador.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ReporteServicio.cs" />
-    <Compile Include="ReporteServicio.designer.cs">
-      <DependentUpon>ReporteServicio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="MaquinasController.cs" />
-    <Compile Include="MaquinasController.designer.cs">
-      <DependentUpon>MaquinasController.cs</DependentUpon>
     </Compile>
     <Compile Include="globales\Const.cs" />
     <Compile Include="globales\funciones.cs" />
@@ -183,22 +150,10 @@
     <Compile Include="Entidades\clsTipoFallas.cs" />
     <Compile Include="Entidades\clsGuardaReporteOp.cs" />
     <Compile Include="Entidades\clsReporteOpConsulta.cs" />
-    <Compile Include="solicitudMaquinaController.cs" />
-    <Compile Include="solicitudMaquinaController.designer.cs">
-      <DependentUpon>solicitudMaquinaController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FichaMaquinaController.cs" />
-    <Compile Include="FichaMaquinaController.designer.cs">
-      <DependentUpon>FichaMaquinaController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entidades\clsEquipo.cs" />
     <Compile Include="Entidades\clsMarca.cs" />
     <Compile Include="Entidades\clsModelo.cs" />
     <Compile Include="Entidades\clsSolicitudesMaquinas.cs" />
-    <Compile Include="EstadoFisicoController.cs" />
-    <Compile Include="EstadoFisicoController.designer.cs">
-      <DependentUpon>EstadoFisicoController.cs</DependentUpon>
-    </Compile>
     <Compile Include="globales\ModalViewPicker\CustomPickerModel.cs" />
     <Compile Include="globales\ModalViewPicker\ModalPickerAnimatedDismissed.cs" />
     <Compile Include="globales\ModalViewPicker\ModalPickerAnimatedTransitioning.cs" />
@@ -214,22 +169,6 @@
     <Compile Include="Entidades\clsEstadosFisicosMaquinas.cs" />
     <Compile Include="Entidades\clsFiltrosMaquinas.cs" />
     <Compile Include="globales\Camera.cs" />
-    <Compile Include="MensajesController.cs" />
-    <Compile Include="MensajesController.designer.cs">
-      <DependentUpon>MensajesController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AgendaController.cs" />
-    <Compile Include="AgendaController.designer.cs">
-      <DependentUpon>AgendaController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DetalleAgendaController.cs" />
-    <Compile Include="DetalleAgendaController.designer.cs">
-      <DependentUpon>DetalleAgendaController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PlanificadorController.cs" />
-    <Compile Include="PlanificadorController.designer.cs">
-      <DependentUpon>PlanificadorController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entidades\clsAgenda.cs" />
     <Compile Include="Entidades\clsEventoAgenda.cs" />
     <Compile Include="globales\chat\BubbleCell.cs" />
@@ -247,10 +186,6 @@
     <Compile Include="AppDelegate.designer.cs">
       <DependentUpon>AppDelegate.cs</DependentUpon>
     </Compile>
-    <Compile Include="NuevoEventoController.cs" />
-    <Compile Include="NuevoEventoController.designer.cs">
-      <DependentUpon>NuevoEventoController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Entidades\clsGuardaNuevoEvento.cs" />
     <Compile Include="Entidades\clsDetalleEventoAgenda.cs" />
     <Compile Include="globales\chat\OutgoingFileCell.cs" />
@@ -262,9 +197,73 @@
       <DependentUpon>IncomingFileCell.cs</DependentUpon>
     </Compile>
     <Compile Include="globales\App.cs" />
-    <Compile Include="PreviewDocsController.cs" />
-    <Compile Include="PreviewDocsController.designer.cs">
+    <Compile Include="Views\controlObra\AgendaController.cs" />
+    <Compile Include="Views\controlObra\AgendaController.designer.cs">
+      <DependentUpon>AgendaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\CtrlObra.cs" />
+    <Compile Include="Views\controlObra\CtrlObra.designer.cs">
+      <DependentUpon>CtrlObra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\DetalleAgendaController.cs" />
+    <Compile Include="Views\controlObra\DetalleAgendaController.designer.cs">
+      <DependentUpon>DetalleAgendaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\MensajesController.cs" />
+    <Compile Include="Views\controlObra\MensajesController.designer.cs">
+      <DependentUpon>MensajesController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\NuevoEventoController.cs" />
+    <Compile Include="Views\controlObra\NuevoEventoController.designer.cs">
+      <DependentUpon>NuevoEventoController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\EstadoFisicoController.cs" />
+    <Compile Include="Views\maquinaria\EstadoFisicoController.designer.cs">
+      <DependentUpon>EstadoFisicoController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\FichaMaquinaController.cs" />
+    <Compile Include="Views\maquinaria\FichaMaquinaController.designer.cs">
+      <DependentUpon>FichaMaquinaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\MaquinasController.cs" />
+    <Compile Include="Views\maquinaria\MaquinasController.designer.cs">
+      <DependentUpon>MaquinasController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\ReporteOperador.cs" />
+    <Compile Include="Views\maquinaria\ReporteOperador.designer.cs">
+      <DependentUpon>ReporteOperador.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\ReporteServicio.cs" />
+    <Compile Include="Views\maquinaria\ReporteServicio.designer.cs">
+      <DependentUpon>ReporteServicio.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\solicitudMaquinaController.cs" />
+    <Compile Include="Views\maquinaria\solicitudMaquinaController.designer.cs">
+      <DependentUpon>solicitudMaquinaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\maquinaria\TablasSources\FuenteTablaRequerimientos.cs" />
+    <Compile Include="Views\maquinaria\TablasSources\FuenteTablaMaquinas.cs" />
+    <Compile Include="Views\maquinaria\TablasSources\FuenteTablaRefacciones.cs" />
+    <Compile Include="Views\controlObra\TablasSources\FuenteTablaAgenda.cs" />
+    <Compile Include="Views\common\PlanificadorController.cs" />
+    <Compile Include="Views\common\PlanificadorController.designer.cs">
+      <DependentUpon>PlanificadorController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\common\Informacion.cs" />
+    <Compile Include="Views\common\Informacion.designer.cs">
+      <DependentUpon>Informacion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\common\PreviewDocsController.cs" />
+    <Compile Include="Views\common\PreviewDocsController.designer.cs">
       <DependentUpon>PreviewDocsController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\common\Principal.cs" />
+    <Compile Include="Views\common\Principal.designer.cs">
+      <DependentUpon>Principal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\common\Produccion.cs" />
+    <Compile Include="Views\common\Produccion.designer.cs">
+      <DependentUpon>Produccion.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -335,6 +334,12 @@
     <Folder Include="Resources\Images.xcassets\BubbleOutgoing.imageset\" />
     <Folder Include="globales\chat\" />
     <Folder Include="Resources\calendario\" />
+    <Folder Include="Views\" />
+    <Folder Include="Views\controlObra\" />
+    <Folder Include="Views\maquinaria\" />
+    <Folder Include="Views\maquinaria\TablasSources\" />
+    <Folder Include="Views\controlObra\TablasSources\" />
+    <Folder Include="Views\common\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\down.png" />

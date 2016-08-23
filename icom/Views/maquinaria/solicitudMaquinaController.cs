@@ -21,8 +21,7 @@ namespace icom
 	public partial class solicitudMaquinaController : UIViewController
 	{
 
-		public static List<clsSolicitudesMaquinas> lstsolmaq = new List<clsSolicitudesMaquinas>();
-		public static Boolean stacsec = false;
+		List<clsSolicitudesMaquinas> lstsolmaq = new List<clsSolicitudesMaquinas>();
 
 		LoadingOverlay loadPop;
 		HttpClient client;
@@ -63,8 +62,8 @@ namespace icom
 
 			lstRequerimientos.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRequerimientos.Layer.BorderWidth = (nfloat)2.0;
-			icom.solicitudMaquinaController.lstsolmaq.Clear();
-			lstRequerimientos.Source = new FuenteTablaRequerimientos();
+			lstsolmaq.Clear();
+			lstRequerimientos.Source = new FuenteTablaRequerimientos(lstsolmaq);
 
 			/*var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
@@ -149,7 +148,7 @@ namespace icom
 				objsol.marca = txtmarca.Text;
 				objsol.modelo = txtModelo.Text;
 
-				icom.solicitudMaquinaController.lstsolmaq.Add(objsol);
+				lstsolmaq.Add(objsol);
 
 				lstRequerimientos.ReloadData();
 
@@ -157,7 +156,7 @@ namespace icom
 			};
 
 			btnlimpiar.TouchUpInside += delegate {
-				icom.solicitudMaquinaController.lstsolmaq.Clear();
+				lstsolmaq.Clear();
 				lstRequerimientos.ReloadData();
 				limpiaseleccion();
 			};
@@ -643,107 +642,7 @@ namespace icom
 		}
 	}
 
-	public class FuenteTablaRequerimientos : UITableViewSource
-	{
-		static readonly string celda = "Celda";
 
-
-
-		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
-		{
-			
-
-			var cell = tableView.DequeueReusableCell(celda) as CustomSolMaqCell;
-			if (cell == null)
-			{
-				cell = new CustomSolMaqCell((NSString)celda);
-			}
-
-			clsSolicitudesMaquinas sol = icom.solicitudMaquinaController.lstsolmaq.ElementAt(indexPath.Row);
-
-			cell.UpdateCell(sol.cantidad.ToString(), sol.equipo, sol.marca, sol.modelo);
-
-
-			cell.Accessory = UITableViewCellAccessory.None;
-
-
-			return cell;
-		}
-
-		public override nint RowsInSection(UITableView tableview, nint section)
-		{
-			return icom.solicitudMaquinaController.lstsolmaq.Count;
-		}
-
-	}
-
-	public class CustomSolMaqCell : UITableViewCell
-	{
-		UILabel cantidadlabel, equipolabel, marcalabel, modelolabel;
-
-		public CustomSolMaqCell(NSString cellId) : base(UITableViewCellStyle.Default, cellId)
-		{
-			icom.solicitudMaquinaController.stacsec = !icom.solicitudMaquinaController.stacsec;
-			SelectionStyle = UITableViewCellSelectionStyle.Gray;
-
-			if (icom.solicitudMaquinaController.stacsec)
-			{
-				ContentView.BackgroundColor = UIColor.FromRGB(220, 224, 231);
-			}
-			else {
-				ContentView.BackgroundColor = UIColor.White;
-			}
-
-
-
-			cantidadlabel = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 22f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-
-			equipolabel = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 12f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-			marcalabel = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 12f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-
-			modelolabel = new UILabel()				
-			{
-				Font = UIFont.FromName("Arial", 12f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-
-			ContentView.AddSubviews(new UIView[] { cantidadlabel, equipolabel, marcalabel, modelolabel });
-
-		}
-		public void UpdateCell(string cantidad, string equipo, String marca, String modelo)
-		{
-			cantidadlabel.Text = cantidad;
-			equipolabel.Text = equipo;
-			marcalabel.Text = marca;
-			modelolabel.Text = modelo;
-		}
-		public override void LayoutSubviews()
-		{
-			base.LayoutSubviews();
-
-			cantidadlabel.Frame = new CGRect( 20, 10, 30, 20);
-			equipolabel.Frame = new CGRect(55 ,  10, 100, 20);
-			marcalabel.Frame = new CGRect(170, 10, 70, 20);
-			modelolabel.Frame = new CGRect(250, 10, 70, 20);
-		}
-
-	}
 }
 
 
