@@ -122,11 +122,16 @@
     <InterfaceDefinition Include="Views\maquinaria\ReporteOperador.xib" />
     <InterfaceDefinition Include="Views\maquinaria\ReporteServicio.xib" />
     <InterfaceDefinition Include="Views\maquinaria\solicitudMaquinaController.xib" />
-    <InterfaceDefinition Include="Views\common\PlanificadorController.xib" />
     <InterfaceDefinition Include="Views\common\Informacion.xib" />
     <InterfaceDefinition Include="Views\common\PreviewDocsController.xib" />
     <InterfaceDefinition Include="Views\common\Principal.xib" />
     <InterfaceDefinition Include="Views\common\Produccion.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\ExportarTareasController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\GraficasTareasController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\ModifciarTareaController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\NuevaTareaController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\PlanificadorController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\CategoriasTareasController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -245,10 +250,6 @@
     <Compile Include="Views\maquinaria\TablasSources\FuenteTablaMaquinas.cs" />
     <Compile Include="Views\maquinaria\TablasSources\FuenteTablaRefacciones.cs" />
     <Compile Include="Views\controlObra\TablasSources\FuenteTablaAgenda.cs" />
-    <Compile Include="Views\common\PlanificadorController.cs" />
-    <Compile Include="Views\common\PlanificadorController.designer.cs">
-      <DependentUpon>PlanificadorController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\common\Informacion.cs" />
     <Compile Include="Views\common\Informacion.designer.cs">
       <DependentUpon>Informacion.cs</DependentUpon>
@@ -264,6 +265,32 @@
     <Compile Include="Views\common\Produccion.cs" />
     <Compile Include="Views\common\Produccion.designer.cs">
       <DependentUpon>Produccion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entidades\clsEvento.cs" />
+    <Compile Include="Views\controlObra\TablasSources\FuenteTablaEventos.cs" />
+    <Compile Include="Views\controlObra\Planificador\ExportarTareasController.cs" />
+    <Compile Include="Views\controlObra\Planificador\ExportarTareasController.designer.cs">
+      <DependentUpon>ExportarTareasController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\GraficasTareasController.cs" />
+    <Compile Include="Views\controlObra\Planificador\GraficasTareasController.designer.cs">
+      <DependentUpon>GraficasTareasController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\ModifciarTareaController.cs" />
+    <Compile Include="Views\controlObra\Planificador\ModifciarTareaController.designer.cs">
+      <DependentUpon>ModifciarTareaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\NuevaTareaController.cs" />
+    <Compile Include="Views\controlObra\Planificador\NuevaTareaController.designer.cs">
+      <DependentUpon>NuevaTareaController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\PlanificadorController.cs" />
+    <Compile Include="Views\controlObra\Planificador\PlanificadorController.designer.cs">
+      <DependentUpon>PlanificadorController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\CategoriasTareasController.cs" />
+    <Compile Include="Views\controlObra\Planificador\CategoriasTareasController.designer.cs">
+      <DependentUpon>CategoriasTareasController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
@@ -315,6 +342,11 @@
     <Content Include="Resources\calendario\schedule_9.png" />
     <Content Include="Resources\calendario\schedule_30.png" />
     <Content Include="Resources\calendario\schedule_31.png" />
+    <Content Include="Resources\house.png" />
+    <Content Include="Resources\pencil.png" />
+    <Content Include="Resources\piegraph.png" />
+    <Content Include="Resources\refresh.png" />
+    <Content Include="Resources\pdf.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
@@ -340,6 +372,7 @@
     <Folder Include="Views\maquinaria\TablasSources\" />
     <Folder Include="Views\controlObra\TablasSources\" />
     <Folder Include="Views\common\" />
+    <Folder Include="Views\controlObra\Planificador\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\down.png" />

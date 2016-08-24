@@ -4,7 +4,6 @@ using UIKit;
 using Foundation;
 using System.Linq;
 using CoreGraphics;
-using icom.globales;
 namespace icom
 {
 	public class FuenteTablaAgenda : UITableViewSource

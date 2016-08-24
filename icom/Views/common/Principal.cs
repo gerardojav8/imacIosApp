@@ -83,6 +83,8 @@ namespace icom
 				funciones.SalirSesion(this);
 			};
 
+
+
 			if (strusuario.ToLower().Equals("fermin"))
 			{
 				Consts.idusuarioapp = "1";

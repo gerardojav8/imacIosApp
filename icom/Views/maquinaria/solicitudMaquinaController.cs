@@ -106,8 +106,8 @@ namespace icom
 
 			loadPop.Hide();
 
-			inicializaCombos();*/
-
+			inicializaCombos();
+			*/
 
 			btnAgregar.TouchUpInside += delegate {
 

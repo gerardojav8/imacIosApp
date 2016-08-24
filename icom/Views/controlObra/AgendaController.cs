@@ -28,7 +28,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,15 +51,15 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			/*Boolean resp = await getAgenda();
+			Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}*/
+			}
 
-			clsAgenda obj1 = new clsAgenda();
+			/*clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
 
@@ -169,7 +169,7 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);
+			LstDatosAgenda.Add(obj12);*/
 
 			DateTime dthoy = DateTime.Now;
 			int mesact = dthoy.Month - 1;
@@ -187,7 +187,7 @@ namespace icom
 		{
 
 			LstDatosAgenda = new List<clsAgenda>();
-
+			lstAgenda.Source = new FuenteTablaAgenda(this, LstDatosAgenda);
 			Boolean resp = await getAgenda();
 
 			if (resp)

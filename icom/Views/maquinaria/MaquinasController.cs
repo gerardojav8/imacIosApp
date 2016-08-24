@@ -26,7 +26,7 @@ namespace icom
 		private List<clsListadoMaquinas> lstMaqServ;
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -34,15 +34,15 @@ namespace icom
 			lstMaqServ = new List<clsListadoMaquinas>();
 			lstMaquinas.Source = new FuenteTablaMaquinas(this, lstMaqServ);
 
-			/*Boolean resp = await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}*/
+			}
 
-			clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -71,7 +71,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 			btnAgregar.TouchUpInside += delegate {
 				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
@@ -107,6 +107,7 @@ namespace icom
 		public async void recargarListado() {
 			
 			lstMaqServ = new List<clsListadoMaquinas>();
+			lstMaquinas.Source = new FuenteTablaMaquinas(this, lstMaqServ);
 			Boolean resp = await getAllMaquinas();
 
 			if (resp)

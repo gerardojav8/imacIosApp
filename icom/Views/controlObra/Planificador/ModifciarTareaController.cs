@@ -4,9 +4,9 @@ using UIKit;
 
 namespace icom
 {
-	public partial class PlanificadorController : UIViewController
+	public partial class ModifciarTareaController : UIViewController
 	{
-		public PlanificadorController() : base("PlanificadorController", null)
+		public ModifciarTareaController() : base("ModifciarTareaController", null)
 		{
 		}
 
