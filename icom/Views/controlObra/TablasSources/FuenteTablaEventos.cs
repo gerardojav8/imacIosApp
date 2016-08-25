@@ -9,8 +9,7 @@ namespace icom
 {
 	public class FuenteTablaEventos : UITableViewSource
 	{
-		static readonly string celdaEventosBlack = "CeldaEventosBlack";
-		static readonly string celdaEventosWhite = "CeldaEventosWhite";
+		static readonly string celdaEventos = "CeldaEventos";
 		private List<clsEvento> lstEventos;
 		protected UIViewController viewparent;
 
@@ -22,8 +21,7 @@ namespace icom
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			//return lstEventos.Count;
-			return 5;
+			return lstEventos.Count;
 		}
 
 
@@ -46,19 +44,18 @@ namespace icom
 			int indicearreglo = indexPath.Row;
 
 			UITableViewCell cell;
-			//clsAgenda objagenda = LstDatosAgenda.ElementAt(indicearreglo);
-
-
-			cell = tableView.DequeueReusableCell(celdaEventosBlack) as CustomEventosCell;
+			clsEvento objev = lstEventos.ElementAt(indicearreglo);
+			cell = tableView.DequeueReusableCell(celdaEventos) as CustomEventosCell;
 
 			if (cell == null)
 			{
-				cell = new CustomEventosCell((NSString)celdaEventosBlack, 75);
+				cell = new CustomEventosCell((NSString)celdaEventos, objev.porcentajeavance);
 			}
 
 
-
-			((CustomEventosCell)cell).UpdateCell("Titulo Evento", "Categoria Evento", "24:00", "De: 12:00 a 11:59");
+			String lapso = "De: " + objev.horainicio + " a " + objev.horafinal;
+			String totalhoras = "Hrs.: " + objev.totalhoras;
+			((CustomEventosCell)cell).UpdateCell(objev.titulo, objev.clasificacion, totalhoras, lapso);
 
 			return cell;
 

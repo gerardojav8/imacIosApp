@@ -16,6 +16,9 @@ namespace icom
 		UIKit.UIButton btnActualizarEventos { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnCategorias { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnEditarEvento { get; set; }
 
 		[Outlet]
@@ -41,9 +44,9 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnExportaPDF != null) {
-				btnExportaPDF.Dispose ();
-				btnExportaPDF = null;
+			if (btnCategorias != null) {
+				btnCategorias.Dispose ();
+				btnCategorias = null;
 			}
 
 			if (btnActualizarEventos != null) {
@@ -54,6 +57,11 @@ namespace icom
 			if (btnEditarEvento != null) {
 				btnEditarEvento.Dispose ();
 				btnEditarEvento = null;
+			}
+
+			if (btnExportaPDF != null) {
+				btnExportaPDF.Dispose ();
+				btnExportaPDF = null;
 			}
 
 			if (btnGraficas != null) {

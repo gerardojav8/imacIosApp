@@ -104,6 +104,9 @@
     <Reference Include="SocketIoClientDotNet">
       <HintPath>..\packages\SocketIoClientDotNet.0.9.13\lib\xamarinios10\SocketIoClientDotNet.dll</HintPath>
     </Reference>
+    <Reference Include="Alliance.Charts">
+      <HintPath>..\Components\AllianceChart-2.0\lib\ios-unified\Alliance.Charts.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -355,6 +358,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="json.net">
       <Version>7.0.1</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="AllianceChart">
+      <Version>2.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

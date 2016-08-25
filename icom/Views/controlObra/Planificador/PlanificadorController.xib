@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PlanificadorController">
             <connections>
                 <outlet property="btnActualizarEventos" destination="bVd-Yo-ahw" id="tck-Xr-0mw"/>
+                <outlet property="btnCategorias" destination="uRf-8O-KyR" id="7u7-gy-x92"/>
                 <outlet property="btnEditarEvento" destination="yIT-18-2RJ" id="fgS-Bh-KXs"/>
                 <outlet property="btnExportaPDF" destination="DKG-Hl-fhr" id="9gf-yb-v4T"/>
                 <outlet property="btnGraficas" destination="J3Y-V2-iqD" id="LD7-pW-tNx"/>
@@ -49,6 +50,16 @@
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
+                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRf-8O-KyR">
+                            <rect key="frame" x="154" y="0.0" width="166" height="38"/>
+                            <color key="backgroundColor" red="0.18039215689999999" green="0.24313725489999999" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="38" id="f9o-ld-bV1"/>
+                            </constraints>
+                            <state key="normal" title="Categorias">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
                         <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DKG-Hl-fhr">
                             <rect key="frame" x="103" y="1" width="50" height="38"/>
                             <color key="backgroundColor" red="0.84488707289999998" green="0.87536012819999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -57,16 +68,6 @@
                                 <constraint firstAttribute="width" constant="46" id="wBt-WS-ue5"/>
                             </constraints>
                             <state key="normal" image="pdf.png">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                        </button>
-                        <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRf-8O-KyR">
-                            <rect key="frame" x="154" y="0.0" width="166" height="38"/>
-                            <color key="backgroundColor" red="0.18039215689999999" green="0.24313725489999999" blue="0.36862745099999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="38" id="f9o-ld-bV1"/>
-                            </constraints>
-                            <state key="normal" title="Categorias">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                         </button>
