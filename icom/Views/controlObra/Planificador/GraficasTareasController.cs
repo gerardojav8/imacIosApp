@@ -10,7 +10,7 @@ namespace icom
 	{
 
 		public AllianceChart grafica;
-
+		private List<clsClasificacion> lstClas;
 		public GraficasTareasController() : base("GraficasTareasController", null)
 		{
 		}
@@ -18,50 +18,72 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			grafica = new AllianceChart(Chart.Pie, vwGrafica);
+			lstClas = new List<clsClasificacion>();
 
-			creargrafica();
-			this.View.SetNeedsDisplay();
-		}
-
-		private void creargrafica() {
-			List<ChartComponent> Componentes = new List<ChartComponent>();
-			grafica.PieChart.TitleFont = UIFont.FromName("Arial", 12f);
-			grafica.PieChart.ShowPercentage = true;
-			ChartComponent chrtcomp = new ChartComponent
+			clsClasificacion obj1 = new clsClasificacion
 			{
-				Name = "",
-				value = 50.0f,
+				nombre = "Clasificacion 1",
+				porcentaje = 50.0f,
 				color = UIColor.Blue
 			};
 
-			ChartComponent chrtcomp2 = new ChartComponent
+			clsClasificacion obj2 = new clsClasificacion
 			{
-				Name = "",
-				value = 80.0f,
+				nombre = "Clasificacion 2",
+				porcentaje = 80.0f,
 				color = UIColor.Gray
 			};
 
-			ChartComponent chrtcomp3 = new ChartComponent
+			clsClasificacion obj3 = new clsClasificacion
 			{
-				Name = "",
-				value = 24.0f,
+				nombre = "Clasificacion 3",
+				porcentaje = 24.0f,
 				color = UIColor.Green
 			};
 
-			ChartComponent chrtcomp4 = new ChartComponent
+			clsClasificacion obj4 = new clsClasificacion
 			{
-				Name = "",
-				value = 15.0f,
+				nombre = "Clasificacion 4",
+				porcentaje = 50.0f,
 				color = UIColor.Orange
 			};
 
-			Componentes.Add(chrtcomp);
-			Componentes.Add(chrtcomp2);
-			Componentes.Add(chrtcomp3);
-			Componentes.Add(chrtcomp4);
+			clsClasificacion obj5 = new clsClasificacion
+			{
+				nombre = "Clasificacion 5",
+				porcentaje = 15.0f,
+				color = UIColor.Red
+			};
+
+			lstClas.Add(obj1);
+			lstClas.Add(obj2);
+			lstClas.Add(obj3);
+			lstClas.Add(obj4);
+			lstClas.Add(obj5);
+
+			tblClasificaciones.Source = new FuenteTablaGraficas(this, lstClas);
+
+			grafica = new AllianceChart(Chart.Pie, vwGrafica);
+			creargrafica();
+
+		}
+
+		private void creargrafica() {
 
 
+			List<ChartComponent> Componentes = new List<ChartComponent>();
+			grafica.PieChart.TitleFont = UIFont.FromName("Arial", 12f);
+			grafica.PieChart.ShowPercentage = true;
+
+			foreach (clsClasificacion item in lstClas) { 
+				ChartComponent chrtcomp = new ChartComponent
+				{
+					Name = "",
+					value = item.porcentaje,
+					color = item.color
+				};
+				Componentes.Add(chrtcomp);
+			}
 
 			grafica.LoadChart(Componentes, Chart.Pie, vwGrafica);
 		}

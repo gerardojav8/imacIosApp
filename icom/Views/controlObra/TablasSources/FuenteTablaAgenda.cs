@@ -91,15 +91,13 @@ namespace icom
 
 			}
 
-
-
 			tableView.BeginUpdates();
+
 			if (currentExpandedIndex == indexPath.Row)
 			{
 				this.collapseSubItemsAtIndex(tableView, currentExpandedIndex, LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.Count);
 				currentExpandedIndex = -1;
-			}
-			else {
+			} else {
 				var shouldCollapse = currentExpandedIndex > -1;
 				if (shouldCollapse)
 				{
