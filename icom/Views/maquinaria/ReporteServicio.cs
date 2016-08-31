@@ -44,7 +44,7 @@ namespace icom
 			
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -90,7 +90,7 @@ namespace icom
 
 			btnGuardar.TouchUpInside += guardarReporte;
 
-
+			/*
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando Datos ...");
 			View.Add(loadPop);
@@ -144,7 +144,7 @@ namespace icom
 
 			inicializaCombos();
 			loadPop.Hide();
-
+*/
 			bajatecladoinputs();
 
 		}

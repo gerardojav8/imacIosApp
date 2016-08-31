@@ -37,7 +37,7 @@ namespace icom
 		{
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,7 +51,7 @@ namespace icom
 
 			lstobras = new List<clsCmbObras>();
 
-			var bounds = UIScreen.MainScreen.Bounds;
+			/*var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Obteniendo datos de Maquina espera por favor...");
 			View.Add(loadPop);
 
@@ -319,7 +319,7 @@ namespace icom
 
 
 			loadPop.Hide();
-
+			*/
 			
 
 
@@ -346,7 +346,7 @@ namespace icom
 						Console.WriteLine("saved as " + pathimagen);
 						btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
 
-						UIImage img = UIImage.FromFile(pathimagen);
+						/*UIImage img = UIImage.FromFile(pathimagen);
 						Byte[] imageBytes;
 						using (NSData imagenData = img.AsJPEG())
 						{
@@ -354,7 +354,10 @@ namespace icom
 							System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
 						}
 
-						strimagenbase64 = Convert.ToBase64String(imageBytes);
+						strimagenbase64 = Convert.ToBase64String(imageBytes);*/
+						strimagenbase64 = funciones.getBase64Image(pathimagen);
+
+
 					}
 					else {
 						Console.WriteLine("NOT saved as " + pathimagen + " because" + err.LocalizedDescription);

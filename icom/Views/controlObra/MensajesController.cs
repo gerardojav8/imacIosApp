@@ -53,7 +53,7 @@ namespace icom
 
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			socketioinit();
@@ -61,13 +61,13 @@ namespace icom
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
 
-			Boolean resp = await getAllMensajes();
+			/*Boolean resp = await getAllMensajes();
 			SetUpTableView();
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChat.ReloadData();
-			}
+			}*/
 
 
 
@@ -81,9 +81,9 @@ namespace icom
 				hora = " 12:00:00",
 				filename = "primeraplus.pdf",
 				idmensaje = "10026" 
-			});
+			});*/
 
-			SetUpTableView();*/
+			SetUpTableView();
 
 
 			txtmensaje.Started += OnTextViewStarted;

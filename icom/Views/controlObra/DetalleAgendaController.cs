@@ -112,7 +112,7 @@ namespace icom
 			ScrollToBottom(true);
 		}
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -136,7 +136,7 @@ namespace icom
 			lstusuarios = new List<String>();
 
 
-			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
+			/*clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
 			if (objde != null)
 			{
 
@@ -148,9 +148,9 @@ namespace icom
 				titulo = objde.titulo;
 				inicializaCombos();
 				loadPop.Hide();
-			}
+			}*/
 
-			/*lblComentario.Text = "Test de titulo";
+			lblComentario.Text = "Test de titulo";
 			lblLapso.Text = "2016-01-01 12:00:00 a 2016-01-01 12:00:00";
 			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechainicio);
 			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechafin);
@@ -158,7 +158,7 @@ namespace icom
 			lstusuarios.Add("Fermin Mojica Araujo");
 			imgFecha.Image = UIImage.FromFile("calendario/schedule_7.png");
 			notas = "Evento prueba";
-			titulo = "Test de titulo";*/
+			titulo = "Test de titulo";
 
 			inicializaCombos();
 
@@ -168,13 +168,13 @@ namespace icom
 
 			messages = new List<Message>();
 
-			Boolean resp = await getMessagesEvento();
+			/*Boolean resp = await getMessagesEvento();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChatDetalleAgencia.ReloadData();
-			}
+			}*/
 
 			SetUpTableView();
 

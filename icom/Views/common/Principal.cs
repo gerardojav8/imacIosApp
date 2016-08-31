@@ -140,7 +140,7 @@ namespace icom
 			objlog.pass = strpass;
 			var json = JsonConvert.SerializeObject(objlog);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			/*var content = new StringContent(json, Encoding.UTF8, "application/json");
 			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
 
 			HttpResponseMessage response = null;
@@ -166,6 +166,13 @@ namespace icom
 
 			string responseString = string.Empty;
 			responseString = await response.Content.ReadAsStringAsync();
+			var jsonresponse = JObject.Parse(responseString);*/
+
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+			if (responseString.Equals("-1")) {
+				funciones.SalirSesion(this);	
+			}
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];

@@ -13,6 +13,9 @@ namespace icom
 	partial class GraficasTareasController
 	{
 		[Outlet]
+		UIKit.UIButton btnExportarGrafica { get; set; }
+
+		[Outlet]
 		UIKit.UITableView tblClasificaciones { get; set; }
 
 		[Outlet]
@@ -20,14 +23,19 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (vwGrafica != null) {
-				vwGrafica.Dispose ();
-				vwGrafica = null;
+			if (btnExportarGrafica != null) {
+				btnExportarGrafica.Dispose ();
+				btnExportarGrafica = null;
 			}
 
 			if (tblClasificaciones != null) {
 				tblClasificaciones.Dispose ();
 				tblClasificaciones = null;
+			}
+
+			if (vwGrafica != null) {
+				vwGrafica.Dispose ();
+				vwGrafica = null;
 			}
 		}
 	}

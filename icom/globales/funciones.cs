@@ -2,6 +2,9 @@
 using UIKit;
 using Foundation;
 using icom.globales;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Text;
 namespace icom
 {
 	public static class funciones
@@ -74,6 +77,59 @@ namespace icom
 			controllerFrom.NavigationController.PopToViewController(logcont, true);
 
 		}
+
+		public static Byte[] getBytesFromImage(String path) { 
+		
+			UIImage img = UIImage.FromFile(path);
+			Byte[] imageBytes;
+			using (NSData imagenData = img.AsJPEG())
+			{
+				imageBytes = new Byte[imagenData.Length];
+				System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
+			}
+
+			return imageBytes;
+
+		}
+
+		public static String getBase64Image(String path) {
+			Byte[] imageBytes = getBytesFromImage(path);
+			return Convert.ToBase64String(imageBytes);
+		}
+
+		public static async Task<String> llamadaRest(HttpClient client, Uri uri, LoadingOverlay loadPop, String json, string token) {
+
+			if (token.Equals("")) return "-1";
+				
+			var content = new StringContent(json, Encoding.UTF8, "application/json");
+			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + token);
+
+			HttpResponseMessage response = null;
+
+			try
+			{
+				response = await client.PostAsync(uri, content);
+
+			}
+			catch (Exception e)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				return "-2";
+			}
+
+			if (response == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
+				return "-2";
+			}
+
+			string responseString = string.Empty;
+			responseString = await response.Content.ReadAsStringAsync();
+			return responseString;
+		}
+
 	}
 }
 
