@@ -34,6 +34,9 @@ namespace icom
 		UIKit.UIButton btnNuevoEvento { get; set; }
 
 		[Outlet]
+		UIKit.UILabel lblfecha { get; set; }
+
+		[Outlet]
 		UIKit.UITableView tblEventos { get; set; }
 
 		[Outlet]
@@ -44,14 +47,19 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (btnCategorias != null) {
-				btnCategorias.Dispose ();
-				btnCategorias = null;
+			if (lblfecha != null) {
+				lblfecha.Dispose ();
+				lblfecha = null;
 			}
 
 			if (btnActualizarEventos != null) {
 				btnActualizarEventos.Dispose ();
 				btnActualizarEventos = null;
+			}
+
+			if (btnCategorias != null) {
+				btnCategorias.Dispose ();
+				btnCategorias = null;
 			}
 
 			if (btnEditarEvento != null) {

@@ -5,8 +5,6 @@ using Alliance.Charts;
 using System.Collections.Generic;
 using Foundation;
 using System.IO;
-using Xfinium.Pdf;
-using Xfinium.Pdf.Graphics;
 
 namespace icom
 {
@@ -119,21 +117,6 @@ namespace icom
 			}
 
 			String strimagenbase64 = funciones.getBase64Image(pathimagen);
-			Console.WriteLine(strimagenbase64);
-
-			PdfFixedDocument document = new PdfFixedDocument();
-			PdfStandardFont helveticaBoldTitle = new PdfStandardFont(PdfStandardFontFace.HelveticaBold, 16);
-			PdfStandardFont helveticaSection = new PdfStandardFont(PdfStandardFontFace.Helvetica, 10);
-
-			PdfPage page = document.Pages.Add();
-
-			FileStream imageStream = new FileStream(pathimagen, FileMode.Open, FileAccess.Read, FileShare.Read);
-			PdfPngImage png = new PdfPngImage(imageStream);
-			page.Graphics.DrawImage(png, (page.Width / 2) - 200, 5, 400, 300);
-			page.Graphics.CompressAndClose();
-
-			document.Save(pathpdf);
-
 			funciones.MessageBox("Aviso", "Documento guardado");
 
 		}

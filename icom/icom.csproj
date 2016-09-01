@@ -107,12 +107,6 @@
     <Reference Include="Alliance.Charts">
       <HintPath>..\Components\AllianceChart-2.0\lib\ios-unified\Alliance.Charts.dll</HintPath>
     </Reference>
-    <Reference Include="Xfinium.Pdf.Render.Xamarin.iOS">
-      <HintPath>..\Components\xfinium-pdf-mobile-professional-edition-6.3.0-trial\lib\ios-unified\Xfinium.Pdf.Render.Xamarin.iOS.dll</HintPath>
-    </Reference>
-    <Reference Include="Xfinium.Pdf.Xamarin.iOS">
-      <HintPath>..\Components\xfinium-pdf-mobile-professional-edition-6.3.0-trial\lib\ios-unified\Xfinium.Pdf.Xamarin.iOS.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -381,10 +375,6 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="AllianceChart">
       <Version>2.0</Version>
-      <Visible>False</Visible>
-    </XamarinComponentReference>
-    <XamarinComponentReference Include="xfinium-pdf-mobile-professional-edition-trial">
-      <Version>6.3.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

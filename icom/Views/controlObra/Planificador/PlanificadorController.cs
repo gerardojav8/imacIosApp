@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UIKit;
+using icom.globales.ModalViewPicker;
+using Foundation;
 
 namespace icom
 {
@@ -10,10 +12,21 @@ namespace icom
 		{
 		}
 		private List<clsEvento> lstEventos; 
+		NSDateFormatter dateFormatterFecha = new NSDateFormatter() { DateFormat = "EEEE, MMMM dd, yy" };
+		NSLocale locale = NSLocale.FromLocaleIdentifier("es_MX");
+
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			lstEventos = new List<clsEvento>();
+			DateTime fechaAct = DateTime.Now;
+			dateFormatterFecha.Locale = locale;
+			lblfecha.Text = dateFormatterFecha.ToString(funciones.ConvertDateTimeToNSDate(fechaAct));
+
+			UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>{	DatePickerFechaInicio(); });
+			lblfecha.UserInteractionEnabled = true;
+			lblfecha.AddGestureRecognizer(tgrLabel);
+
 
 			clsEvento objev1 = new clsEvento
 			{
@@ -137,10 +150,25 @@ namespace icom
 
 		}
 
-		public override void DidReceiveMemoryWarning()
+		async void DatePickerFechaInicio()
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Fecha", this)
+			{
+				HeaderBackgroundColor = UIColor.Red,
+				HeaderTextColor = UIColor.White,
+				TransitioningDelegate = new ModalPickerTransitionDelegate(),
+				ModalPresentationStyle = UIModalPresentationStyle.Custom
+			};
+
+
+			modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
+			modalPicker.OnModalPickerDismissed += (s, ea) =>
+			{				
+				dateFormatterFecha.Locale = locale;
+				lblfecha.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
+			};
+
+			await PresentViewControllerAsync(modalPicker, true);
 		}
 	}
 }

@@ -14,6 +14,7 @@
                 <outlet property="btnGraficas" destination="J3Y-V2-iqD" id="LD7-pW-tNx"/>
                 <outlet property="btnInicio" destination="tZT-r7-k8H" id="UJN-3Z-WDG"/>
                 <outlet property="btnNuevoEvento" destination="Lcu-qg-6Tt" id="ZZg-Uw-rBo"/>
+                <outlet property="lblfecha" destination="7MG-gQ-nzQ" id="w0y-00-UPi"/>
                 <outlet property="tblEventos" destination="yux-LY-uSo" id="dOb-ZI-VgB"/>
                 <outlet property="view" destination="2" id="RRd-Eg-VrN"/>
                 <outlet property="viewPanelBottom" destination="9Vf-aG-rdI" id="xIB-G8-Tt1"/>
