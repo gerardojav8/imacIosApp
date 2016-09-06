@@ -36,10 +36,10 @@ namespace icom
 			};
 
 			btnPlanificador.TouchUpInside += delegate {
-				PlanificadorController viewplan = new PlanificadorController();
-				viewplan.Title = "Planificador";
+				ObrasController viewobras = new ObrasController();
+				viewobras.Title = "Obras";
 
-				this.NavigationController.PushViewController(viewplan, false);
+				this.NavigationController.PushViewController(viewobras, false);
 				UIView.BeginAnimations(null);
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlDown, NavigationController.View, true);

@@ -1,114 +1,127 @@
 // WARNING
 //
-// This file has been generated automatically by Xamarin Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
-// Manual changes to this file may not be handled correctly.
+// This file has been generated automatically by Xamarin Studio from the outlets and
+// actions declared in your storyboard file.
+// Manual changes to this file will not be maintained.
 //
 using Foundation;
+using System;
 using System.CodeDom.Compiler;
+using UIKit;
 
 namespace icom
 {
-	[Register ("ModifciarTareaController")]
-	partial class ModifciarTareaController
-	{
-		[Outlet]
-		UIKit.UIButton btnEliminar { get; set; }
+    [Register ("ModifciarTareaController")]
+    partial class ModifciarTareaController
+    {
+        [Outlet]
+        UIKit.UIButton btnEliminar { get; set; }
 
-		[Outlet]
-		UIKit.UIButton btnFinal { get; set; }
 
-		[Outlet]
-		UIKit.UIButton btnGuardar { get; set; }
+        [Outlet]
+        UIKit.UIButton btnFinal { get; set; }
 
-		[Outlet]
-		UIKit.UIButton btnInicio { get; set; }
 
-		[Outlet]
-		UIKit.UIButton cmbCategoria { get; set; }
+        [Outlet]
+        UIKit.UIButton btnGuardar { get; set; }
 
-		[Outlet]
-		UIKit.UISwitch swTodoDia { get; set; }
 
-		[Outlet]
-		UIKit.UITextField txtCategoria { get; set; }
+        [Outlet]
+        UIKit.UIButton btnInicio { get; set; }
 
-		[Outlet]
-		UIKit.UITextField txtFinal { get; set; }
 
-		[Outlet]
-		UIKit.UITextField txtInicio { get; set; }
+        [Outlet]
+        UIKit.UISwitch swTodoDia { get; set; }
 
-		[Outlet]
-		UIKit.UITextView txtNotas { get; set; }
 
-		[Outlet]
-		UIKit.UITextField txtPorcentaje { get; set; }
+        [Outlet]
+        UIKit.UITextField txtCategoria { get; set; }
 
-		[Outlet]
-		UIKit.UITextField txtTitulo { get; set; }
-		
-		void ReleaseDesignerOutlets ()
-		{
-			if (txtCategoria != null) {
-				txtCategoria.Dispose ();
-				txtCategoria = null;
-			}
 
-			if (cmbCategoria != null) {
-				cmbCategoria.Dispose ();
-				cmbCategoria = null;
-			}
+        [Outlet]
+        UIKit.UITextField txtFinal { get; set; }
 
-			if (txtTitulo != null) {
-				txtTitulo.Dispose ();
-				txtTitulo = null;
-			}
 
-			if (swTodoDia != null) {
-				swTodoDia.Dispose ();
-				swTodoDia = null;
-			}
+        [Outlet]
+        UIKit.UITextField txtInicio { get; set; }
 
-			if (txtInicio != null) {
-				txtInicio.Dispose ();
-				txtInicio = null;
-			}
 
-			if (btnInicio != null) {
-				btnInicio.Dispose ();
-				btnInicio = null;
-			}
+        [Outlet]
+        UIKit.UITextView txtNotas { get; set; }
 
-			if (txtFinal != null) {
-				txtFinal.Dispose ();
-				txtFinal = null;
-			}
 
-			if (btnFinal != null) {
-				btnFinal.Dispose ();
-				btnFinal = null;
-			}
+        [Outlet]
+        UIKit.UITextField txtObra { get; set; }
 
-			if (txtPorcentaje != null) {
-				txtPorcentaje.Dispose ();
-				txtPorcentaje = null;
-			}
 
-			if (txtNotas != null) {
-				txtNotas.Dispose ();
-				txtNotas = null;
-			}
+        [Outlet]
+        UIKit.UITextField txtPorcentaje { get; set; }
 
-			if (btnEliminar != null) {
-				btnEliminar.Dispose ();
-				btnEliminar = null;
-			}
 
-			if (btnGuardar != null) {
-				btnGuardar.Dispose ();
-				btnGuardar = null;
-			}
-		}
-	}
+        [Outlet]
+        UIKit.UITextField txtTitulo { get; set; }
+
+        void ReleaseDesignerOutlets ()
+        {
+            if (btnEliminar != null) {
+                btnEliminar.Dispose ();
+                btnEliminar = null;
+            }
+
+            if (btnFinal != null) {
+                btnFinal.Dispose ();
+                btnFinal = null;
+            }
+
+            if (btnGuardar != null) {
+                btnGuardar.Dispose ();
+                btnGuardar = null;
+            }
+
+            if (btnInicio != null) {
+                btnInicio.Dispose ();
+                btnInicio = null;
+            }
+
+            if (swTodoDia != null) {
+                swTodoDia.Dispose ();
+                swTodoDia = null;
+            }
+
+            if (txtCategoria != null) {
+                txtCategoria.Dispose ();
+                txtCategoria = null;
+            }
+
+            if (txtFinal != null) {
+                txtFinal.Dispose ();
+                txtFinal = null;
+            }
+
+            if (txtInicio != null) {
+                txtInicio.Dispose ();
+                txtInicio = null;
+            }
+
+            if (txtNotas != null) {
+                txtNotas.Dispose ();
+                txtNotas = null;
+            }
+
+            if (txtObra != null) {
+                txtObra.Dispose ();
+                txtObra = null;
+            }
+
+            if (txtPorcentaje != null) {
+                txtPorcentaje.Dispose ();
+                txtPorcentaje = null;
+            }
+
+            if (txtTitulo != null) {
+                txtTitulo.Dispose ();
+                txtTitulo = null;
+            }
+        }
+    }
 }

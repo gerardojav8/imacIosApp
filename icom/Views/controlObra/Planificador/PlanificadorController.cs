@@ -21,11 +21,11 @@ namespace icom
 			lstEventos = new List<clsEvento>();
 			DateTime fechaAct = DateTime.Now;
 			dateFormatterFecha.Locale = locale;
-			lblfecha.Text = dateFormatterFecha.ToString(funciones.ConvertDateTimeToNSDate(fechaAct));
+			//lblfecha.Text = dateFormatterFecha.ToString(funciones.ConvertDateTimeToNSDate(fechaAct));
 
-			UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>{	DatePickerFechaInicio(); });
-			lblfecha.UserInteractionEnabled = true;
-			lblfecha.AddGestureRecognizer(tgrLabel);
+			//UITapGestureRecognizer tgrLabel = new UITapGestureRecognizer(() =>{	DatePickerFechaInicio(); });
+			//lblfecha.UserInteractionEnabled = true;
+			//lblfecha.AddGestureRecognizer(tgrLabel);
 
 
 			clsEvento objev1 = new clsEvento
@@ -135,22 +135,11 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			btnCategorias.TouchUpInside += delegate {
-				CategoriasTareasController viewcat = new CategoriasTareasController();
-
-
-				viewcat.Title = "Exportacion PDF";
-				this.NavigationController.PushViewController(viewcat, false);
-				UIView.BeginAnimations(null);
-				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
-				UIView.CommitAnimations();
-			};
 
 
 		}
 
-		async void DatePickerFechaInicio()
+		/*async void DatePickerFechaInicio()
 		{
 			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Fecha", this)
 			{
@@ -169,7 +158,7 @@ namespace icom
 			};
 
 			await PresentViewControllerAsync(modalPicker, true);
-		}
+		}*/
 	}
 }
 

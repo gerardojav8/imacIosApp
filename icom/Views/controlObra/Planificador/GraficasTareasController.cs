@@ -65,7 +65,7 @@ namespace icom
 
 			tblClasificaciones.Source = new FuenteTablaGraficas(this, lstClas);
 
-			grafica = new AllianceChart(Chart.Pie, vwGrafica);
+			grafica = new AllianceChart(Chart.Bar, vwGrafica);
 			creargrafica();
 
 			btnExportarGrafica.TouchUpInside += delegate {
@@ -125,20 +125,24 @@ namespace icom
 
 
 			List<ChartComponent> Componentes = new List<ChartComponent>();
-			grafica.PieChart.TitleFont = UIFont.FromName("Arial", 12f);
-			grafica.PieChart.ShowPercentage = true;
+			grafica.BarChart.SetupBarViewShape(BarShape.Rounded);
+			grafica.BarChart.SetupBarViewStyle(BarDisplayStyle.BarStyleMatte);
+			grafica.BarChart.SetupBarViewShadow(BarShadow.Light);
+			grafica.BarChart.barWidth = 30;
+			//grafica.PieChart.TitleFont = UIFont.FromName("Arial", 12f);
+			//grafica.PieChart.ShowPercentage = true;
 
 			foreach (clsClasificacion item in lstClas) { 
 				ChartComponent chrtcomp = new ChartComponent
 				{
 					Name = "",
-					value = item.porcentaje,
+					value = (float)item.porcentaje,
 					color = item.color
 				};
 				Componentes.Add(chrtcomp);
 			}
 
-			grafica.LoadChart(Componentes, Chart.Pie, vwGrafica);
+			grafica.LoadChart(Componentes, Chart.Bar, vwGrafica);
 		}
 	}
 }

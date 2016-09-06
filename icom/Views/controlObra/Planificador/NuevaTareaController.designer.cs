@@ -22,9 +22,6 @@ namespace icom
 		UIKit.UIButton btnInicio { get; set; }
 
 		[Outlet]
-		UIKit.UIButton cmbCategoria { get; set; }
-
-		[Outlet]
 		UIKit.UISwitch swTodoDia { get; set; }
 
 		[Outlet]
@@ -40,6 +37,9 @@ namespace icom
 		UIKit.UITextView txtNotas { get; set; }
 
 		[Outlet]
+		UIKit.UITextField txtObra { get; set; }
+
+		[Outlet]
 		UIKit.UITextField txtPorcentaje { get; set; }
 
 		[Outlet]
@@ -47,6 +47,11 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (txtObra != null) {
+				txtObra.Dispose ();
+				txtObra = null;
+			}
+
 			if (btnFinal != null) {
 				btnFinal.Dispose ();
 				btnFinal = null;
@@ -60,11 +65,6 @@ namespace icom
 			if (btnInicio != null) {
 				btnInicio.Dispose ();
 				btnInicio = null;
-			}
-
-			if (cmbCategoria != null) {
-				cmbCategoria.Dispose ();
-				cmbCategoria = null;
 			}
 
 			if (swTodoDia != null) {

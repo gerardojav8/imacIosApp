@@ -3,6 +3,7 @@
 using UIKit;
 using Alliance.Charts;
 using System.Collections.Generic;
+using Foundation;
 
 namespace icom
 {
@@ -80,6 +81,27 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, this.NavigationController.View, true);
 				UIView.CommitAnimations();
+			};
+
+			btnModificarCategoria.TouchUpInside += delegate {
+				NSIndexPath indexPath = tblCategorias.IndexPathForSelectedRow;
+				if (indexPath != null)
+				{
+					CategoriasModController viewcm = new CategoriasModController();
+
+
+					viewcm.Title = "Modificar Clasificacion";
+					this.NavigationController.PushViewController(viewcm, false);
+					UIView.BeginAnimations(null);
+					UIView.SetAnimationDuration(0.7);
+					UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, this.NavigationController.View, true);
+					UIView.CommitAnimations();
+				}
+				else {
+					funciones.MessageBox("Aviso", "Ninguna celda seleccionada");
+				}
+
+				tblCategorias.DeselectRow(indexPath, true);
 			};
 		}
 

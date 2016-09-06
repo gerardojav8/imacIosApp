@@ -137,6 +137,9 @@
     <InterfaceDefinition Include="Views\controlObra\Planificador\CategoriasTareasController.xib" />
     <InterfaceDefinition Include="Views\controlObra\Planificador\CategoriasAltaController.xib" />
     <InterfaceDefinition Include="Views\controlObra\Planificador\CategoriasModController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\ObrasController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\AltaObraController.xib" />
+    <InterfaceDefinition Include="Views\controlObra\Planificador\ModificarObraController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -308,6 +311,20 @@
     <Compile Include="Views\controlObra\Planificador\CategoriasModController.designer.cs">
       <DependentUpon>CategoriasModController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\controlObra\Planificador\ObrasController.cs" />
+    <Compile Include="Views\controlObra\Planificador\ObrasController.designer.cs">
+      <DependentUpon>ObrasController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\AltaObraController.cs" />
+    <Compile Include="Views\controlObra\Planificador\AltaObraController.designer.cs">
+      <DependentUpon>AltaObraController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\controlObra\Planificador\ModificarObraController.cs" />
+    <Compile Include="Views\controlObra\Planificador\ModificarObraController.designer.cs">
+      <DependentUpon>ModificarObraController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Entidades\clsListadoObra.cs" />
+    <Compile Include="Views\controlObra\TablasSources\FuenteTablaObras.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
