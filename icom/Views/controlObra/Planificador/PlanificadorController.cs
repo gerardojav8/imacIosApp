@@ -110,17 +110,7 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			btnGraficas.TouchUpInside += delegate {
-				GraficasTareasController viewg = new GraficasTareasController();
 
-
-				viewg.Title = "Graficas";
-				this.NavigationController.PushViewController(viewg, false);
-				UIView.BeginAnimations(null);
-				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
-				UIView.CommitAnimations();	
-			};
 
 			btnExportaPDF.TouchUpInside += delegate
 			{

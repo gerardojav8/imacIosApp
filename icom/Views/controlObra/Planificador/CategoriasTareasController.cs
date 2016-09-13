@@ -103,6 +103,18 @@ namespace icom
 
 				tblCategorias.DeselectRow(indexPath, true);
 			};
+
+			btnGrafica.TouchUpInside += delegate {
+				GraficasTareasController viewg = new GraficasTareasController();
+
+
+				viewg.Title = "Graficas";
+				this.NavigationController.PushViewController(viewg, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
+				UIView.CommitAnimations();	
+			};
 		}
 
 		public override void DidReceiveMemoryWarning()

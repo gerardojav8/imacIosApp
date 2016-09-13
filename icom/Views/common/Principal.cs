@@ -67,17 +67,6 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			btnInformacion.TouchUpInside += delegate {
-				Informacion viewinfo = new Informacion();
-				viewinfo.Title = "Informacion";
-
-
-				this.NavigationController.PushViewController(viewinfo, false);
-				UIView.BeginAnimations(null);
-				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View,true);
-				UIView.CommitAnimations();
-			};
 
 			btnCerrarSesion.TouchUpInside += delegate {
 				funciones.SalirSesion(this);
