@@ -105,7 +105,7 @@ namespace icom
 		UILabel headingLabel, categoriaLabel, porLabel;
 		private double porcentajelabel;
 
-		public CustomListadoObrasCell(NSString cellId, int por) : base(UITableViewCellStyle.Default, cellId)
+		public CustomListadoObrasCell(NSString cellId, double por) : base(UITableViewCellStyle.Default, cellId)
 		{
 
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
@@ -169,7 +169,7 @@ namespace icom
 	public class CustomListadoObrasCellBlack : CustomListadoObrasCell
 	{
 
-		public CustomListadoObrasCellBlack(NSString cellId, int por) : base(cellId, por)
+		public CustomListadoObrasCellBlack(NSString cellId, double por) : base(cellId, por)
 		{
 
 			ContentView.BackgroundColor = UIColor.FromRGB(220, 224, 231);
@@ -181,7 +181,7 @@ namespace icom
 	public class CustomListadoObrasCellWhite : CustomListadoObrasCell
 	{
 
-		public CustomListadoObrasCellWhite(NSString cellId, int por) : base(cellId, por)
+		public CustomListadoObrasCellWhite(NSString cellId, double por) : base(cellId, por)
 		{
 			ContentView.BackgroundColor = UIColor.White;
 		}

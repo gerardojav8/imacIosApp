@@ -129,26 +129,6 @@ namespace icom
 
 		}
 
-		/*async void DatePickerFechaInicio()
-		{
-			var modalPicker = new ModalPickerViewController(ModalPickerType.Date, "Elije una Fecha", this)
-			{
-				HeaderBackgroundColor = UIColor.Red,
-				HeaderTextColor = UIColor.White,
-				TransitioningDelegate = new ModalPickerTransitionDelegate(),
-				ModalPresentationStyle = UIModalPresentationStyle.Custom
-			};
-
-
-			modalPicker.DatePicker.Mode = UIDatePickerMode.Date;
-			modalPicker.OnModalPickerDismissed += (s, ea) =>
-			{				
-				dateFormatterFecha.Locale = locale;
-				lblfecha.Text = dateFormatterFecha.ToString(modalPicker.DatePicker.Date);
-			};
-
-			await PresentViewControllerAsync(modalPicker, true);
-		}*/
 	}
 }
 

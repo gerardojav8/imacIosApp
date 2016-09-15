@@ -23,7 +23,6 @@ namespace icom
 
 		public string strpass{ get; set; }
 
-
 		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
@@ -159,14 +158,14 @@ namespace icom
 
 			string responseString = string.Empty;
 			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
 			if (responseString.Equals("-1")) {
 				funciones.SalirSesion(this);	
 			}
+
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];
-
-
 			if (jtokenerror != null)
 			{
 				loadPop.Hide();

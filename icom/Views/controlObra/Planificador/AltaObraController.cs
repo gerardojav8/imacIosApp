@@ -3,13 +3,23 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
-using icom.globales.ModalViewPicker;
+using icom.globales;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+
 
 namespace icom
 {
 	public partial class AltaObraController : UIViewController
 	{
+		public UIViewController viewobras { get; set; } 
+		LoadingOverlay loadPop;
+		HttpClient client;
+
 		public AltaObraController() : base("AltaObraController", null)
 		{
 		}
@@ -42,8 +52,81 @@ namespace icom
 
 			txtnombreobra.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 
+			btnGuardarObra.TouchUpInside += guardarObra;
+
 
 		}
+
+		async void guardarObra(object sender, EventArgs e)
+		{
+			if (txtnombreobra.Equals(""))
+			{
+				funciones.MessageBox("Error", "El nombre de la obra no puede ser vacio, verifiquelo por favor");
+				return;
+			}
+
+
+			Boolean resp = await saveObra();
+
+			if (resp)
+			{
+				((MaquinasController)viewobras).recargarListado();
+				this.NavigationController.PopToViewController(viewobras, true);
+			}
+		}
+
+		public async Task<Boolean> saveObra()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Obra...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/NuevaObra";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("nombre", txtnombreobra.Text);
+			pet.Add("descripcion", txtdescripcion.Text);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0")) { 
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+
+			funciones.MessageBox("Aviso", "Se ha guardado la obra!!!");
+			return true;
+
+		}
+
 
 		double ajuste = 150;
 		Boolean blntecladoarriba = false;

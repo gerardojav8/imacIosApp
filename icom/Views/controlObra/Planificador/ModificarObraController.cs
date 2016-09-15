@@ -3,18 +3,28 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
-using icom.globales.ModalViewPicker;
+using icom.globales;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace icom
 {
 	public partial class ModificarObraController : UIViewController
 	{
+		public UIViewController viewobras { get; set; }
+		public int idobra { get; set; }
+		LoadingOverlay loadPop;
+		HttpClient client;
+
 		public ModificarObraController() : base("ModificarObraController", null)
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -26,6 +36,9 @@ namespace icom
 			txtDescripcionobra.Text = "";
 
 			bajatecladoinputs();
+
+			Boolean resp = await cargaDatosObra();
+
 		}
 
 		private void bajatecladoinputs()
@@ -43,6 +56,196 @@ namespace icom
 
 			txtNombreObra.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 
+			btnModificarObra.TouchUpInside += modificaObra;
+
+		}
+
+		public async Task<Boolean> cargaDatosObra()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de la Obra...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/getObraById";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idobra", idobra.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			txtNombreObra.Text = jsonresponse["nombre"].ToString();
+			txtDescripcionobra.Text = jsonresponse["descripcion"].ToString();
+
+			loadPop.Hide();
+			return true;
+
+		}
+
+		async void modificaObra(object sender, EventArgs e)
+		{
+			if (txtNombreObra.Equals(""))
+			{
+				funciones.MessageBox("Error", "El nombre de la obra no puede ser vacio, verifiquelo por favor");
+				return;
+			}
+
+
+			Boolean resp = await modObra();
+
+			if (resp)
+			{
+				((MaquinasController)viewobras).recargarListado();
+				this.NavigationController.PopToViewController(viewobras, true);
+			}
+		}
+
+		public async Task<Boolean> modObra()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Obra...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/ModificaObra";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idobra", idobra.ToString());
+			pet.Add("nombre", txtNombreObra.Text);
+			pet.Add("descripcion", txtDescripcionobra.Text);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se ha guardado la obra!!!");
+			return true;
+
+		}
+
+		async void BorrarObra(object sender, EventArgs e)
+		{
+			int resp = await funciones.MessageBoxCancelOk("Aviso", "Esta seguro de borrar la obra");
+			if(resp == 0)
+			{				
+				return;
+			}
+
+			Boolean respborr = await borrObra();
+
+			if (respborr)
+			{
+				((MaquinasController)viewobras).recargarListado();
+				this.NavigationController.PopToViewController(viewobras, true);
+			}
+		}
+
+		public async Task<Boolean> borrObra()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Eliminando Obra...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/EliminarObra";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idobra", idobra.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0") || result.Equals("2"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se elimino la obra");
+			return true;
 
 		}
 
@@ -87,6 +290,8 @@ namespace icom
 			}
 
 		}
+
+
 
 		private void TecladoAbajo(NSNotification notif)
 		{

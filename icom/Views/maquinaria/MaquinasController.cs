@@ -26,7 +26,7 @@ namespace icom
 		private List<clsListadoMaquinas> lstMaqServ;
 
 
-		public async override void ViewDidLoad()
+		public override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();

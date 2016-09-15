@@ -5,6 +5,7 @@ using icom.globales;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
+using Newtonsoft.Json.Linq;
 namespace icom
 {
 	public static class funciones
@@ -18,6 +19,23 @@ namespace icom
 				Alerta.AddButton("Enterado");
 				Alerta.Show();
 			};
+		}
+
+		public static Task<int> MessageBoxCancelOk(string titulo, string mensaje)
+		{
+			var tcs = new TaskCompletionSource<int>();
+			var alert = new UIAlertView
+			{
+				Title = titulo,
+				Message = mensaje
+			};
+
+			alert.AddButton("Cancelar");
+			alert.AddButton("OK");
+
+			alert.Clicked += (s, e) => tcs.TrySetResult((int)e.ButtonIndex);
+			return tcs.Task;
+
 		}
 
 		public static string getNombreMes(int nomes) {
@@ -127,6 +145,16 @@ namespace icom
 
 			string responseString = string.Empty;
 			responseString = await response.Content.ReadAsStringAsync();
+
+			var jsonresponse = JObject.Parse(responseString);
+			var jtokenerror = jsonresponse["Message"];
+			if (jtokenerror != null)
+			{
+				String msg = jtokenerror.ToString();
+				if (msg.ToLower().Contains("se ha denegado")) {
+					return "-1";
+				}
+			}
 			return responseString;
 		}
 
