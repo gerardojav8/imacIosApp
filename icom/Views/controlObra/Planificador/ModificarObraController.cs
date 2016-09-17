@@ -37,7 +37,7 @@ namespace icom
 
 			bajatecladoinputs();
 
-			Boolean resp = await cargaDatosObra();
+			await cargaDatosObra();
 
 		}
 
@@ -119,7 +119,7 @@ namespace icom
 
 			if (resp)
 			{
-				((MaquinasController)viewobras).recargarListado();
+				((ObrasController)viewobras).recargarListado();
 				this.NavigationController.PopToViewController(viewobras, true);
 			}
 		}
@@ -190,7 +190,7 @@ namespace icom
 
 			if (respborr)
 			{
-				((MaquinasController)viewobras).recargarListado();
+				((ObrasController)viewobras).recargarListado();
 				this.NavigationController.PopToViewController(viewobras, true);
 			}
 		}

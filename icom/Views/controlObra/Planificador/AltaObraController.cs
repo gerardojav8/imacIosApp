@@ -70,7 +70,7 @@ namespace icom
 
 			if (resp)
 			{
-				((MaquinasController)viewobras).recargarListado();
+				((ObrasController)viewobras).recargarListado();
 				this.NavigationController.PopToViewController(viewobras, true);
 			}
 		}

@@ -65,7 +65,7 @@ namespace icom
 				}
 			}
 
-			String strpor = objclas.porcentaje.ToString() + " Hrs. ";
+			String strpor = objclas.porcentaje.ToString() + " % ";
 
 
 			((CustomGraficaCell)cell).UpdateCell(objclas.nombre, strpor);

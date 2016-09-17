@@ -23,6 +23,19 @@ namespace icom.globales
 		public static string inicialesusuarioapp = "";
 		public static UIViewController logincontroller;
 
+		public static UIColor[] colores = {
+			UIColor.Blue,
+			UIColor.Yellow,
+			UIColor.Red,
+			UIColor.Purple,
+			UIColor.Brown,
+			UIColor.Orange,
+			UIColor.Green,
+			UIColor.Gray,
+			UIColor.Cyan,
+			UIColor.Magenta
+		};
+
 
 	}
 }

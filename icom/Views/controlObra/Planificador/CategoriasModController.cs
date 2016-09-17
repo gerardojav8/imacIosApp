@@ -3,7 +3,13 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
+using icom.globales;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace icom
 {
@@ -12,6 +18,12 @@ namespace icom
 		public CategoriasModController() : base("CategoriasModController", null)
 		{
 		}
+
+		public UIViewController viewcategorias { get; set; }
+		public int idcategoria { get; set; }
+		LoadingOverlay loadPop;
+		HttpClient client;
+
 
 		public override void ViewDidLoad()
 		{
@@ -46,6 +58,150 @@ namespace icom
 
 			txtNombreCategoria.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 
+
+		}
+
+		async void modificaObra(object sender, EventArgs e)
+		{
+			if (txtNombreCategoria.Equals(""))
+			{
+				funciones.MessageBox("Error", "El nombre de la Categoria no puede ser vacio, verifiquelo por favor");
+				return;
+			}
+
+
+			Boolean resp = await modObra();
+
+			if (resp)
+			{
+				((CategoriasTareasController)viewcategorias).recargarListado();
+				this.NavigationController.PopToViewController(viewcategorias, true);
+			}
+		}
+
+		public async Task<Boolean> modObra()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Categoria...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/ModificarCategoria";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idcategoria", idcategoria.ToString());
+			pet.Add("idusuario", Consts.idusuarioapp);
+			pet.Add("nombre", txtNombreCategoria.Text);
+			pet.Add("comentarios", txtComentario.Text);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se ha guardado la Categoria!!!");
+			return true;
+
+		}
+
+		async void BorrarCategoria(object sender, EventArgs e)
+		{
+			int resp = await funciones.MessageBoxCancelOk("Aviso", "Esta seguro de borrar la Categoria");
+			if (resp == 0)
+			{
+				return;
+			}
+
+			Boolean respborr = await borrCat();
+
+			if (respborr)
+			{
+				((CategoriasTareasController)viewcategorias).recargarListado();
+				this.NavigationController.PopToViewController(viewcategorias, true);
+			}
+		}
+
+		public async Task<Boolean> borrCat()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Eliminando Categoria...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/EliminarCategoria";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idcategoria", idcategoria.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0") || result.Equals("2"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se elimino la Categoria");
+			return true;
 
 		}
 
@@ -110,5 +266,3 @@ namespace icom
 		}
 	}
 }
-
-

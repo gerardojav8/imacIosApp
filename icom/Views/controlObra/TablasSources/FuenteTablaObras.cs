@@ -34,6 +34,7 @@ namespace icom
 		{			
 			CategoriasTareasController viewCategorias = new CategoriasTareasController();
 			viewCategorias.Title = "Categorias";
+			viewCategorias.idobra = lstObras.ElementAt(indexPath.Row).idobra;
 
 			viewparent.NavigationController.PushViewController(viewCategorias, false);
 			UIView.BeginAnimations(null);

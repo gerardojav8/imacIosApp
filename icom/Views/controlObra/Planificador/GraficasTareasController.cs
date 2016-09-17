@@ -12,7 +12,7 @@ namespace icom
 	{
 
 		public AllianceChart grafica;
-		private List<clsClasificacion> lstClas;
+		public List<clsClasificacion> lstClas { get; set; }
 		public GraficasTareasController() : base("GraficasTareasController", null)
 		{
 		}
@@ -20,7 +20,7 @@ namespace icom
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
-			lstClas = new List<clsClasificacion>();
+			/*lstClas = new List<clsClasificacion>();
 
 			clsClasificacion obj1 = new clsClasificacion
 			{
@@ -61,7 +61,7 @@ namespace icom
 			lstClas.Add(obj2);
 			lstClas.Add(obj3);
 			lstClas.Add(obj4);
-			lstClas.Add(obj5);
+			lstClas.Add(obj5);*/
 
 			tblClasificaciones.Source = new FuenteTablaGraficas(this, lstClas);
 
@@ -69,9 +69,7 @@ namespace icom
 			creargrafica();
 
 			btnExportarGrafica.TouchUpInside += delegate {
-
 				crearPDF();
-
 			};
 
 
@@ -118,6 +116,7 @@ namespace icom
 
 			String strimagenbase64 = funciones.getBase64Image(pathimagen);
 			funciones.MessageBox("Aviso", "Documento guardado");
+			//aqui mandar llamar a servicio para exporar pdf
 
 		}
 
@@ -129,8 +128,6 @@ namespace icom
 			grafica.BarChart.SetupBarViewStyle(BarDisplayStyle.BarStyleMatte);
 			grafica.BarChart.SetupBarViewShadow(BarShadow.Light);
 			grafica.BarChart.barWidth = 30;
-			//grafica.PieChart.TitleFont = UIFont.FromName("Arial", 12f);
-			//grafica.PieChart.ShowPercentage = true;
 
 			foreach (clsClasificacion item in lstClas) { 
 				ChartComponent chrtcomp = new ChartComponent

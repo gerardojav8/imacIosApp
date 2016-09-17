@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 namespace icom
 {
 	public static class funciones
@@ -156,6 +158,19 @@ namespace icom
 				}
 			}
 			return responseString;
+		}
+
+		public static int getNumeroAleatorioSinRepetir(int desde, int hasta, List<int> numeros) {
+
+			Random rn = new Random();
+			int num = 0;
+
+			do
+			{
+				num = rn.Next(desde, hasta);
+			} while (numeros.Any(x => x == num));
+
+			return num;
 		}
 
 	}

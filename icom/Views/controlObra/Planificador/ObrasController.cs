@@ -7,7 +7,7 @@ using icom.globales;
 using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-
+using System.Linq;
 
 namespace icom
 {
@@ -77,7 +77,7 @@ namespace icom
 				NSIndexPath indexPath = tblObras.IndexPathForSelectedRow;
 				if (indexPath != null){
 					ModificarObraController viewmodobra = new ModificarObraController();
-
+					viewmodobra.idobra = lstObras.ElementAt(indexPath.Row).idobra;
 
 					viewmodobra.Title = "Modifica Obra";
 					this.NavigationController.PushViewController(viewmodobra, false);
@@ -119,7 +119,8 @@ namespace icom
 
 			if (resp)
 			{
-				recargarListado();
+				tblObras.Source = new FuenteTablaObras(this, lstObras);
+				tblObras.ReloadData();
 			}
 		}
 
