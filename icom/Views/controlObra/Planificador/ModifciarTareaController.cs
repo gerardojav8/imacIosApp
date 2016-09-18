@@ -3,8 +3,14 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
-using icom.globales.ModalViewPicker;
+using icom.globales;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using icom.globales.ModalViewPicker;
 namespace icom
 {
 	public partial class ModifciarTareaController : UIViewController
@@ -12,6 +18,10 @@ namespace icom
 		public ModifciarTareaController() : base("ModifciarTareaController", null)
 		{
 		}
+		public UIViewController viewtareas { get; set; }
+		public int idtarea { get; set; }
+		LoadingOverlay loadPop;
+		HttpClient client;
 
 		public override void ViewDidLoad()
 		{
@@ -48,16 +58,237 @@ namespace icom
 				}
 			};
 
+			btnGuardar.TouchUpInside += modificaTarea;
+			btnEliminar.TouchUpInside += BorraTarea;
 			btnInicio.TouchUpInside += DatePickerFechaInicio;
 			btnFinal.TouchUpInside += DateTimePikerFechafin;
 
 			bajatecladoinputs();
 		}
 
-		public override void DidReceiveMemoryWarning()
+		public async Task<Boolean> cargaDatosTarea()
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de la tarea...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/getTareaById";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idtarea", idtarea.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			txtObra.Text = jsonresponse["nombreobra"].ToString();
+			txtCategoria.Text = jsonresponse["nombrecategoria"].ToString();
+			txtTitulo.Text = jsonresponse["titulo"].ToString();
+
+			int td = Int32.Parse(jsonresponse["todoDia"].ToString());
+			if (td == 1)
+			{
+				swTodoDia.On = true;
+			}
+			else {
+				swTodoDia.On = false;
+			}
+
+			txtInicio.Text = jsonresponse["inicio"].ToString();
+			txtFinal.Text = jsonresponse["fin"].ToString();
+			txtPorcentaje.Text = jsonresponse["porcentaje"].ToString();
+			txtNotas.Text = jsonresponse["notas"].ToString();
+
+			loadPop.Hide();
+			return true;
+
+		}
+
+		async void modificaTarea(object sender, EventArgs e)
+		{
+			if (txtTitulo.Text.Equals(""))
+			{
+				funciones.MessageBox("Error", "El nombre de la Tarea no puede ser vacio, verifiquelo por favor");
+				return;
+			}
+
+			if (txtInicio.Text.Equals("") || txtFinal.Text.Equals(""))
+			{
+				funciones.MessageBox("Error", "Debe de seleccionar una fecha inicial y una fecha final, verifiquelo por favor");
+				return;
+			}
+
+			if (txtPorcentaje.Text.Equals(""))
+			{
+				funciones.MessageBox("Error", "Debe agregar un porcentaje, verifiquelo por favor");
+				return;
+			}
+
+
+			Boolean resp = await modTarea();
+
+			if (resp)
+			{
+				((PlanificadorController)viewtareas).recargarListado();
+				this.NavigationController.PopToViewController(viewtareas, true);
+			}
+		}
+
+		public async Task<Boolean> modTarea()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Tarea...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/ModificarTarea";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idtarea", idtarea.ToString());
+			pet.Add("titulo", txtTitulo.Text);
+			int td = 0;
+			if (swTodoDia.On)
+			{
+				td = 1;
+			}
+			pet.Add("todoDia", td.ToString());
+			pet.Add("inicio", txtInicio.Text);
+			pet.Add("fin", txtFinal.Text);
+			pet.Add("porcentaje", txtPorcentaje.Text);
+			pet.Add("notas", txtNotas.Text);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se ha guardado la Tarea!!!");
+			return true;
+
+		}
+
+		async void BorraTarea(object sender, EventArgs e)
+		{
+			int resp = await funciones.MessageBoxCancelOk("Aviso", "Esta seguro de borrar la Tarea");
+			if (resp == 0)
+			{
+				return;
+			}
+
+			Boolean respborr = await borrTarea();
+
+			if (respborr)
+			{
+				((PlanificadorController)viewtareas).recargarListado();
+				this.NavigationController.PopToViewController(viewtareas, true);
+			}
+		}
+
+		public async Task<Boolean> borrTarea()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Eliminando Tarea...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/eliminarTarea";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idtarea", idtarea.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0") || result.Equals("2"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+
+
+			loadPop.Hide();
+			funciones.MessageBox("Aviso", "Se elimino la tarea");
+			return true;
+
 		}
 
 		async void DatePickerFechaInicio(object sender, EventArgs e)

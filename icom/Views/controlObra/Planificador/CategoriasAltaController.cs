@@ -35,6 +35,8 @@ namespace icom
 			txtComentarios.Layer.BorderWidth = (nfloat)2.0;
 			txtComentarios.Text = "";
 
+			btnGuardar.TouchUpInside += guardaCategoria;
+
 			bajatecladoinputs();
 
 		}
@@ -105,7 +107,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -115,7 +117,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0"))
+			if (result.ToString().Equals("0"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();

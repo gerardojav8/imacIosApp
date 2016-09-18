@@ -42,7 +42,7 @@ namespace icom
 		{
 			PlanificadorController viewplan = new PlanificadorController();
 			viewplan.Title = "Tareas";
-
+			viewplan.idcategoria = lstCalsificacion.ElementAt(indexPath.Row).idclasificacion;
 			viewparent.NavigationController.PushViewController(viewplan, false);
 			UIView.BeginAnimations(null);
 			UIView.SetAnimationDuration(0.7);

@@ -3,8 +3,14 @@
 using UIKit;
 using Foundation;
 using CoreGraphics;
-using icom.globales.ModalViewPicker;
+using icom.globales;
 using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using icom.globales.ModalViewPicker;
 namespace icom
 {
 	public partial class NuevaTareaController : UIViewController
@@ -12,6 +18,12 @@ namespace icom
 		public NuevaTareaController() : base("NuevaTareaController", null)
 		{
 		}
+
+
+		public UIViewController viewobras { get; set; }
+		public int idcategoria { get; set; }
+		LoadingOverlay loadPop;
+		HttpClient client;
 
 		public override void ViewDidLoad()
 		{
@@ -47,6 +59,8 @@ namespace icom
 				}
 			};
 
+			btnGuardar.TouchUpInside += guardarTarea;
+
 			btnInicio.TouchUpInside += DatePickerFechaInicio;
 			btnFinal.TouchUpInside += DateTimePikerFechafin;
 
@@ -77,10 +91,92 @@ namespace icom
 
 		}
 
-		public override void DidReceiveMemoryWarning()
+		async void guardarTarea(object sender, EventArgs e)
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			if (txtTitulo.Text.Equals(""))
+			{
+				funciones.MessageBox("Error", "El nombre de la Tarea no puede ser vacio, verifiquelo por favor");
+				return;
+			}
+
+			if (txtInicio.Text.Equals("") || txtFinal.Text.Equals("")) { 
+				funciones.MessageBox("Error", "Debe de seleccionar una fecha inicial y una fecha final, verifiquelo por favor");
+				return;
+			}
+
+			if (txtPorcentaje.Text.Equals("")) { 
+				funciones.MessageBox("Error", "Debe agregar un porcentaje, verifiquelo por favor");
+				return;
+			}
+
+			Boolean resp = await saveTarea();
+
+			if (resp)
+			{
+				((PlanificadorController)viewobras).recargarListado();
+				this.NavigationController.PopToViewController(viewobras, true);
+			}
+		}
+
+		public async Task<Boolean> saveTarea()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Guardando Tarea...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/NuevaTarea";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idcategoria", idcategoria.ToString());
+			pet.Add("titulo", txtTitulo.Text);
+			int td = 0;
+			if (swTodoDia.On){
+				td = 1;
+			}
+			pet.Add("todoDia", td.ToString());
+			pet.Add("inicio", txtInicio.Text);
+			pet.Add("fin", txtFinal.Text);
+			pet.Add("porcentaje", txtPorcentaje.Text);
+			pet.Add("notas", txtNotas.Text);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"].ToString();
+
+
+			if (result == null)
+			{
+				loadPop.Hide();
+				funciones.MessageBox("Error", "Error al guardar los datos, intentelo nuevamente");
+				return false;
+			}
+
+			if (result.Equals("0"))
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			funciones.MessageBox("Aviso", "Se ha guardado la Tarea!!!");
+			return true;
+
 		}
 
 		async void DatePickerFechaInicio(object sender, EventArgs e)

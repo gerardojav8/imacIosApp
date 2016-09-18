@@ -40,7 +40,6 @@ namespace icom
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 
-
 			int indicearreglo = indexPath.Row;
 
 			UITableViewCell cell;
@@ -52,25 +51,20 @@ namespace icom
 				cell = new CustomEventosCell((NSString)celdaEventos, objev.porcentajeavance);
 			}
 
-
-			String lapso = "De: " + objev.horainicio + " a " + objev.horafinal;
 			String totalhoras = "Hrs.: " + objev.totalhoras;
-			((CustomEventosCell)cell).UpdateCell(objev.titulo, objev.clasificacion, totalhoras, lapso);
+			((CustomEventosCell)cell).UpdateCell(objev.titulo, totalhoras, objev.lapso);
 
 			return cell;
-
-
-
 
 		}
 	}
 
 	public class CustomEventosCell : UITableViewCell
 	{
-		UILabel headingLabel, categoriaLabel, horasLabel, iniciofinlabel, colorLabel, porLabel;
+		UILabel headingLabel, horasLabel, iniciofinlabel, colorLabel, porLabel;
 		private double porcentajelabel;
 
-		public CustomEventosCell(NSString cellId, int por) : base(UITableViewCellStyle.Default, cellId)
+		public CustomEventosCell(NSString cellId, double por) : base(UITableViewCellStyle.Default, cellId)
 		{
 
 			SelectionStyle = UITableViewCellSelectionStyle.Blue;
@@ -79,13 +73,6 @@ namespace icom
 			headingLabel = new UILabel()
 			{
 				Font = UIFont.FromName("Arial-BoldMT", 20f),
-				TextColor = UIColor.FromRGB(54, 74, 97),
-				BackgroundColor = UIColor.Clear
-			};
-
-			categoriaLabel = new UILabel()
-			{
-				Font = UIFont.FromName("Arial", 12f),
 				TextColor = UIColor.FromRGB(54, 74, 97),
 				BackgroundColor = UIColor.Clear
 			};
@@ -122,14 +109,13 @@ namespace icom
 			porcentajelabel = por;
 
 
-			ContentView.AddSubviews(new UIView[] { colorLabel, porLabel,  headingLabel, categoriaLabel, horasLabel, iniciofinlabel });
+			ContentView.AddSubviews(new UIView[] { colorLabel, porLabel,  headingLabel, horasLabel, iniciofinlabel });
 
 		}
-		public void UpdateCell(string titulo, string categoria, string horas, string iniciofin)
+		public void UpdateCell(string titulo, string horas, string iniciofin)
 		{
 			
 			headingLabel.Text = titulo;
-			categoriaLabel.Text = categoria;
 			horasLabel.Text = horas;
 			iniciofinlabel.Text = iniciofin;
 			porLabel.Text = porcentajelabel.ToString() + " %";
@@ -140,15 +126,12 @@ namespace icom
 			base.LayoutSubviews();
 
 			headingLabel.Frame = new CGRect(10, 1, ContentView.Bounds.Width - 63, 25);
-			categoriaLabel.Frame = new CGRect(10, 19, ContentView.Bounds.Width - 63, 25);
+			iniciofinlabel.Frame = new CGRect(10, 19, ContentView.Bounds.Width - 63, 25);
 			horasLabel.Frame = new CGRect(100, 1, ContentView.Bounds.Width - 102, 25);
-			iniciofinlabel.Frame = new CGRect(100, 19, ContentView.Bounds.Width - 102, 25);
-			colorLabel.Frame = new CGRect(ContentView.Bounds.Width - 125, 0, 125, 50);
+			colorLabel.Frame = new CGRect(ContentView.Bounds.Width - 125, 0, 125, 25);
 
 			double tam = (porcentajelabel * ContentView.Bounds.Width) / 100;
 			porLabel.Frame = new CGRect(0, 42, tam, 7);
-
-
 
 		}
 

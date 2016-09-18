@@ -78,17 +78,22 @@ namespace icom
 			lstClas.Add(obj4);
 			lstClas.Add(obj5);*/
 
-			Boolean resp = await GetCategorias();						
+			tblCategorias.Source = new FuenteTablaClasificaciones(this, lstClas);
+
+			Boolean resp = await GetCategorias();
+			if (resp) { 
+				
+				tblCategorias.ReloadData();
+			}
 
 			tblCategorias.SeparatorColor = UIColor.Gray;
 			tblCategorias.SeparatorStyle = UITableViewCellSeparatorStyle.SingleLine;
 
-			tblCategorias.Source = new FuenteTablaClasificaciones(this, lstClas);
 
 			btnNuevaCategoria.TouchUpInside += delegate {
 				CategoriasAltaController viewca = new CategoriasAltaController();
 				viewca.idobra = idobra;
-
+				viewca.viewcategorias = this;
 				viewca.Title = "Nueva Clasificacion";
 				this.NavigationController.PushViewController(viewca, false);
 				UIView.BeginAnimations(null);
@@ -103,7 +108,7 @@ namespace icom
 				{
 					CategoriasModController viewcm = new CategoriasModController();
 					viewcm.idcategoria = lstClas.ElementAt(indexPath.Row).idclasificacion;
-
+					viewcm.viewcategorias = this;
 					viewcm.Title = "Modificar Clasificacion";
 					this.NavigationController.PushViewController(viewcm, false);
 					UIView.BeginAnimations(null);

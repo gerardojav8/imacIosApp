@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Text;
 
 namespace icom
 {
@@ -35,9 +36,20 @@ namespace icom
 			txtDescripcionobra.Layer.BorderWidth = (nfloat)2.0;
 			txtDescripcionobra.Text = "";
 
-			bajatecladoinputs();
 
-			await cargaDatosObra();
+
+			clsCmbObras ob = await cargaDatosObra();
+
+			if (ob != null) {
+				loadPop.Hide();
+				txtNombreObra.Text = ob.nombre;
+				txtDescripcionobra.Text = ob.descripcion;
+			}
+
+			btnModificarObra.TouchUpInside += modificaObra;
+			btnEliminarObra.TouchUpInside += BorrarObra;
+
+			bajatecladoinputs();
 
 		}
 
@@ -56,11 +68,11 @@ namespace icom
 
 			txtNombreObra.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 
-			btnModificarObra.TouchUpInside += modificaObra;
+
 
 		}
 
-		public async Task<Boolean> cargaDatosObra()
+		public async Task<clsCmbObras> cargaDatosObra()
 		{
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Cargando datos de la Obra...");
@@ -84,25 +96,31 @@ namespace icom
 			if (responseString.Equals("-1"))
 			{
 				funciones.SalirSesion(this);
+				return null;
 			}
+
+				
+			
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 			if (result != null)
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();
 				funciones.MessageBox("Error", error);
-				return false;
+				return null;
 			}
 
-			txtNombreObra.Text = jsonresponse["nombre"].ToString();
-			txtDescripcionobra.Text = jsonresponse["descripcion"].ToString();
+			clsCmbObras obj = new clsCmbObras();
+			obj.idobra = Int32.Parse(jsonresponse["idobra"].ToString());
+			obj.nombre = jsonresponse["nombre"].ToString();
+			obj.descripcion = jsonresponse["descripcion"].ToString();
 
-			loadPop.Hide();
-			return true;
+
+			return obj;
 
 		}
 
@@ -150,11 +168,12 @@ namespace icom
 			if (responseString.Equals("-1"))
 			{
 				funciones.SalirSesion(this);
+				return false;
 			}
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -164,7 +183,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0"))
+			if (result.ToString().Equals("0"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();
@@ -223,7 +242,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -233,7 +252,9 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0") || result.Equals("2"))
+			var strresult = result.ToString();
+
+			if (strresult.Equals("0") || strresult.Equals("2"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();

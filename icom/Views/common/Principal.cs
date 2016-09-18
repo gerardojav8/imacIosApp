@@ -23,7 +23,7 @@ namespace icom
 
 		public string strpass{ get; set; }
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -73,7 +73,7 @@ namespace icom
 
 
 
-			if (strusuario.ToLower().Equals("fermin"))
+			/*if (strusuario.ToLower().Equals("fermin"))
 			{
 				Consts.idusuarioapp = "1";
 				Consts.nombreusuarioapp = "Fermin Mojica Araujo";
@@ -93,11 +93,11 @@ namespace icom
 				Consts.idusuarioapp = "4";
 				Consts.nombreusuarioapp = "Gerardo Javier Gamez Vazquez";
 				Consts.inicialesusuarioapp = "GG";
-			}
+			}*/
 
 
 
-			/*Boolean resp = await TraeUsuario();
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -105,7 +105,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}*/
+			}
 
 
 		}
@@ -127,34 +127,6 @@ namespace icom
 			objlog.usuario = strusuario;
 			objlog.pass = strpass;
 			var json = JsonConvert.SerializeObject(objlog);
-
-			/*var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
-				return false;
-			}
-
-			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
-			var jsonresponse = JObject.Parse(responseString);*/
 
 			string responseString = string.Empty;
 			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);

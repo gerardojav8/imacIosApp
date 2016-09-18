@@ -32,9 +32,9 @@ namespace icom
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
 
-			//btnLogin.TouchUpInside += loginboton;
+			btnLogin.TouchUpInside += loginboton;
 
-			btnLogin.TouchUpInside += delegate {
+			/*btnLogin.TouchUpInside += delegate {
 				Principal viewprin = new Principal();
 				viewprin.strusuario = txtUsuario.Text;
 				viewprin.strpass = txtPass.Text;
@@ -46,7 +46,7 @@ namespace icom
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
 
-			};
+			};*/
 
 			txtUsuario.ShouldReturn += (txtPass) =>
 			{

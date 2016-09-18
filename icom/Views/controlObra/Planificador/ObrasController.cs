@@ -21,13 +21,13 @@ namespace icom
 		HttpClient client;
 
 		private List<clsListadoObra> lstObras;
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			lstObras = new List<clsListadoObra>();
 			tblObras.Source = new FuenteTablaObras(this, lstObras);
 
-			clsListadoObra obj1 = new clsListadoObra
+			/*clsListadoObra obj1 = new clsListadoObra
 			{
 				idobra = 1,
 				nombre = "obra 1",
@@ -62,23 +62,21 @@ namespace icom
 			lstObras.Add(obj1);
 			lstObras.Add(obj2);
 			lstObras.Add(obj3);
-			lstObras.Add(obj4);
+			lstObras.Add(obj4);*/
 
-			/*Boolean resp = await GetObras();
+			Boolean resp = await GetObras();
 			if (resp)
 			{
 				loadPop.Hide();
 				tblObras.ReloadData();
-			}*/
-
-
+			}
 
 			btnModificarObra.TouchUpInside += delegate {
 				NSIndexPath indexPath = tblObras.IndexPathForSelectedRow;
 				if (indexPath != null){
 					ModificarObraController viewmodobra = new ModificarObraController();
 					viewmodobra.idobra = lstObras.ElementAt(indexPath.Row).idobra;
-
+					viewmodobra.viewobras = this;
 					viewmodobra.Title = "Modifica Obra";
 					this.NavigationController.PushViewController(viewmodobra, false);
 					UIView.BeginAnimations(null);
@@ -94,7 +92,7 @@ namespace icom
 
 			btnNuevaObra.TouchUpInside += delegate {
 				AltaObraController viewaobras = new AltaObraController();
-
+				viewaobras.viewobras = this;
 
 				viewaobras.Title = "Nueva Obra";
 				this.NavigationController.PushViewController(viewaobras, false);

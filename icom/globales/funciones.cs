@@ -34,7 +34,7 @@ namespace icom
 
 			alert.AddButton("Cancelar");
 			alert.AddButton("OK");
-
+			alert.Show();
 			alert.Clicked += (s, e) => tcs.TrySetResult((int)e.ButtonIndex);
 			return tcs.Task;
 

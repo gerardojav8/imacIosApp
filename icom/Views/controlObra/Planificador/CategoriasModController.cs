@@ -25,7 +25,7 @@ namespace icom
 		HttpClient client;
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
@@ -36,12 +36,65 @@ namespace icom
 			txtComentario.Text = "";
 
 			bajatecladoinputs();
+
+			Dictionary<string, string> resp = await cargaDatosCategoria();
+			if (resp != null) {
+				loadPop.Hide();
+				txtNombreCategoria.Text = resp["nombre"];
+				txtComentario.Text = resp["comentarios"];
+			}
+
+			btnGuardar.TouchUpInside += modificaCategoria;
+			btnEliminar.TouchUpInside += BorrarCategoria;
 		}
 
-		public override void DidReceiveMemoryWarning()
+		public async Task<Dictionary<string, string>> cargaDatosCategoria()
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de la Categoria...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/getCategoriaById";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idcategoria", idcategoria.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+				return null;
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"];
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return null;
+			}
+
+
+			Dictionary<string, string> resp = new Dictionary<string, string>();
+			resp.Add("nombre", jsonresponse["nombre"].ToString());
+			resp.Add("comentarios", jsonresponse["comentario"].ToString());
+
+
+			return resp;
+
 		}
 
 		private void bajatecladoinputs()
@@ -61,7 +114,7 @@ namespace icom
 
 		}
 
-		async void modificaObra(object sender, EventArgs e)
+		async void modificaCategoria(object sender, EventArgs e)
 		{
 			if (txtNombreCategoria.Equals(""))
 			{
@@ -70,7 +123,7 @@ namespace icom
 			}
 
 
-			Boolean resp = await modObra();
+			Boolean resp = await modCategoria();
 
 			if (resp)
 			{
@@ -79,7 +132,7 @@ namespace icom
 			}
 		}
 
-		public async Task<Boolean> modObra()
+		public async Task<Boolean> modCategoria()
 		{
 			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Guardando Categoria...");
@@ -88,7 +141,7 @@ namespace icom
 			client = new HttpClient();
 			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
 
-			string url = Consts.ulrserv + "controldeobras/ModificarCategoria";
+			string url = Consts.ulrserv + "controldeobras/ModificaCategoria";
 			var uri = new Uri(string.Format(url));
 
 			Dictionary<string, string> pet = new Dictionary<string, string>();
@@ -110,7 +163,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -120,7 +173,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0"))
+			if (result.ToString().Equals("0"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();
@@ -179,7 +232,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -189,7 +242,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0") || result.Equals("2"))
+			if (result.ToString().Equals("0") || result.ToString().Equals("2"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();
