@@ -63,10 +63,21 @@ namespace icom
 			lstClas.Add(obj4);
 			lstClas.Add(obj5);*/
 
-			tblClasificaciones.Source = new FuenteTablaGraficas(this, lstClas);
+			bool unamayoracero = false;
+			foreach (clsClasificacion clas in lstClas) {
+				if (clas.porcentaje > 0) {
+					unamayoracero = true;
+					break;
+				}
+			}
 
-			grafica = new AllianceChart(Chart.Bar, vwGrafica);
-			creargrafica();
+			if (unamayoracero)
+			{
+				tblClasificaciones.Source = new FuenteTablaGraficas(this, lstClas);
+
+				grafica = new AllianceChart(Chart.Bar, vwGrafica);
+				creargrafica();
+			}
 
 			btnExportarGrafica.TouchUpInside += delegate {
 				crearPDF();

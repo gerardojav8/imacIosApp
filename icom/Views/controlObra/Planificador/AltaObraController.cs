@@ -35,6 +35,7 @@ namespace icom
 			txtdescripcion.Text = "";
 
 			bajatecladoinputs();
+			btnGuardarObra.TouchUpInside += guardarObra;
 		}
 
 		private void bajatecladoinputs()
@@ -52,7 +53,7 @@ namespace icom
 
 			txtnombreobra.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 
-			btnGuardarObra.TouchUpInside += guardarObra;
+
 
 
 		}

@@ -20,12 +20,12 @@ namespace icom
 		}
 
 
-		public UIViewController viewobras { get; set; }
+		public UIViewController viewtareas { get; set; }
 		public int idcategoria { get; set; }
 		LoadingOverlay loadPop;
 		HttpClient client;
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
@@ -65,6 +65,59 @@ namespace icom
 			btnFinal.TouchUpInside += DateTimePikerFechafin;
 
 			bajatecladoinputs();
+
+			await cargaDatosObraCategoria();
+		}
+
+		public async Task<Boolean> cargaDatosObraCategoria()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de Obra y Categoria...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/getNombreObraCategoria";
+			var uri = new Uri(string.Format(url));
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+
+			pet.Add("idcategoria", idcategoria.ToString());
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
+
+
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"];
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return false;
+			}
+
+			loadPop.Hide();
+			txtObra.Text = jsonresponse["nombreobra"].ToString();
+			txtCategoria.Text = jsonresponse["nombrecategoria"].ToString();
+
+
+			return true;
+
 		}
 
 		private void bajatecladoinputs()
@@ -113,8 +166,8 @@ namespace icom
 
 			if (resp)
 			{
-				((PlanificadorController)viewobras).recargarListado();
-				this.NavigationController.PopToViewController(viewobras, true);
+				((PlanificadorController)viewtareas).recargarListado();
+				this.NavigationController.PopToViewController(viewtareas, true);
 			}
 		}
 
@@ -156,7 +209,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -166,7 +219,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0"))
+			if (result.ToString().Equals("0"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();

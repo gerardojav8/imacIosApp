@@ -12,6 +12,7 @@ namespace icom
 		static readonly string celdaCategoriasBlack = "celdaCategoriasBlack";
 		static readonly string celdaCategoriasWhite = "celdaCategiruasWhite";
 		private List<clsClasificacion> lstCalsificacion;
+		private string nombreobra;
 		protected UIViewController viewparent;
 
 		public FuenteTablaClasificaciones(UIViewController view, List<clsClasificacion> lst)

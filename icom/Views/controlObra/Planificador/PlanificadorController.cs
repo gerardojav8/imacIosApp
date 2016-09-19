@@ -92,6 +92,7 @@ namespace icom
 			btnNuevoEvento.TouchUpInside += delegate {
 				NuevaTareaController viewnt = new NuevaTareaController();
 				viewnt.idcategoria = idcategoria;
+				viewnt.viewtareas = this;
 
 				viewnt.Title = "Nueva Tarea";
 				this.NavigationController.PushViewController(viewnt, false);
@@ -102,15 +103,23 @@ namespace icom
 			};
 
 			btnEditarEvento.TouchUpInside += delegate {
-				ModifciarTareaController viewmt = new ModifciarTareaController();
 
-
-				viewmt.Title = "Modificar Tarea";
-				this.NavigationController.PushViewController(viewmt, false);
-				UIView.BeginAnimations(null);
-				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
-				UIView.CommitAnimations();
+				NSIndexPath indexPath = tblEventos.IndexPathForSelectedRow;
+				if (indexPath != null)
+				{
+					ModifciarTareaController viewmt = new ModifciarTareaController();
+					viewmt.idtarea = lstEventos.ElementAt(indexPath.Row).idtarea;
+					viewmt.viewtareas = this;
+					viewmt.Title = "Modificar Tarea";
+					this.NavigationController.PushViewController(viewmt, false);
+					UIView.BeginAnimations(null);
+					UIView.SetAnimationDuration(0.7);
+					UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
+					UIView.CommitAnimations();
+				}
+				else { 
+					funciones.MessageBox("Aviso", "Ninguna celda seleccionada");
+				}
 			};
 
 
@@ -127,6 +136,16 @@ namespace icom
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
 			};
+
+			btnActualizarEventos.TouchUpInside += buscarTareas;
+
+			bajatecladoinputs();
+		}
+
+		private void bajatecladoinputs()
+		{
+
+			txtbusquedatarea.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 		}
 
 		public async void recargarListado()
@@ -216,6 +235,7 @@ namespace icom
 			JObject json = (JObject)varjson;
 			clsEvento obj = new clsEvento
 			{
+				idtarea = Int32.Parse(json["idtarea"].ToString()),
 				titulo = json["titulo"].ToString(),
 				totalhoras = json["horas"].ToString(),
 				lapso = json["lapso"].ToString(),
@@ -227,15 +247,20 @@ namespace icom
 
 		async void buscarTareas(object sender, EventArgs e)
 		{
-
+			lstEventos = new List<clsEvento>();
 			Boolean resp;
-			if (txtbusquedatarea.Equals(""))
+			if (txtbusquedatarea.Text.Equals(""))
 				resp = await GetTareas();
 			else
 				resp = await searchTareas();
 
 			if (resp)
 			{
+				loadPop.Hide();
+				tblEventos.Source = new FuenteTablaEventos(this, lstEventos);
+				tblEventos.ReloadData();
+			}
+			else { 
 				tblEventos.Source = new FuenteTablaEventos(this, lstEventos);
 				tblEventos.ReloadData();
 			}

@@ -23,7 +23,7 @@ namespace icom
 		LoadingOverlay loadPop;
 		HttpClient client;
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -64,6 +64,8 @@ namespace icom
 			btnFinal.TouchUpInside += DateTimePikerFechafin;
 
 			bajatecladoinputs();
+
+			await cargaDatosTarea();
 		}
 
 		public async Task<Boolean> cargaDatosTarea()
@@ -94,7 +96,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 			if (result != null)
 			{
@@ -196,7 +198,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -206,7 +208,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0"))
+			if (result.ToString().Equals("0"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();
@@ -265,7 +267,7 @@ namespace icom
 
 			var jsonresponse = JObject.Parse(responseString);
 
-			var result = jsonresponse["result"].ToString();
+			var result = jsonresponse["result"];
 
 
 			if (result == null)
@@ -275,7 +277,7 @@ namespace icom
 				return false;
 			}
 
-			if (result.Equals("0") || result.Equals("2"))
+			if (result.ToString().Equals("0") || result.ToString().Equals("2"))
 			{
 				loadPop.Hide();
 				string error = jsonresponse["error"].ToString();

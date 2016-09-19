@@ -104,11 +104,19 @@ namespace icom
 
 			btnBusquedaObra.TouchUpInside += buscarObras;
 
+			bajatecladoinputs();
+
+		}
+
+		private void bajatecladoinputs()
+		{			
+
+			txtBusquedaObra.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 		}
 
 		async void buscarObras(object sender, EventArgs e)
 		{
-
+			lstObras = new List<clsListadoObra>();
 			Boolean resp;
 			if (txtBusquedaObra.Equals(""))
 				resp = await GetObras();
@@ -117,6 +125,11 @@ namespace icom
 
 			if (resp)
 			{
+				loadPop.Hide();
+				tblObras.Source = new FuenteTablaObras(this, lstObras);
+				tblObras.ReloadData();
+			}
+			else { 
 				tblObras.Source = new FuenteTablaObras(this, lstObras);
 				tblObras.ReloadData();
 			}

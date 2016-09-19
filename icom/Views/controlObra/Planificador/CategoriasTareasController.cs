@@ -136,11 +136,19 @@ namespace icom
 			};
 
 			btnBusquedaCategoria.TouchUpInside += buscarCategorias;
+
+			bajatecladoinputs();
+		}
+
+		private void bajatecladoinputs()
+		{
+
+			txtbusquedaCategoria.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 		}
 
 		async void buscarCategorias(object sender, EventArgs e)
 		{
-
+			lstClas = new List<clsClasificacion>();
 			Boolean resp;
 			if (txtbusquedaCategoria.Equals(""))
 				resp = await GetCategorias();
@@ -149,6 +157,11 @@ namespace icom
 
 			if (resp)
 			{
+				loadPop.Hide();
+				tblCategorias.Source = new FuenteTablaClasificaciones(this, lstClas);
+				tblCategorias.ReloadData();
+			}
+			else { 
 				tblCategorias.Source = new FuenteTablaClasificaciones(this, lstClas);
 				tblCategorias.ReloadData();
 			}
@@ -302,6 +315,7 @@ namespace icom
 				color = Consts.colores[indicecolor]
 			};
 
+			arrnumusados.Add(indicecolor);
 			return objob;
 		}
 
