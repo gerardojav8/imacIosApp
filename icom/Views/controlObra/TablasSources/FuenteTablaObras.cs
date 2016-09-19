@@ -33,7 +33,7 @@ namespace icom
 		public override void AccessoryButtonTapped(UITableView tableView, NSIndexPath indexPath)
 		{			
 			CategoriasTareasController viewCategorias = new CategoriasTareasController();
-			viewCategorias.Title = "Categorias";
+			viewCategorias.Title = lstObras.ElementAt(indexPath.Row).nombre;
 			viewCategorias.idobra = lstObras.ElementAt(indexPath.Row).idobra;
 
 			viewparent.NavigationController.PushViewController(viewCategorias, false);
@@ -73,19 +73,21 @@ namespace icom
 
 			if (indicearreglo % 2 == 0)
 			{
-				cell = tableView.DequeueReusableCell(celdaObrasBlack) as CustomListadoObrasCellBlack;
+				string idcell = celdaObrasBlack + objobra.idobra.ToString() + objobra.porcentajeavance.ToString();
+				cell = tableView.DequeueReusableCell(idcell) as CustomListadoObrasCellBlack;
 
 				if (cell == null)
 				{
-					cell = new CustomListadoObrasCellBlack((NSString)celdaObrasBlack, objobra.porcentajeavance);
+					cell = new CustomListadoObrasCellBlack((NSString)idcell, objobra.porcentajeavance);
 				}
 			}
 			else { 
-				cell = tableView.DequeueReusableCell(celdaObrasWhite) as CustomListadoObrasCellWhite;
+				string idcell = celdaObrasWhite + objobra.idobra.ToString() + objobra.porcentajeavance.ToString();
+				cell = tableView.DequeueReusableCell(idcell) as CustomListadoObrasCellWhite;
 
 				if (cell == null)
 				{
-					cell = new CustomListadoObrasCellWhite((NSString)celdaObrasWhite, objobra.porcentajeavance);
+					cell = new CustomListadoObrasCellWhite((NSString)idcell, objobra.porcentajeavance);
 				}
 			}
 

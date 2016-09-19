@@ -157,6 +157,17 @@ namespace icom
 				return;
 			}
 
+			DateTime dtfechaini = DateTime.Parse(txtInicio.Text);
+			DateTime dtfechafin = DateTime.Parse(txtFinal.Text);
+
+			int respcomp = DateTime.Compare(dtfechafin, dtfechaini);
+
+			if (respcomp < 0)
+			{
+				funciones.MessageBox("Error", "la fecha de fin del evento debe de ser mayor o igual a la fecha de inicio del evento");
+				return;
+			}
+
 			if (txtPorcentaje.Text.Equals("")) { 
 				funciones.MessageBox("Error", "Debe agregar un porcentaje, verifiquelo por favor");
 				return;

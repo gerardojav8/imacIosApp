@@ -8,7 +8,9 @@ namespace icom
 		public String nombre { get; set; }
 		public double porcentaje { get; set; }
 		public UIColor color { get; set; }
+		public string strcolor { get; set; }
 		public int notareas { get; set;}
+
 	}
 }
 

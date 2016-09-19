@@ -312,7 +312,8 @@ namespace icom
 				nombre = json["nombre"].ToString(),
 				porcentaje = float.Parse(json["porcentaje"].ToString()),
 				notareas = Int32.Parse(json["notareas"].ToString()),
-				color = Consts.colores[indicecolor]
+				color = Consts.colores[indicecolor],
+				strcolor = Consts.strcolores[indicecolor]
 			};
 
 			arrnumusados.Add(indicecolor);

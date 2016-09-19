@@ -12,7 +12,6 @@ namespace icom
 		static readonly string celdaCategoriasBlack = "celdaCategoriasBlack";
 		static readonly string celdaCategoriasWhite = "celdaCategiruasWhite";
 		private List<clsClasificacion> lstCalsificacion;
-		private string nombreobra;
 		protected UIViewController viewparent;
 
 		public FuenteTablaClasificaciones(UIViewController view, List<clsClasificacion> lst)
@@ -42,7 +41,7 @@ namespace icom
 		public override void AccessoryButtonTapped(UITableView tableView, NSIndexPath indexPath)
 		{
 			PlanificadorController viewplan = new PlanificadorController();
-			viewplan.Title = "Tareas";
+			viewplan.Title = lstCalsificacion.ElementAt(indexPath.Row).nombre;
 			viewplan.idcategoria = lstCalsificacion.ElementAt(indexPath.Row).idclasificacion;
 			viewparent.NavigationController.PushViewController(viewplan, false);
 			UIView.BeginAnimations(null);
@@ -61,19 +60,21 @@ namespace icom
 
 			if (indicearreglo % 2 == 0)
 			{
-				cell = tableView.DequeueReusableCell(celdaCategoriasBlack) as CustomCategoriasCellBlack;
+				string idcell = celdaCategoriasBlack + objclas.idclasificacion.ToString() + objclas.porcentaje.ToString();
+				cell = tableView.DequeueReusableCell(idcell) as CustomCategoriasCellBlack;
 
 				if (cell == null)
 				{
-					cell = new CustomCategoriasCellBlack((NSString)celdaCategoriasBlack, objclas.porcentaje);
+					cell = new CustomCategoriasCellBlack((NSString)idcell, objclas.porcentaje);
 				}
 			}
 			else {
-				cell = tableView.DequeueReusableCell(celdaCategoriasWhite) as CustomCategoriasCellWhite;
+				string idcell = celdaCategoriasWhite + objclas.idclasificacion.ToString() + objclas.porcentaje.ToString();
+				cell = tableView.DequeueReusableCell(idcell) as CustomCategoriasCellWhite;
 
 				if (cell == null)
 				{
-					cell = new CustomCategoriasCellWhite((NSString)celdaCategoriasWhite, objclas.porcentaje);
+					cell = new CustomCategoriasCellWhite((NSString)idcell, objclas.porcentaje);
 				}
 			}
 

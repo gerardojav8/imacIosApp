@@ -5,12 +5,21 @@ using Alliance.Charts;
 using System.Collections.Generic;
 using Foundation;
 using System.IO;
+using CoreGraphics;
+using icom.globales;
+using System.Drawing;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
+using System.Net.Http;
+using Newtonsoft.Json;
+
 
 namespace icom
 {
 	public partial class GraficasTareasController : UIViewController
 	{
-
+		LoadingOverlay loadPop;
+		HttpClient client;
 		public AllianceChart grafica;
 		public List<clsClasificacion> lstClas { get; set; }
 		public GraficasTareasController() : base("GraficasTareasController", null)
@@ -86,9 +95,8 @@ namespace icom
 
 		}
 
-		private void crearPDF() { 
+		private async void crearPDF() { 
 			String pathimagen = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "grafica.png");
-			String pathpdf = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), "pdfgrafica.pdf");
 
 			UIGraphics.BeginImageContext(vwGrafica.Frame.Size);
 
@@ -126,8 +134,91 @@ namespace icom
 			}
 
 			String strimagenbase64 = funciones.getBase64Image(pathimagen);
-			funciones.MessageBox("Aviso", "Documento guardado");
-			//aqui mandar llamar a servicio para exporar pdf
+			String strpdf = await creaPDFServer(strimagenbase64);
+
+
+			if (!strpdf.Equals(""))
+			{
+				string nombrefile = "grafica" + Consts.idusuarioapp + ".pdf";
+				String pathtemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nombrefile);
+				if (File.Exists(pathtemp))
+				{
+					File.Delete(pathtemp);
+				}
+
+				//Convertir en archivo y guardar
+				Byte[] bytesfile = Convert.FromBase64String(strpdf);
+				File.WriteAllBytes(pathtemp, bytesfile);
+
+				PreviewDocsController previewDocs = new PreviewDocsController();
+				previewDocs.tituloDocumento = nombrefile;
+				previewDocs.urlDocumento = pathtemp;
+				this.NavigationController.PushViewController(previewDocs, true);
+			}
+		}
+
+		public async Task<String> creaPDFServer(String str64)
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Cargando datos de Obra y Categoria...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/exportaGraficaPDF";
+			var uri = new Uri(string.Format(url));
+
+
+			clsPeticionGrafica objpetgra = new clsPeticionGrafica();
+
+			objpetgra.imagen = str64;
+			objpetgra.idusuario = Consts.idusuarioapp;
+			List<Dictionary<string, string>> clasificaciones = new List<Dictionary<string, string>>();
+			foreach (clsClasificacion cl in lstClas) { 
+				Dictionary<string, string> clas = new Dictionary<string, string>();
+
+				clas.Add("color", cl.strcolor);
+				clas.Add("clasificacion", cl.nombre);
+				clas.Add("porcentaje", cl.porcentaje.ToString());
+
+				clasificaciones.Add(clas);
+			}
+
+			objpetgra.clasificaciones = clasificaciones;
+
+
+
+
+			var json = JsonConvert.SerializeObject(objpetgra);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+				return "";
+			}
+
+
+
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"];
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			loadPop.Hide();
+
+			return jsonresponse["pdf"].ToString();
 
 		}
 

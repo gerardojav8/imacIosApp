@@ -134,7 +134,7 @@ namespace icom
 			catch (Exception e)
 			{
 				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.Message + e.HResult);
 				return "-2";
 			}
 

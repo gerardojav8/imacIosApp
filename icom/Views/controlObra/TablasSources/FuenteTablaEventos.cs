@@ -44,11 +44,12 @@ namespace icom
 
 			UITableViewCell cell;
 			clsEvento objev = lstEventos.ElementAt(indicearreglo);
-			cell = tableView.DequeueReusableCell(celdaEventos) as CustomEventosCell;
+			string idcell = celdaEventos + objev.idtarea.ToString() + objev.porcentajeavance.ToString();
+			cell = tableView.DequeueReusableCell(idcell) as CustomEventosCell;
 
 			if (cell == null)
 			{
-				cell = new CustomEventosCell((NSString)celdaEventos, objev.porcentajeavance);
+				cell = new CustomEventosCell((NSString)idcell, objev.porcentajeavance);
 			}
 
 			String totalhoras = "Hrs.: " + objev.totalhoras;

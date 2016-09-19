@@ -8,6 +8,7 @@ using System.Net.Http;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Linq;
+using System.IO;
 
 namespace icom
 {
@@ -84,6 +85,7 @@ namespace icom
 			lstEventos.Add(objev5);*/
 
 			tblEventos.Source = new FuenteTablaEventos(this, lstEventos);
+
 			Boolean resp = await GetTareas();
 			if (resp) {
 				tblEventos.ReloadData();
@@ -124,7 +126,7 @@ namespace icom
 
 
 
-			btnExportaPDF.TouchUpInside += delegate
+			/*btnExportaPDF.TouchUpInside += delegate
 			{
 				ExportarTareasController viewe = new ExportarTareasController();
 
@@ -135,11 +137,96 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
-			};
+			};*/
+
+			btnExportaPDF.TouchUpInside += creaPDF;
 
 			btnActualizarEventos.TouchUpInside += buscarTareas;
 
 			bajatecladoinputs();
+		}
+
+		private async void creaPDF(object sender, EventArgs e)
+		{
+
+
+			String strpdf = await creaPDFServer();
+
+			if (!strpdf.Equals(""))
+			{
+
+
+				string nombrefile = "tareas" + Consts.idusuarioapp + ".pdf";
+				String pathtemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nombrefile);
+				if (File.Exists(pathtemp))
+				{
+					File.Delete(pathtemp);
+				}
+
+				//Convertir en archivo y guardar
+				Byte[] bytesfile = Convert.FromBase64String(strpdf);
+				File.WriteAllBytes(pathtemp, bytesfile);
+
+				PreviewDocsController previewDocs = new PreviewDocsController();
+				previewDocs.tituloDocumento = nombrefile;
+				previewDocs.urlDocumento = pathtemp;
+				this.NavigationController.PushViewController(previewDocs, true);
+			}
+		}
+
+		public async Task<String> creaPDFServer()
+		{
+			var bounds = UIScreen.MainScreen.Bounds;
+			loadPop = new LoadingOverlay(bounds, "Exportando PDF...");
+			View.Add(loadPop);
+
+			client = new HttpClient();
+			//client.Timeout = new System.TimeSpan(0, 0, 0, 10, 0);
+
+			string url = Consts.ulrserv + "controldeobras/exportaPDF";
+			var uri = new Uri(string.Format(url));
+
+
+			Dictionary<string, string> pet = new Dictionary<string, string>();
+			pet.Add("idcategoria", idcategoria.ToString());
+			pet.Add("idusuario", Consts.idusuarioapp);
+
+			var json = JsonConvert.SerializeObject(pet);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+
+			if (responseString.Equals("-1"))
+			{
+				funciones.SalirSesion(this);
+				return "";
+			}
+
+			if (responseString.Equals("-2"))
+			{
+				loadPop.Hide();
+				return "";
+			}
+
+
+
+
+			var jsonresponse = JObject.Parse(responseString);
+
+			var result = jsonresponse["result"];
+
+			if (result != null)
+			{
+				loadPop.Hide();
+				string error = jsonresponse["error"].ToString();
+				funciones.MessageBox("Error", error);
+				return "";
+			}
+
+			loadPop.Hide();
+
+			return jsonresponse["pdf"].ToString();
+
 		}
 
 		private void bajatecladoinputs()
@@ -247,7 +334,11 @@ namespace icom
 
 		async void buscarTareas(object sender, EventArgs e)
 		{
-			lstEventos = new List<clsEvento>();
+			lstEventos.Clear();
+			tblEventos.Source = new FuenteTablaEventos(this, lstEventos);
+			tblEventos.ReloadData();
+
+
 			Boolean resp;
 			if (txtbusquedatarea.Text.Equals(""))
 				resp = await GetTareas();

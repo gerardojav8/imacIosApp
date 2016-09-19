@@ -325,6 +325,7 @@
     </Compile>
     <Compile Include="Entidades\clsListadoObra.cs" />
     <Compile Include="Views\controlObra\TablasSources\FuenteTablaObras.cs" />
+    <Compile Include="Entidades\clsPeticionGrafica.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>

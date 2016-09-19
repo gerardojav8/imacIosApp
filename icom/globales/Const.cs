@@ -4,9 +4,9 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string ipserv = "192.168.0.66";
+		public static readonly string ipserv = "192.168.0.82";
 		//public static readonly string ipservchat = "icom-chat-server-jav85861.c9users.io";
-		public static readonly string ipservchat = "192.168.0.66";
+		public static readonly string ipservchat = "192.168.0.82";
 		public static readonly string puertochat = ":3000";
 
 		public static readonly string urltoken = "http://" + ipserv + "/icomtoken/oauth2/token";
@@ -24,18 +24,30 @@ namespace icom.globales
 		public static UIViewController logincontroller;
 
 		public static UIColor[] colores = {
-			UIColor.Blue,
-			UIColor.Yellow,
-			UIColor.Red,
-			UIColor.Purple,
-			UIColor.Brown,
-			UIColor.Orange,
-			UIColor.Green,
-			UIColor.Gray,
-			UIColor.Cyan,
-			UIColor.Magenta
+			UIColor.FromRGB(48,88,147),//blue
+			UIColor.FromRGB(145,147,63),//Yellow,
+			UIColor.FromRGB(147,30,24),//Red,
+			UIColor.FromRGB(62,53,147),//Purple,
+			UIColor.FromRGB(147,123,117),//Brown,
+			UIColor.FromRGB(147,88,17),//Orange,
+			UIColor.FromRGB(57,147,104),//Green,
+			UIColor.FromRGB(129,134,145),//Gray,
+			UIColor.FromRGB(111,145,44),//Cyan,
+			UIColor.FromRGB(145,88,123)//Magenta
 		};
 
+		public static string[] strcolores = {
+			"48,88,147",//blue
+			"145,147,63",//Yellow,
+			"147,30,24",//Red,
+			"62,53,147",//Purple,
+			"147,123,117",//Brown,
+			"147,88,17",//Orange,
+			"57,147,104",//Green,
+			"129,134,145",//Gray,
+			"111,145,44",//Cyan,
+			"145,88,123"//Magenta
+		};
 
 	}
 }
