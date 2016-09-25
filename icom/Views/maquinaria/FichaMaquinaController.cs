@@ -37,7 +37,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,7 +51,7 @@ namespace icom
 
 			lstobras = new List<clsCmbObras>();
 
-			/*var bounds = UIScreen.MainScreen.Bounds;
+			var bounds = UIScreen.MainScreen.Bounds;
 			loadPop = new LoadingOverlay(bounds, "Obteniendo datos de Maquina espera por favor...");
 			View.Add(loadPop);
 
@@ -319,7 +319,7 @@ namespace icom
 
 
 			loadPop.Hide();
-			*/
+
 			
 
 
@@ -346,15 +346,6 @@ namespace icom
 						Console.WriteLine("saved as " + pathimagen);
 						btnImgMaq.SetImage(UIImage.FromFile(pathimagen), UIControlState.Normal);
 
-						/*UIImage img = UIImage.FromFile(pathimagen);
-						Byte[] imageBytes;
-						using (NSData imagenData = img.AsJPEG())
-						{
-							imageBytes = new Byte[imagenData.Length];
-							System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
-						}
-
-						strimagenbase64 = Convert.ToBase64String(imageBytes);*/
 						strimagenbase64 = funciones.getBase64Image(pathimagen);
 
 
@@ -1010,34 +1001,16 @@ namespace icom
 
 			var json = JsonConvert.SerializeObject(objfm);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return "";
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
-				return "";
-			}
-
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
-			var jsonresponse = JObject.Parse(responseString);
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return null;
+			}
+
+			var jsonresponse = JObject.Parse(responseString);
 			var jtokenerror = jsonresponse["error_description"];
 
 
@@ -1093,24 +1066,15 @@ namespace icom
 			obj.Add("noserie", strNoserie);
 			var json = JsonConvert.SerializeObject(obj);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
-			HttpResponseMessage response = null;
-
-			try
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
 			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				funciones.SalirSesion(this);
 				return null;
 			}
 
-			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];
@@ -1207,25 +1171,17 @@ namespace icom
 			client = new HttpClient();
 			string url = Consts.ulrserv + "obras/getObras";
 			var uri = new Uri(string.Format(url));
+			var json = "";
 
-			var content = new StringContent("", Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
-			HttpResponseMessage response = null;
-
-			try
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
 			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				funciones.SalirSesion(this);
 				return false;
 			}
 
-			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
 			JArray jrarray;
 
 

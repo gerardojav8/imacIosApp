@@ -53,7 +53,7 @@ namespace icom
 
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 			socketioinit();
@@ -61,13 +61,13 @@ namespace icom
 			tblChat.Layer.BorderColor = UIColor.Black.CGColor;
 			tblChat.Layer.BorderWidth = (nfloat)2.0;
 
-			/*Boolean resp = await getAllMensajes();
+			Boolean resp = await getAllMensajes();
 			SetUpTableView();
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChat.ReloadData();
-			}*/
+			}
 
 
 
@@ -308,31 +308,17 @@ namespace icom
 			string url = Consts.ulrserv + "controldeobras/getMensajesChat";
 			var uri = new Uri(string.Format(url));
 
-			var content = new StringContent("", Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return false;
-			}
+			var json = "";
 
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
 			JArray jrarray;
 
 
@@ -388,31 +374,16 @@ namespace icom
 			objpet.Add("nombre", strnombre);
 			var json = JsonConvert.SerializeObject(objpet);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return -1;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return -1;
-			}
 
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return -1;
+			}
+
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];

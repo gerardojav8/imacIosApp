@@ -28,7 +28,7 @@ namespace icom
 		{
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -51,15 +51,15 @@ namespace icom
 				UIView.CommitAnimations();
 			};
 
-			/*Boolean resp = await getAgenda();
+			Boolean resp = await getAgenda();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstAgenda.ReloadData();
-			}*/
+			}
 
-			clsAgenda obj1 = new clsAgenda();
+			/*clsAgenda obj1 = new clsAgenda();
 			obj1.mes = 1;
 			obj1.comentario = "";
 
@@ -169,7 +169,7 @@ namespace icom
 			LstDatosAgenda.Add(obj9);
 			LstDatosAgenda.Add(obj10);
 			LstDatosAgenda.Add(obj11);
-			LstDatosAgenda.Add(obj12);
+			LstDatosAgenda.Add(obj12);*/
 
 			DateTime dthoy = DateTime.Now;
 			int mesact = dthoy.Month - 1;
@@ -212,31 +212,16 @@ namespace icom
 			obj.Add("idusuario", Consts.idusuarioapp);
 			var json = JsonConvert.SerializeObject(obj);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return false;
-			}
 
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
 			JArray jrarray;
 
 

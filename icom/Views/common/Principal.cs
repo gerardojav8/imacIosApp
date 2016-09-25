@@ -131,8 +131,9 @@ namespace icom
 			string responseString = string.Empty;
 			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
-			if (responseString.Equals("-1")) {
-				funciones.SalirSesion(this);	
+			if (responseString.Equals("-1") || responseString.Equals("-2")) {
+				funciones.SalirSesion(this);
+				return false;
 			}
 
 			var jsonresponse = JObject.Parse(responseString);

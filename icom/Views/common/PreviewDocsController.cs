@@ -2,6 +2,7 @@
 using System.IO;
 using Foundation;
 using icom.globales;
+using MessageUI;
 
 using UIKit;
 
@@ -15,6 +16,8 @@ namespace icom
 		LoadingOverlay loadPop;
 		public string tituloDocumento { get; set; }
 		public string urlDocumento { get; set; }
+		MFMailComposeViewController mailCtrl;
+
 		public override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
@@ -37,15 +40,42 @@ namespace icom
 			{
 				loadPop.Hide();
 			};
+
+			if (MFMailComposeViewController.CanSendMail)
+			{
+				mailCtrl = new MFMailComposeViewController();
+
+				mailCtrl.Finished += async (object sender, MFComposeResultEventArgs e) =>
+				{
+					Console.WriteLine(e.Result.ToString());
+					e.Controller.DismissViewController(true, null);
+				};
+				btnMail.TouchUpInside += sendMail;
+			}
+			else { 
+				btnMail.TouchUpInside += delegate {
+					funciones.MessageBox("Error", "No se puede mandar mail");
+				};;
+			}
+
+
+
+
+		}
+
+		private void sendMail(object sender, EventArgs e) {
+			
+
+			mailCtrl.SetToRecipients(new String[] { "gerardo_jav_8@hotmail.com" });
+			mailCtrl.SetSubject("mail test");
+			mailCtrl.SetMessageBody("Prueba de mensaje de correo", false);
+
+			this.PresentViewController(mailCtrl, true, null);
+
 		}
 
 
 
-		public override void DidReceiveMemoryWarning()
-		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
-		}
 	}
 }
 

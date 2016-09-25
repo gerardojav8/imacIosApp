@@ -26,7 +26,7 @@ namespace icom
 		private List<clsListadoMaquinas> lstMaqServ;
 
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 
 			base.ViewDidLoad();
@@ -34,15 +34,15 @@ namespace icom
 			lstMaqServ = new List<clsListadoMaquinas>();
 			lstMaquinas.Source = new FuenteTablaMaquinas(this, lstMaqServ);
 
-			/*Boolean resp = await getAllMaquinas();
+			Boolean resp = await getAllMaquinas();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				lstMaquinas.ReloadData();
-			}*/
+			}
 
-			clsListadoMaquinas obj1 = new clsListadoMaquinas();
+			/*clsListadoMaquinas obj1 = new clsListadoMaquinas();
 			obj1.noserie = "1234568";
 			obj1.noeconomico = 1234;
 			obj1.marca = "Mercedes venz";
@@ -71,7 +71,7 @@ namespace icom
 
 			lstMaqServ.Add(obj1);
 			lstMaqServ.Add(obj2);
-			lstMaqServ.Add(obj3);
+			lstMaqServ.Add(obj3);*/
 
 			btnAgregar.TouchUpInside += delegate {
 				solicitudMaquinaController viewsolmaq = new solicitudMaquinaController();
@@ -149,33 +149,18 @@ namespace icom
 			string url = Consts.ulrserv + "maquinas/getListadoMaquinas";
 			var uri = new Uri(string.Format(url));
 
-			var content = new StringContent("", Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI "+ e.HResult );
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return false;
-			}
+			var json = "";
 
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
-			JArray jrarray;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
+			JArray jrarray;
 
 			try
 			{
@@ -226,31 +211,15 @@ namespace icom
 			obj.Add("busqueda", strbusqueda);
 			var json = JsonConvert.SerializeObject(obj);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return false;
-			}
-
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
 			JArray jrarray;
 
 

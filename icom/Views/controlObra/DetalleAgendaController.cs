@@ -112,7 +112,7 @@ namespace icom
 			ScrollToBottom(true);
 		}
 
-		public override void ViewDidLoad()
+		public async override void ViewDidLoad()
 		{
 			base.ViewDidLoad();
 
@@ -136,7 +136,7 @@ namespace icom
 			lstusuarios = new List<String>();
 
 
-			/*clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
+			clsDetalleEventoAgenda objde = await getDetalleEventoAgenda();
 			if (objde != null)
 			{
 
@@ -148,9 +148,9 @@ namespace icom
 				titulo = objde.titulo;
 				inicializaCombos();
 				loadPop.Hide();
-			}*/
+			}
 
-			lblComentario.Text = "Test de titulo";
+			/*lblComentario.Text = "Test de titulo";
 			lblLapso.Text = "2016-01-01 12:00:00 a 2016-01-01 12:00:00";
 			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechainicio);
 			DateTime.TryParseExact("2016-01-01 12:00:00", "yyyy-MM-dd HH:mm:ss", null, System.Globalization.DateTimeStyles.None, out fechafin);
@@ -160,7 +160,7 @@ namespace icom
 			notas = "Evento prueba";
 			titulo = "Test de titulo";
 
-			inicializaCombos();
+			inicializaCombos();*/
 
 
 			tblChatDetalleAgencia.Layer.BorderColor = UIColor.Black.CGColor;
@@ -168,13 +168,13 @@ namespace icom
 
 			messages = new List<Message>();
 
-			/*Boolean resp = await getMessagesEvento();
+			Boolean resp = await getMessagesEvento();
 
 			if (resp)
 			{
 				loadPop.Hide();
 				tblChatDetalleAgencia.ReloadData();
-			}*/
+			}
 
 			SetUpTableView();
 
@@ -306,31 +306,17 @@ namespace icom
 			param.Add("idevento", idevento.ToString());
 			var json = JsonConvert.SerializeObject(param);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
 
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI ");
-				return false;
-			}
 
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
 			JArray jrarray;
 
 
@@ -410,24 +396,15 @@ namespace icom
 			obj.Add("idevento", idevento.ToString());
 			var json = JsonConvert.SerializeObject(obj);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
-			HttpResponseMessage response = null;
-
-			try
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
 			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				funciones.SalirSesion(this);
 				return null;
 			}
 
-			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];

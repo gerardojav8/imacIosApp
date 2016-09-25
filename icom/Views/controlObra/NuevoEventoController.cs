@@ -245,32 +245,15 @@ namespace icom
 
 			var json = JsonConvert.SerializeObject(objev);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
-
-			HttpResponseMessage response = null;
-
-			try
-			{
-				response = await client.PostAsync(uri, content);
-
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
-				return false;
-			}
-
-			if (response == null)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI");
-				return false;
-			}
-
 			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
+
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
+			{
+				funciones.SalirSesion(this);
+				return false;
+			}
+
 			var jsonresponse = JObject.Parse(responseString);
 
 			var jtokenerror = jsonresponse["error_description"];
@@ -356,24 +339,15 @@ namespace icom
 			param.Add("nombre", txtAsistentes.Text);
 			var json = JsonConvert.SerializeObject(param);
 
-			var content = new StringContent(json, Encoding.UTF8, "application/json");
-			client.DefaultRequestHeaders.Add("Authorization", "Bearer " + Consts.token);
+			string responseString = string.Empty;
+			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
-			HttpResponseMessage response = null;
-
-			try
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
 			{
-				response = await client.PostAsync(uri, content);
-			}
-			catch (Exception e)
-			{
-				loadPop.Hide();
-				funciones.MessageBox("Error", "No se ha podido hacer conexion con el servicio, verfiquelo con su administrador TI " + e.HResult);
+				funciones.SalirSesion(this);
 				return false;
 			}
 
-			string responseString = string.Empty;
-			responseString = await response.Content.ReadAsStringAsync();
 			JArray jrarray;
 
 
