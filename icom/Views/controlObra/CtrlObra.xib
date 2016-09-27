@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CtrlObra">
@@ -16,56 +17,51 @@
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bx5-hg-qML">
-                    <rect key="frame" x="188" y="152" width="110" height="108"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bx5-hg-qML">
                     <constraints>
                         <constraint firstAttribute="width" constant="110" id="gzb-KZ-KJq"/>
                         <constraint firstAttribute="height" constant="108" id="tLJ-qy-Xbo"/>
                     </constraints>
                     <state key="normal" image="dtpicker.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxE-Jt-q6B">
-                    <rect key="frame" x="25" y="152" width="110" height="108"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NxE-Jt-q6B">
                     <constraints>
                         <constraint firstAttribute="height" constant="108" id="7sd-wu-V1V"/>
                         <constraint firstAttribute="width" constant="110" id="khS-Hp-VtS"/>
                     </constraints>
                     <state key="normal" image="mensajes.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCc-rn-M2f">
-                    <rect key="frame" x="85" y="348" width="150" height="147"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aCc-rn-M2f">
                     <constraints>
                         <constraint firstAttribute="height" constant="147" id="9cu-xo-NSt"/>
                     </constraints>
                     <state key="normal" image="planificador.png"/>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Mensajes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lnt-y6-r7n">
-                    <rect key="frame" x="41" y="268" width="79" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mensajes" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lnt-y6-r7n">
                     <constraints>
                         <constraint firstAttribute="width" constant="79" id="eEx-IH-rkJ"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Agenda" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-Bp-COj">
-                    <rect key="frame" x="204" y="268" width="79" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Agenda" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dFj-Bp-COj">
                     <constraints>
                         <constraint firstAttribute="width" constant="79" id="JXr-pf-HMf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Planificador" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPQ-ya-zFP">
-                    <rect key="frame" x="73" y="503" width="174" height="21"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Planificador" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPQ-ya-zFP">
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="wPQ-ya-zFP" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="73" id="5wU-l4-no4"/>
                 <constraint firstItem="lnt-y6-r7n" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="41" id="71B-0x-vy4"/>
@@ -73,14 +69,15 @@
                 <constraint firstAttribute="trailing" secondItem="wPQ-ya-zFP" secondAttribute="trailing" constant="73" id="Cib-Zg-daq"/>
                 <constraint firstAttribute="trailing" secondItem="aCc-rn-M2f" secondAttribute="trailing" constant="85" id="EGo-HZ-K90"/>
                 <constraint firstItem="lnt-y6-r7n" firstAttribute="top" secondItem="NxE-Jt-q6B" secondAttribute="bottom" constant="8" id="Ezu-z9-uIU"/>
+                <constraint firstItem="bx5-hg-qML" firstAttribute="top" secondItem="2" secondAttribute="top" constant="152" id="IfX-Jt-f5r"/>
                 <constraint firstItem="aCc-rn-M2f" firstAttribute="top" secondItem="dFj-Bp-COj" secondAttribute="bottom" constant="59" id="MRS-rK-qey"/>
                 <constraint firstAttribute="trailing" secondItem="bx5-hg-qML" secondAttribute="trailing" constant="22" id="Pgz-dm-56A"/>
                 <constraint firstItem="aCc-rn-M2f" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="85" id="Utb-h4-8HK"/>
+                <constraint firstItem="NxE-Jt-q6B" firstAttribute="top" secondItem="2" secondAttribute="top" constant="152" id="hjS-YW-hv2"/>
                 <constraint firstAttribute="trailing" secondItem="dFj-Bp-COj" secondAttribute="trailing" constant="37" id="jTR-4h-fag"/>
                 <constraint firstItem="NxE-Jt-q6B" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="25" id="nyM-xz-1x5"/>
                 <constraint firstItem="dFj-Bp-COj" firstAttribute="top" secondItem="bx5-hg-qML" secondAttribute="bottom" constant="8" id="qDC-uA-ThE"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="222" y="340"/>
         </view>
     </objects>

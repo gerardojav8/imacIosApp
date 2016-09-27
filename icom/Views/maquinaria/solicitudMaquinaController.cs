@@ -31,7 +31,7 @@ namespace icom
 		int idresponsable = -1;
 
 		UIActionSheet actAreasObra;
-		List<clsCmbAreasObra> lstAreasObra = new List<clsCmbAreasObra>();
+		List<clsCmbObras> lstAreasObra = new List<clsCmbObras>();
 		int idarea = -1;
 
 		public UIViewController viewmaq
@@ -76,7 +76,6 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			}
 
-
 			txtRequerimiento.Text = folio;
 
 			String fecha = await getFechaHoraActual();
@@ -96,7 +95,7 @@ namespace icom
 				this.NavigationController.PopToRootViewController(true);
 			}
 
-			lstAreasObra = new List<clsCmbAreasObra>();
+			lstAreasObra = new List<clsCmbObras>();
 
 			Boolean respareas = await getAreasObra();
 			if (!respareas)
@@ -107,7 +106,6 @@ namespace icom
 			loadPop.Hide();
 
 			inicializaCombos();
-
 
 			btnAgregar.TouchUpInside += delegate {
 
@@ -176,7 +174,6 @@ namespace icom
 			UIToolbar toolbar;
 			UIBarButtonItem doneButton;
 
-
 			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
 			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
 			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtCantidad.EndEditing(true); });
@@ -186,7 +183,6 @@ namespace icom
 			txtEquiposolicitado.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 			txtmarca.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
 			txtModelo.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
-
 
 		}
 
@@ -239,7 +235,7 @@ namespace icom
 			clsGuardaSolicitudMaquinaria objsolicitud = new clsGuardaSolicitudMaquinaria();
 
 			objsolicitud.requeridopara = txtRequeridaPara.Text;
-			objsolicitud.idareaobra = idarea.ToString();
+			objsolicitud.idobra = idarea.ToString();
 			objsolicitud.idresponsable = idresponsable.ToString();
 			objsolicitud.requerimientos = lstsolmaq;
 
@@ -289,7 +285,7 @@ namespace icom
 
 
 			client = new HttpClient();
-			string url = Consts.ulrserv + "obras/getAreasObras";
+			string url = Consts.ulrserv + "obras/getObras";
 			var uri = new Uri(string.Format(url));
 
 			var json = "";
@@ -330,19 +326,19 @@ namespace icom
 
 			foreach (var ob in jrarray)
 			{
-				clsCmbAreasObra objarea = getobjAreaObra(ob);
+				clsCmbObras objarea = getobjAreaObra(ob);
 				lstAreasObra.Add(objarea);
 			}
 
 			return true;
 		}
 
-		public clsCmbAreasObra getobjAreaObra(Object varjson)
-		{
-			clsCmbAreasObra objob = new clsCmbAreasObra();
+		public clsCmbObras getobjAreaObra(Object varjson)
+		{			
+			clsCmbObras objob = new clsCmbObras();
 			JObject json = (JObject)varjson;
 
-			objob.idarea = Int32.Parse(json["idareaobra"].ToString());
+			objob.idobra = Int32.Parse(json["idobra"].ToString());
 			objob.nombre = json["nombre"].ToString();
 
 			return objob;
@@ -566,7 +562,7 @@ namespace icom
 
 			//--------Combo Areas Obra---------------------
 			actAreasObra = new UIActionSheet("Seleccionar");
-			foreach (clsCmbAreasObra ob in lstAreasObra)
+			foreach (clsCmbObras ob in lstAreasObra)
 			{
 				actAreasObra.Add(ob.nombre);
 			}
@@ -584,9 +580,9 @@ namespace icom
 			{
 				if (e.ButtonIndex != lstAreasObra.Count)
 				{
-					clsCmbAreasObra ob = lstAreasObra.ElementAt((int)e.ButtonIndex);
+					clsCmbObras ob = lstAreasObra.ElementAt((int)e.ButtonIndex);
 					txtAreaObra.Text = ob.nombre;
-					idarea = ob.idarea;
+					idarea = ob.idobra;
 				}
 				else {
 					txtAreaObra.Text = "";

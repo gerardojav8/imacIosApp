@@ -8,6 +8,7 @@ using System.Text;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 namespace icom
 {
 	public static class funciones
@@ -98,6 +99,15 @@ namespace icom
 
 		}
 
+		public static UIImage ResizeImage(UIImage sourceImage, float width, float height) {
+
+			UIGraphics.BeginImageContext(new SizeF(width, height));
+			sourceImage.Draw(new RectangleF(0, 0, width, height));
+			var resultImage = UIGraphics.GetImageFromCurrentImageContext();
+			UIGraphics.EndImageContext();
+			return resultImage;
+		}
+
 		public static Byte[] getBytesFromImage(String path) { 
 		
 			UIImage img = UIImage.FromFile(path);
@@ -115,6 +125,20 @@ namespace icom
 		public static String getBase64Image(String path) {
 			Byte[] imageBytes = getBytesFromImage(path);
 			return Convert.ToBase64String(imageBytes);
+		}
+
+		public static String getBase64Image(UIImage img)
+		{
+					 
+			Byte[] imageBytes;
+			using (NSData imagenData = img.AsJPEG())
+			{
+				imageBytes = new Byte[imagenData.Length];
+				System.Runtime.InteropServices.Marshal.Copy(imagenData.Bytes, imageBytes, 0, Convert.ToInt32(imagenData.Length));
+			}
+
+			return Convert.ToBase64String(imageBytes);
+
 		}
 
 		public static async Task<String> llamadaRest(HttpClient client, Uri uri, LoadingOverlay loadPop, String json, string token) {
@@ -148,13 +172,17 @@ namespace icom
 			string responseString = string.Empty;
 			responseString = await response.Content.ReadAsStringAsync();
 
-			var jsonresponse = JObject.Parse(responseString);
-			var jtokenerror = jsonresponse["Message"];
-			if (jtokenerror != null)
+			if (!responseString.Contains("["))
 			{
-				String msg = jtokenerror.ToString();
-				if (msg.ToLower().Contains("se ha denegado")) {
-					return "-1";
+				var jsonresponse = JObject.Parse(responseString);
+				var jtokenerror = jsonresponse["Message"];
+				if (jtokenerror != null)
+				{
+					String msg = jtokenerror.ToString();
+					if (msg.ToLower().Contains("se ha denegado"))
+					{
+						return "-1";
+					}
 				}
 			}
 			return responseString;

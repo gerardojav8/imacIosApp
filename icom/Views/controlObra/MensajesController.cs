@@ -81,9 +81,9 @@ namespace icom
 				hora = " 12:00:00",
 				filename = "primeraplus.pdf",
 				idmensaje = "10026" 
-			});*/
+			});
 
-			SetUpTableView();
+			SetUpTableView();*/
 
 
 			txtmensaje.Started += OnTextViewStarted;
@@ -129,12 +129,76 @@ namespace icom
 
 			};
 
-			btnArchivo.TouchUpInside += mandaArchivoaServer;
+			//btnArchivo.TouchUpInside += mandaArchivoaServer;
 			//btnArchivo.TouchUpInside += abreDocumento;
+			btnArchivo.TouchUpInside += abreFoto;
 		
 
 			ScrollToBottom(true);
 
+		}
+
+		UIImagePickerController imgpicker;
+
+		void abreFoto(object s, EventArgs e)
+		{
+			imgpicker = new UIImagePickerController();
+			imgpicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+			imgpicker.MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary);
+			imgpicker.FinishedPickingMedia += Handle_finishedPickingMedia;
+			imgpicker.Canceled += Handle_CanceledPickingMedia;
+			this.NavigationController.PresentModalViewController(imgpicker, true);
+
+		}
+
+		protected async void Handle_finishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e) {
+			bool isImage = false;
+
+			switch (e.Info[UIImagePickerController.MediaType].ToString()) {
+				case "public.image":
+					isImage = true;
+					break;
+				case "public.video":
+					break;
+			}
+
+			if (isImage)
+			{
+				UIImage img = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+				UIImage imgchica = funciones.ResizeImage(img, 350, 500);
+				String strimagenbase64 = funciones.getBase64Image(imgchica);
+				imgpicker.DismissModalViewController(true);
+				int intidmensaje = await guardaMensajeArchivo(strimagenbase64, "imagen.jpg", txtmensaje.Text);
+				if (intidmensaje > -1)
+				{
+					loadPop.Hide();
+					Dictionary<string, string> datos = new Dictionary<string, string>();
+					datos.Add("idusuario", Consts.idusuarioapp);
+					datos.Add("mensaje", txtmensaje.Text);
+					datos.Add("fecha", "");
+					datos.Add("hora", "");
+					datos.Add("filename", "imagen.jpg");
+					datos.Add("idmensaje", intidmensaje.ToString());
+					datos.Add("nombre", Consts.nombreusuarioapp);
+					datos.Add("iniciales", Consts.inicialesusuarioapp);
+
+					var json = JsonConvert.SerializeObject(datos);
+
+					socket.Emit("newMessage", json);
+
+					txtmensaje.Text = string.Empty;
+					txtmensaje.EndEditing(true);
+				}
+
+			}
+			else {
+				funciones.MessageBox("Error", "Debe de seleccionar una foto");
+			}
+		}
+
+		protected void Handle_CanceledPickingMedia(object sender, EventArgs e)
+		{
+			imgpicker.DismissModalViewController(true);
 		}
 
 
@@ -360,11 +424,11 @@ namespace icom
 		public async Task<int> guardaMensajeArchivo(String strarchivo, String strnombre, String strMensaje)
 		{
 			var bounds = UIScreen.MainScreen.Bounds;
-			loadPop = new LoadingOverlay(bounds, "Guardando Archivo ...");
+			loadPop = new LoadingOverlay(bounds, "Enviando Archivo ...");
 			View.Add(loadPop);
 
 			client = new HttpClient();
-			string url = Consts.ulrserv + "controldeobras/guardaMensajeconArchivo";
+			string url = Consts.ulrserv + "controldeobras/GuardaMensajeconArchivo";
 			var uri = new Uri(string.Format(url));
 
 			Dictionary<String, String> objpet = new Dictionary<string, string>();

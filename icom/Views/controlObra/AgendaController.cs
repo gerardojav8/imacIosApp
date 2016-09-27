@@ -171,14 +171,17 @@ namespace icom
 			LstDatosAgenda.Add(obj11);
 			LstDatosAgenda.Add(obj12);*/
 
-			DateTime dthoy = DateTime.Now;
-			int mesact = dthoy.Month - 1;
-			NSIndexPath myindex = NSIndexPath.FromItemSection(mesact, 0);
+			if (LstDatosAgenda.Count() > 0)
+			{
+				DateTime dthoy = DateTime.Now;
+				int mesact = dthoy.Month - 1;
+				NSIndexPath myindex = NSIndexPath.FromItemSection(mesact, 0);
 
-			lstAgenda.Source.RowSelected(lstAgenda, myindex);
+				lstAgenda.Source.RowSelected(lstAgenda, myindex);
 
-			var poss = UITableViewScrollPosition.Middle;
-			lstAgenda.ScrollToRow(myindex, poss, true);
+				var poss = UITableViewScrollPosition.Middle;
+				lstAgenda.ScrollToRow(myindex, poss, true);
+			}
 
 
 		}

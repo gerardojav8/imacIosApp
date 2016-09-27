@@ -15,6 +15,7 @@ namespace icom
 	public partial class CategoriasTareasController : UIViewController
 	{
 		public int idobra { get; set; }
+		public string nombreobra { get; set; }
 		LoadingOverlay loadPop;
 		HttpClient client;
 
@@ -126,6 +127,7 @@ namespace icom
 			btnGrafica.TouchUpInside += delegate {
 				GraficasTareasController viewg = new GraficasTareasController();
 				viewg.lstClas = lstClas;
+				viewg.nombreobra = this.nombreobra;
 
 				viewg.Title = "Graficas";
 				this.NavigationController.PushViewController(viewg, false);

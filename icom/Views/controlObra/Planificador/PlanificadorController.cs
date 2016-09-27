@@ -126,19 +126,6 @@ namespace icom
 
 
 
-			/*btnExportaPDF.TouchUpInside += delegate
-			{
-				ExportarTareasController viewe = new ExportarTareasController();
-
-
-				viewe.Title = "Exportacion PDF";
-				this.NavigationController.PushViewController(viewe, false);
-				UIView.BeginAnimations(null);
-				UIView.SetAnimationDuration(0.7);
-				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
-				UIView.CommitAnimations();
-			};*/
-
 			btnExportaPDF.TouchUpInside += creaPDF;
 
 			btnActualizarEventos.TouchUpInside += buscarTareas;
@@ -156,7 +143,7 @@ namespace icom
 			{
 
 
-				string nombrefile = "tareas" + Consts.idusuarioapp + ".pdf";
+				string nombrefile = "tareas_" + Consts.idusuarioapp + ".pdf";
 				String pathtemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nombrefile);
 				if (File.Exists(pathtemp))
 				{

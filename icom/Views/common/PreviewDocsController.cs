@@ -45,7 +45,7 @@ namespace icom
 			{
 				mailCtrl = new MFMailComposeViewController();
 
-				mailCtrl.Finished += async (object sender, MFComposeResultEventArgs e) =>
+				mailCtrl.Finished += (object sender, MFComposeResultEventArgs e) =>
 				{
 					Console.WriteLine(e.Result.ToString());
 					e.Controller.DismissViewController(true, null);
@@ -55,7 +55,7 @@ namespace icom
 			else { 
 				btnMail.TouchUpInside += delegate {
 					funciones.MessageBox("Error", "No se puede mandar mail");
-				};;
+				};
 			}
 
 
@@ -66,9 +66,11 @@ namespace icom
 		private void sendMail(object sender, EventArgs e) {
 			
 
-			mailCtrl.SetToRecipients(new String[] { "gerardo_jav_8@hotmail.com" });
-			mailCtrl.SetSubject("mail test");
-			mailCtrl.SetMessageBody("Prueba de mensaje de correo", false);
+
+			mailCtrl.SetMessageBody("ICOM Archivo PDF", false);
+			NSData nsdf = NSData.FromFile(urlDocumento);
+			mailCtrl.AddAttachmentData(nsdf, "pdf", tituloDocumento);
+
 
 			this.PresentViewController(mailCtrl, true, null);
 

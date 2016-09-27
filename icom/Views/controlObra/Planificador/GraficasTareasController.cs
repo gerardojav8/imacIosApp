@@ -22,6 +22,7 @@ namespace icom
 		HttpClient client;
 		public AllianceChart grafica;
 		public List<clsClasificacion> lstClas { get; set; }
+		public string nombreobra { get; set; }
 		public GraficasTareasController() : base("GraficasTareasController", null)
 		{
 		}
@@ -139,7 +140,7 @@ namespace icom
 
 			if (!strpdf.Equals(""))
 			{
-				string nombrefile = "grafica" + Consts.idusuarioapp + ".pdf";
+				string nombrefile = "graf_" + nombreobra + "_" + Consts.idusuarioapp + ".pdf";
 				String pathtemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Personal), nombrefile);
 				if (File.Exists(pathtemp))
 				{
