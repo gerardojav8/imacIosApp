@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MaquinasController">
@@ -16,20 +18,19 @@
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="2">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Busqueda" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4e6-zI-U0l">
-                    <rect key="frame" x="0.0" y="63" width="223" height="46"/>
-                    <color key="backgroundColor" red="0.90980392156862744" green="0.9137254901960784" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90980392156862744" green="0.9137254901960784" blue="0.90980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="q7e-Zb-gE1"/>
                     </constraints>
-                    <color key="textColor" red="0.3187049143540408" green="0.51557123036955022" blue="0.63839083710407241" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="textColor" red="0.3187049143540408" green="0.51557123036955022" blue="0.63839083710407241" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <fontDescription key="fontDescription" type="system" pointSize="23"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PD-L2-1wT">
-                    <rect key="frame" x="270" y="63" width="50" height="46"/>
-                    <color key="backgroundColor" red="0.28627450980392155" green="0.4392156862745098" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.28627450980392155" green="0.4392156862745098" blue="0.70196078431372544" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="46" id="4Gf-mi-BTG"/>
                         <constraint firstAttribute="width" constant="50" id="61K-aw-SL8"/>
@@ -37,8 +38,7 @@
                     <state key="normal" image="plus.png"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6PV-kT-CDT">
-                    <rect key="frame" x="223" y="63" width="50" height="46"/>
-                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.90397223790000003" green="0.56460555109999999" blue="0.3289350003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="MTa-Pt-wk9"/>
                         <constraint firstAttribute="height" constant="46" id="gmd-13-wbs"/>
@@ -46,12 +46,11 @@
                     <state key="normal" title="Button" image="search_button.png"/>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jdo-gA-ySt">
-                    <rect key="frame" x="0.0" y="110" width="320" height="458"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <color key="separatorColor" red="0.80512820512820504" green="0.80512820512820504" blue="0.80512820512820504" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="separatorColor" red="0.80512820512820504" green="0.80512820512820504" blue="0.80512820512820504" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 </tableView>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="4e6-zI-U0l" firstAttribute="top" secondItem="2" secondAttribute="top" constant="63" id="98d-66-b01"/>
                 <constraint firstAttribute="trailing" secondItem="6PD-L2-1wT" secondAttribute="trailing" id="9Kv-cG-Mlq"/>
@@ -67,7 +66,6 @@
                 <constraint firstItem="4e6-zI-U0l" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="xGV-Ti-0qB"/>
                 <constraint firstAttribute="bottom" secondItem="Jdo-gA-ySt" secondAttribute="bottom" id="zNg-AA-tYZ"/>
             </constraints>
-            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
             <point key="canvasLocation" x="412" y="406"/>
         </view>
     </objects>

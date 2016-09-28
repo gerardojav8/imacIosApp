@@ -382,6 +382,7 @@
     <Content Include="Resources\refresh.png" />
     <Content Include="Resources\pdf.png" />
     <Content Include="Resources\mail.png" />
+    <Content Include="Resources\pictures.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">

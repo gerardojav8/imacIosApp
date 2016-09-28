@@ -27,11 +27,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pnt-fV-cRb">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pnt-fV-cRb">
                     <frame key="frameInset" width="320" height="829"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s9F-38-hxr">
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="s9F-38-hxr">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="902"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="11:00 am - 12:00 pm" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Xc-26-jNL">
                                     <frame key="frameInset" minX="22" minY="228" width="277" height="21"/>
@@ -116,18 +117,16 @@
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="s9F-38-hxr" firstAttribute="centerX" secondItem="pnt-fV-cRb" secondAttribute="centerX" id="OtG-Vv-gFZ"/>
-                    </constraints>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="pnt-fV-cRb" secondAttribute="trailing" id="8up-eM-D2R"/>
-                <constraint firstItem="pnt-fV-cRb" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="B9o-o5-2NH"/>
-                <constraint firstItem="pnt-fV-cRb" firstAttribute="top" secondItem="2" secondAttribute="top" id="ibe-Ov-hd7"/>
+                <constraint firstItem="pnt-fV-cRb" firstAttribute="top" secondItem="2" secondAttribute="top" id="NFq-uG-lXU"/>
+                <constraint firstAttribute="trailing" secondItem="pnt-fV-cRb" secondAttribute="trailing" id="R3C-Fu-B03"/>
+                <constraint firstItem="pnt-fV-cRb" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="ioH-7G-1r3"/>
+                <constraint firstAttribute="bottom" secondItem="pnt-fV-cRb" secondAttribute="bottom" constant="-261" id="qOK-6s-g2V"/>
             </constraints>
-            <point key="canvasLocation" x="623" y="411"/>
+            <point key="canvasLocation" x="-22" y="-15"/>
         </view>
     </objects>
     <resources>
