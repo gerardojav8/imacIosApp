@@ -4,9 +4,9 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		public static readonly string ipserv = "189.237.125.119";
+		public static readonly string ipserv = "proyextra.hopto.org";
 		//public static readonly string ipservchat = "icom-chat-server-jav85861.c9users.io";
-		public static readonly string ipservchat = "189.237.125.119";
+		public static readonly string ipservchat = "proyextra.hopto.org";
 		public static readonly string puertochat = ":8080";
 
 		public static readonly string urltoken = "http://" + ipserv + "/icomtoken/oauth2/token";

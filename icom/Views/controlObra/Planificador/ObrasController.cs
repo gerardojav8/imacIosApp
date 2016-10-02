@@ -151,7 +151,7 @@ namespace icom
 			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
 
-			if (responseString.Equals("-1")) { 
+			if (responseString.Equals("-1") || responseString.Equals("-2")) { 
 				funciones.SalirSesion(this);
 			}
 
@@ -242,7 +242,7 @@ namespace icom
 			responseString = await funciones.llamadaRest(client, uri, loadPop, json, Consts.token);
 
 
-			if (responseString.Equals("-1"))
+			if (responseString.Equals("-1") || responseString.Equals("-2"))
 			{
 				funciones.SalirSesion(this);
 			}

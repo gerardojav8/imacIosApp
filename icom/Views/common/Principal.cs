@@ -23,7 +23,7 @@ namespace icom
 
 		public string strpass{ get; set; }
 
-		public async override void ViewDidLoad ()
+		public override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
@@ -43,7 +43,7 @@ namespace icom
 			};
 
 			btnProduccion.TouchUpInside += delegate {
-				Produccion viewprod = new Produccion();
+				FiltroProduccionController viewprod = new FiltroProduccionController();
 				viewprod.Title = "Produccion";
 
 
@@ -73,7 +73,7 @@ namespace icom
 
 
 
-			/*if (strusuario.ToLower().Equals("fermin"))
+			if (strusuario.ToLower().Equals("fermin"))
 			{
 				Consts.idusuarioapp = "1";
 				Consts.nombreusuarioapp = "Fermin Mojica Araujo";
@@ -93,11 +93,11 @@ namespace icom
 				Consts.idusuarioapp = "4";
 				Consts.nombreusuarioapp = "Gerardo Javier Gamez Vazquez";
 				Consts.inicialesusuarioapp = "GG";
-			}*/
+			}
 
 
 
-			Boolean resp = await TraeUsuario();
+			/*Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -105,7 +105,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}
+			}*/
 
 
 		}

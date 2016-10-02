@@ -140,6 +140,8 @@
     <InterfaceDefinition Include="Views\controlObra\Planificador\ObrasController.xib" />
     <InterfaceDefinition Include="Views\controlObra\Planificador\AltaObraController.xib" />
     <InterfaceDefinition Include="Views\controlObra\Planificador\ModificarObraController.xib" />
+    <InterfaceDefinition Include="Views\produccion\FiltroProduccionController.xib" />
+    <InterfaceDefinition Include="Views\produccion\ResultadosProduccionController.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -326,6 +328,16 @@
     <Compile Include="Entidades\clsListadoObra.cs" />
     <Compile Include="Views\controlObra\TablasSources\FuenteTablaObras.cs" />
     <Compile Include="Entidades\clsPeticionGrafica.cs" />
+    <Compile Include="Views\produccion\FiltroProduccionController.cs" />
+    <Compile Include="Views\produccion\FiltroProduccionController.designer.cs">
+      <DependentUpon>FiltroProduccionController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\produccion\ResultadosProduccionController.cs" />
+    <Compile Include="Views\produccion\ResultadosProduccionController.designer.cs">
+      <DependentUpon>ResultadosProduccionController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\produccion\TablasSources\FuenteTablaProduccion.cs" />
+    <Compile Include="Entidades\clsProduccion.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -413,6 +425,8 @@
     <Folder Include="Views\controlObra\TablasSources\" />
     <Folder Include="Views\common\" />
     <Folder Include="Views\controlObra\Planificador\" />
+    <Folder Include="Views\produccion\" />
+    <Folder Include="Views\produccion\TablasSources\" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\down.png" />
