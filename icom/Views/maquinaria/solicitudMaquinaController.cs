@@ -59,6 +59,14 @@ namespace icom
 				scrViewSolicitudMaquina.ContentSize = new CoreGraphics.CGSize(316, 1783);
 			}
 
+			btnAgregar.Layer.CornerRadius = 10;
+			btnAgregar.ClipsToBounds = true;
+
+			btnlimpiar.Layer.CornerRadius = 10;
+			btnlimpiar.ClipsToBounds = true;
+
+			btnSolicitar.Layer.CornerRadius = 10;
+			btnSolicitar.ClipsToBounds = true;
 
 			lstRequerimientos.Layer.BorderColor = UIColor.Black.CGColor;
 			lstRequerimientos.Layer.BorderWidth = (nfloat)2.0;

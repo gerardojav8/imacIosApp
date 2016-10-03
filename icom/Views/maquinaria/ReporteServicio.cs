@@ -56,6 +56,14 @@ namespace icom
 				scrViewRepServicios.ContentSize = new CoreGraphics.CGSize(316, 1783);
 			}
 
+			btnaddref.Layer.CornerRadius = 10;
+			btnaddref.ClipsToBounds = true;
+
+			btnLimpiarRefacciones.Layer.CornerRadius = 10;
+			btnLimpiarRefacciones.ClipsToBounds = true;
+
+			btnGuardar.Layer.CornerRadius = 10;
+			btnGuardar.ClipsToBounds = true;
 
 			txtDescFalla.Layer.BorderColor = UIColor.Black.CGColor;
 			txtDescFalla.Layer.BorderWidth = (nfloat)2.0;

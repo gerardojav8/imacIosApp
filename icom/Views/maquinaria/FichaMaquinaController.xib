@@ -49,11 +49,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c58-2u-ieD">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="c58-2u-ieD">
                     <frame key="frameInset" width="320" height="1220"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sXu-t3-jAt">
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sXu-t3-jAt">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="1220"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Eco:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iza-nX-eeb">
                                     <frame key="frameInset" minX="19" minY="98" width="42" height="21"/>
@@ -428,16 +429,14 @@
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="sXu-t3-jAt" firstAttribute="centerX" secondItem="c58-2u-ieD" secondAttribute="centerX" id="LF3-da-pqS"/>
-                    </constraints>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="c58-2u-ieD" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="bFC-lZ-n3G"/>
-                <constraint firstItem="c58-2u-ieD" firstAttribute="top" secondItem="2" secondAttribute="top" id="muu-4P-aT3"/>
-                <constraint firstAttribute="trailing" secondItem="c58-2u-ieD" secondAttribute="trailing" id="qgN-bq-xLE"/>
+                <constraint firstItem="c58-2u-ieD" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="1if-f4-ApC"/>
+                <constraint firstAttribute="bottom" secondItem="c58-2u-ieD" secondAttribute="bottom" constant="-652" id="OX5-Il-Th0"/>
+                <constraint firstItem="c58-2u-ieD" firstAttribute="top" secondItem="2" secondAttribute="top" id="izG-KR-0QA"/>
+                <constraint firstAttribute="trailing" secondItem="c58-2u-ieD" secondAttribute="trailing" id="zhT-w3-ctS"/>
             </constraints>
             <point key="canvasLocation" x="295" y="101"/>
         </view>

@@ -23,10 +23,12 @@ namespace icom
 
 		public string strpass{ get; set; }
 
-		public override void ViewDidLoad ()
+		public async override void ViewDidLoad ()
 		{
 			base.ViewDidLoad ();
 
+			btnCerrarSesion.Layer.CornerRadius = 10;
+			btnCerrarSesion.ClipsToBounds = true;
 
 
 			btnMaquinaria.TouchUpInside += delegate {
@@ -73,7 +75,7 @@ namespace icom
 
 
 
-			if (strusuario.ToLower().Equals("fermin"))
+			/*if (strusuario.ToLower().Equals("fermin"))
 			{
 				Consts.idusuarioapp = "1";
 				Consts.nombreusuarioapp = "Fermin Mojica Araujo";
@@ -93,11 +95,11 @@ namespace icom
 				Consts.idusuarioapp = "4";
 				Consts.nombreusuarioapp = "Gerardo Javier Gamez Vazquez";
 				Consts.inicialesusuarioapp = "GG";
-			}
+			}*/
 
 
 
-			/*Boolean resp = await TraeUsuario();
+			Boolean resp = await TraeUsuario();
 
 			if (!resp)
 			{
@@ -105,7 +107,7 @@ namespace icom
 			}
 			else {
 				loadPop.Hide();
-			}*/
+			}
 
 
 		}

@@ -36,6 +36,11 @@ namespace icom
 			txtDescripcionobra.Layer.BorderWidth = (nfloat)2.0;
 			txtDescripcionobra.Text = "";
 
+			btnEliminarObra.Layer.CornerRadius = 10;
+			btnEliminarObra.ClipsToBounds = true;
+
+			btnModificarObra.Layer.CornerRadius = 10;
+			btnModificarObra.ClipsToBounds = true;
 
 
 			clsCmbObras ob = await cargaDatosObra();

@@ -50,6 +50,9 @@ namespace icom
 		{
 			base.ViewDidLoad ();
 
+			btnGuardar.Layer.CornerRadius = 10;
+			btnGuardar.ClipsToBounds = true;
+
 			if (UIScreen.MainScreen.Bounds.Width == 414)
 			{
 				ScrView.ContentSize = new CoreGraphics.CGSize(355, 1200);

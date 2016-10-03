@@ -185,8 +185,6 @@ namespace icom
 			}
 
 
-
-
 			foreach(var maquina in jrarray)
 			{
 				clsListadoMaquinas objm = getobjMaquina(maquina);

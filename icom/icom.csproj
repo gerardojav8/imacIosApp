@@ -110,6 +110,14 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM29x29.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM58x58.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM87x87.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM80x80.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM120x120.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM57x57.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM114x14.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\ICOM180x180.png" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.xib" />

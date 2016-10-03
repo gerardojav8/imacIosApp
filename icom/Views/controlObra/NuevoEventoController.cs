@@ -50,6 +50,16 @@ namespace icom
 				scrNuevoEvento.ContentSize = new CoreGraphics.CGSize(316, 1200);
 
 			}
+
+			btnEliminarAsistentes.Layer.CornerRadius = 10;
+			btnEliminarAsistentes.ClipsToBounds = true;
+
+			btnAgregarAsistentes.Layer.CornerRadius = 10;
+			btnAgregarAsistentes.ClipsToBounds = true;
+
+			btnaceptar.Layer.CornerRadius = 10;
+			btnaceptar.ClipsToBounds = true;
+
 			swTodoeldia.On = false;
 			swTodoeldia.ValueChanged += delegate
 			{

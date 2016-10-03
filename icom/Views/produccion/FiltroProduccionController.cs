@@ -28,6 +28,12 @@ namespace icom
 			btnBuscar.Layer.CornerRadius = 10;
 			btnBuscar.ClipsToBounds = true;
 
+			btnEliminarFechaFin.Layer.CornerRadius = 10;
+			btnEliminarFechaFin.ClipsToBounds = true;
+
+			btnEliminarFechaIni.Layer.CornerRadius = 10;
+			btnEliminarFechaIni.ClipsToBounds = true;
+
 			btnFechaini.TouchUpInside += DatePickerFechaIniButtonTapped;
 			btnFechafin.TouchUpInside += DatePickerFechaFinButtonTapped;
 
@@ -47,6 +53,14 @@ namespace icom
 				UIView.SetAnimationDuration(0.7);
 				UIView.SetAnimationTransition(UIViewAnimationTransition.CurlUp, NavigationController.View, true);
 				UIView.CommitAnimations();
+			};
+
+			btnEliminarFechaIni.TouchUpInside += delegate {
+				txtfechaini.Text = "";
+			};
+
+			btnEliminarFechaFin.TouchUpInside += delegate {
+				txtfechafinal.Text = "";
 			};
 
 			bajatecladoinputs();
@@ -102,6 +116,8 @@ namespace icom
 				dateFormatter.Locale = locale;
 				txtfechafinal.Text = dateFormatter.ToString(modalPicker.DatePicker.Date);
 			};
+
+
 
 			await PresentViewControllerAsync(modalPicker, true);
 		}

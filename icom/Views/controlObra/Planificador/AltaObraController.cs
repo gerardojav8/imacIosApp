@@ -30,6 +30,9 @@ namespace icom
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.DidShowNotification, TecladoArriba);
 			NSNotificationCenter.DefaultCenter.AddObserver(UIKeyboard.WillHideNotification, TecladoAbajo);
 
+			btnGuardarObra.Layer.CornerRadius = 10;
+			btnGuardarObra.ClipsToBounds = true;
+
 			txtdescripcion.Layer.BorderColor = UIColor.Black.CGColor;
 			txtdescripcion.Layer.BorderWidth = (nfloat)2.0;
 			txtdescripcion.Text = "";

@@ -3,7 +3,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -33,11 +32,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" pagingEnabled="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wgw-J7-T1F">
-                    <frame key="frameInset" width="316" height="759"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wgw-J7-T1F">
+                    <frame key="frameInset" width="320" height="858"/>
                     <subviews>
-                        <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="201-sk-BJm" userLabel="ContentView">
-                            <rect key="frame" x="0.0" y="8" width="316" height="751"/>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="201-sk-BJm" userLabel="ContentView">
+                            <rect key="frame" x="0.0" y="8" width="320" height="858"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Fecha y Hora:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHY-au-EDs">
                                     <frame key="frameInset" minX="14" minY="94" width="120" height="21"/>
@@ -192,8 +192,9 @@
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="down.png"/>
                                 </button>
-                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Mr-COe">
+                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nya-Mr-COe">
                                     <frame key="frameInset" minX="125" minY="47" width="173" height="30"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
@@ -214,24 +215,18 @@
                                 </textField>
                             </subviews>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <constraints>
-                                <constraint firstAttribute="trailingMargin" secondItem="nya-Mr-COe" secondAttribute="trailing" constant="10" id="EDn-hB-KjK"/>
-                            </constraints>
                         </view>
                     </subviews>
-                    <constraints>
-                        <constraint firstItem="201-sk-BJm" firstAttribute="centerX" secondItem="wgw-J7-T1F" secondAttribute="centerX" id="HDh-hL-HMR"/>
-                    </constraints>
                 </scrollView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="wgw-J7-T1F" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="2u3-Sn-mkw"/>
-                <constraint firstItem="wgw-J7-T1F" firstAttribute="top" secondItem="2" secondAttribute="top" id="AnW-6y-aPo"/>
-                <constraint firstAttribute="trailing" secondItem="wgw-J7-T1F" secondAttribute="trailing" constant="4" id="F6G-1c-MGn"/>
-                <constraint firstAttribute="bottom" secondItem="wgw-J7-T1F" secondAttribute="bottom" constant="-191" id="Yvb-1Y-2Jt"/>
+                <constraint firstItem="wgw-J7-T1F" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="OXE-st-K6D"/>
+                <constraint firstAttribute="bottom" secondItem="wgw-J7-T1F" secondAttribute="bottom" constant="-290" id="VMP-Ma-sjh"/>
+                <constraint firstItem="wgw-J7-T1F" firstAttribute="top" secondItem="2" secondAttribute="top" id="Zac-YX-hl1"/>
+                <constraint firstAttribute="trailing" secondItem="wgw-J7-T1F" secondAttribute="trailing" id="ydF-er-z4l"/>
             </constraints>
-            <point key="canvasLocation" x="517" y="-552"/>
+            <point key="canvasLocation" x="-400" y="-1769"/>
         </view>
     </objects>
     <resources>

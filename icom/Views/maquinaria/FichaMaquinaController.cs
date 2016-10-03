@@ -61,6 +61,8 @@ namespace icom
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
 
+			redondeabotones();
+
 			inicializaCombos();
 
 			clsFichaMaquina objfichamaquina = await getFichaMaquina();
@@ -942,6 +944,49 @@ namespace icom
 				((MaquinasController)viewmaq).recargarListado();
 				this.NavigationController.PopToViewController(viewmaq, true);
 			}
+		}
+
+		private void redondeabotones() { 
+			btnEFMotor.Layer.CornerRadius = 10;
+			btnEFMotor.ClipsToBounds = true;
+
+			btnEFTransmision.Layer.CornerRadius = 10;
+			btnEFTransmision.ClipsToBounds = true;
+
+			btnEFEqHid.Layer.CornerRadius = 10;
+			btnEFEqHid.ClipsToBounds = true;
+
+			btnEqelec.Layer.CornerRadius = 10;
+			btnEqelec.ClipsToBounds = true;
+
+			btnMandosfin.Layer.CornerRadius = 10;
+			btnMandosfin.ClipsToBounds = true;
+
+			btnLlantas.Layer.CornerRadius = 10;
+			btnLlantas.ClipsToBounds = true;
+
+			btnmangueras.Layer.CornerRadius = 10;
+			btnmangueras.ClipsToBounds = true;
+
+			btnDireccion.Layer.CornerRadius = 10;
+			btnDireccion.ClipsToBounds = true;
+
+			btnEquipodesgaste.Layer.CornerRadius = 10;
+			btnEquipodesgaste.ClipsToBounds = true;
+
+			btnPintura.Layer.CornerRadius = 10;
+			btnPintura.ClipsToBounds = true;
+
+			btnTapiceria.Layer.CornerRadius = 10;
+			btnTapiceria.ClipsToBounds = true;
+
+			otros.Layer.CornerRadius = 10;
+			otros.ClipsToBounds = true;
+
+			btnGuardar.Layer.CornerRadius = 10;
+			btnGuardar.ClipsToBounds = true;
+
+
 		}
 
 		public async Task<String> saveFichaMaq()

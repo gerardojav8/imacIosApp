@@ -16,6 +16,12 @@ namespace icom
 		UIKit.UIButton btnBuscar { get; set; }
 
 		[Outlet]
+		UIKit.UIButton btnEliminarFechaFin { get; set; }
+
+		[Outlet]
+		UIKit.UIButton btnEliminarFechaIni { get; set; }
+
+		[Outlet]
 		UIKit.UIButton btnFechafin { get; set; }
 
 		[Outlet]
@@ -44,6 +50,51 @@ namespace icom
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (btnEliminarFechaIni != null) {
+				btnEliminarFechaIni.Dispose ();
+				btnEliminarFechaIni = null;
+			}
+
+			if (btnEliminarFechaFin != null) {
+				btnEliminarFechaFin.Dispose ();
+				btnEliminarFechaFin = null;
+			}
+
+			if (btnBuscar != null) {
+				btnBuscar.Dispose ();
+				btnBuscar = null;
+			}
+
+			if (btnFechafin != null) {
+				btnFechafin.Dispose ();
+				btnFechafin = null;
+			}
+
+			if (btnFechaini != null) {
+				btnFechaini.Dispose ();
+				btnFechaini = null;
+			}
+
+			if (txtcantidad != null) {
+				txtcantidad.Dispose ();
+				txtcantidad = null;
+			}
+
+			if (txtcliente != null) {
+				txtcliente.Dispose ();
+				txtcliente = null;
+			}
+
+			if (txtfechafinal != null) {
+				txtfechafinal.Dispose ();
+				txtfechafinal = null;
+			}
+
+			if (txtfechaini != null) {
+				txtfechaini.Dispose ();
+				txtfechaini = null;
+			}
+
 			if (txtfolio != null) {
 				txtfolio.Dispose ();
 				txtfolio = null;
@@ -54,44 +105,9 @@ namespace icom
 				txtmaterial = null;
 			}
 
-			if (txtcantidad != null) {
-				txtcantidad.Dispose ();
-				txtcantidad = null;
-			}
-
 			if (txtunidad != null) {
 				txtunidad.Dispose ();
 				txtunidad = null;
-			}
-
-			if (txtcliente != null) {
-				txtcliente.Dispose ();
-				txtcliente = null;
-			}
-
-			if (txtfechaini != null) {
-				txtfechaini.Dispose ();
-				txtfechaini = null;
-			}
-
-			if (txtfechafinal != null) {
-				txtfechafinal.Dispose ();
-				txtfechafinal = null;
-			}
-
-			if (btnFechaini != null) {
-				btnFechaini.Dispose ();
-				btnFechaini = null;
-			}
-
-			if (btnFechafin != null) {
-				btnFechafin.Dispose ();
-				btnFechafin = null;
-			}
-
-			if (btnBuscar != null) {
-				btnBuscar.Dispose ();
-				btnBuscar = null;
 			}
 		}
 	}

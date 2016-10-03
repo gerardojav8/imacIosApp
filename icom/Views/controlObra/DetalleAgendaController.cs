@@ -131,6 +131,12 @@ namespace icom
 				scrDetalleAgencia.ContentSize = new CoreGraphics.CGSize(316, 1075);
 			}
 
+			btnAgregarCalendario.Layer.CornerRadius = 10;
+			btnAgregarCalendario.ClipsToBounds = true;
+
+			btnEnviar.Layer.CornerRadius = 10;
+			btnEnviar.ClipsToBounds = true;
+
 			btnUsuarios.Layer.CornerRadius = 10;
 			btnUsuarios.ClipsToBounds = true;
 			lstusuarios = new List<String>();
