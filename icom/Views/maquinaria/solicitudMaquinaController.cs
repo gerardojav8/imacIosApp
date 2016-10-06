@@ -246,6 +246,7 @@ namespace icom
 			objsolicitud.idobra = idarea.ToString();
 			objsolicitud.idresponsable = idresponsable.ToString();
 			objsolicitud.requerimientos = lstsolmaq;
+			objsolicitud.idsolicitadopor = Consts.idusuarioapp;
 
 			var json = JsonConvert.SerializeObject(objsolicitud);
 
