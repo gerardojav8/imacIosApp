@@ -107,6 +107,9 @@
     <Reference Include="Alliance.Charts">
       <HintPath>..\Components\AllianceChart-2.0\lib\ios-unified\Alliance.Charts.dll</HintPath>
     </Reference>
+    <Reference Include="Blounty.SlideDownMenu">
+      <HintPath>..\Components\slide-down-menu-1.1.1\lib\ios-unified\Blounty.SlideDownMenu.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\Contents.json" />
@@ -150,6 +153,7 @@
     <InterfaceDefinition Include="Views\controlObra\Planificador\ModificarObraController.xib" />
     <InterfaceDefinition Include="Views\produccion\FiltroProduccionController.xib" />
     <InterfaceDefinition Include="Views\produccion\ResultadosProduccionController.xib" />
+    <InterfaceDefinition Include="Views\common\cambioPass.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -346,6 +350,10 @@
     </Compile>
     <Compile Include="Views\produccion\TablasSources\FuenteTablaProduccion.cs" />
     <Compile Include="Entidades\clsProduccion.cs" />
+    <Compile Include="Views\common\cambioPass.cs" />
+    <Compile Include="Views\common\cambioPass.designer.cs">
+      <DependentUpon>cambioPass.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -403,6 +411,7 @@
     <Content Include="Resources\pdf.png" />
     <Content Include="Resources\mail.png" />
     <Content Include="Resources\pictures.png" />
+    <Content Include="Resources\gear.png" />
   </ItemGroup>
   <ItemGroup>
     <XamarinComponentReference Include="sqlite-net">
@@ -415,6 +424,10 @@
     </XamarinComponentReference>
     <XamarinComponentReference Include="AllianceChart">
       <Version>2.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+    <XamarinComponentReference Include="slide-down-menu">
+      <Version>1.1.1</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
   </ItemGroup>

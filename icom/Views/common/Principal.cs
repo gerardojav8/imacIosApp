@@ -8,6 +8,8 @@ using icom.globales;
 using icom.Entidades;
 using System.Text;
 using Newtonsoft.Json;
+using SlideDownMenu;
+using System.Collections.Generic;
 namespace icom
 {
 	public partial class Principal : UIViewController
@@ -15,9 +17,11 @@ namespace icom
 		public Principal () : base ("Principal", null)
 		{
 		}
-
 		HttpClient client;
 		LoadingOverlay loadPop;
+		Boolean blnmenuactivo = false;
+		SlideMenu sldmnu;
+
 
 		public string strusuario{ get; set; }
 
@@ -27,13 +31,54 @@ namespace icom
 		{
 			base.ViewDidLoad ();
 
-			btnCerrarSesion.Layer.CornerRadius = 10;
-			btnCerrarSesion.ClipsToBounds = true;
+			var item0 = new MenuItem("Cerrar Sesion", UIImage.FromBundle("Images/a0.png"), (menuItem) =>
+			{				
+				funciones.SalirSesion(this);
+			});
+			item0.Tag = 0;
+
+
+			var item1 = new MenuItem("Cambiar Password", UIImage.FromBundle("Images/a0.png"), (menuItem) =>
+			{
+				cambioPass viewcam = new cambioPass();
+
+				this.NavigationController.PushViewController(viewcam, false);
+				UIView.BeginAnimations(null);
+				UIView.SetAnimationDuration(0.7);
+				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View, true);
+				UIView.CommitAnimations();
+
+				sldmnu.ToggleMenu();
+				sldmnu.Hidden = true;
+				blnmenuactivo = false;
+
+			});
+			item1.Tag = 1;
+
+			sldmnu = new SlideMenu(new List<MenuItem> { item0, item1 }, new CoreGraphics.CGPoint(0, 110));
+			sldmnu.AutosizesSubviews = true;
+
+			this.View.AddSubview(sldmnu);
+
+			btnCerrarSesion.TouchUpInside += delegate
+			{
+				if (!blnmenuactivo)
+				{
+					sldmnu.Hidden = false;
+					sldmnu.ToggleMenu();
+					blnmenuactivo = true;
+				}
+				else { 
+					sldmnu.ToggleMenu();
+					sldmnu.Hidden = true;
+					blnmenuactivo = false;
+				}
+			};
+
 
 
 			btnMaquinaria.TouchUpInside += delegate {
-				//Maquinaria viewmaq = new Maquinaria();
-				//viewmaq.Title = "Maquinaria";
+				
 
 				MaquinasController viewmaq = new MaquinasController();
 
@@ -67,12 +112,6 @@ namespace icom
 				UIView.SetAnimationTransition(UIViewAnimationTransition.FlipFromRight, NavigationController.View,true);
 				UIView.CommitAnimations();
 			};
-
-
-			btnCerrarSesion.TouchUpInside += delegate {
-				funciones.SalirSesion(this);
-			};
-
 
 
 			/*if (strusuario.ToLower().Equals("fermin"))
@@ -152,7 +191,7 @@ namespace icom
 			string nombre = jsonresponse["nombre"].ToString();
 			string apepaterno = jsonresponse["apepaterno"].ToString();
 			string apematerno = jsonresponse["apematerno"].ToString();
-			lblUsuario.Text = nombre + " " + apepaterno + " " + apematerno;
+			btnCerrarSesion.SetTitle(nombre + " " + apepaterno + " " + apematerno, UIControlState.Normal);
 			Consts.idusuarioapp = jsonresponse["idusuario"].ToString();
 			Consts.nombreusuarioapp = nombre + " " + apepaterno + " " + apematerno;
 			Consts.inicialesusuarioapp = nombre.Substring(0, 1) + apepaterno.Substring(0, 1);
