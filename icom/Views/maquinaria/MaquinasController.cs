@@ -265,7 +265,7 @@ namespace icom
 			objmaq.noserie = json["noserie"].ToString();
 			objmaq.noeconomico = Int32.Parse(json["noeconomico"].ToString());
 			objmaq.marca = json["marca"].ToString();
-			objmaq.modelo = Int32.Parse(json["modelo"].ToString());
+			objmaq.modelo = json["modelo"].ToString();
 			objmaq.IdTipoMaquina = Int32.Parse(json["idtipomaquina"].ToString());
 			objmaq.tieneReporte = Int32.Parse(json["tieneReporte"].ToString());
 

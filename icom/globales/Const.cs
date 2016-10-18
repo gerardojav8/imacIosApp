@@ -4,12 +4,12 @@ namespace icom.globales
 {
 	public static class Consts
 	{
-		//public static readonly string ipserv = "proyextra.hopto.org";
-		public static readonly string ipserv = "192.168.0.31";
-		//public static readonly string ipservchat = "proyextra.hopto.org";
-		public static readonly string ipservchat = "192.168.0.31";
-		//public static readonly string puertochat = ":8080";
-		public static readonly string puertochat = ":30000";
+		public static readonly string ipserv = "icom.hopto.org";
+		//public static readonly string ipserv = "192.168.0.31";
+		public static readonly string ipservchat = "icom.hopto.org";
+		//public static readonly string ipservchat = "192.168.0.31";
+		public static readonly string puertochat = ":8080";
+		//public static readonly string puertochat = ":30000";
 
 		public static readonly string urltoken = "http://" + ipserv + "/icomtoken/oauth2/token";
 		public static readonly string ulrserv = "http://" + ipserv + "/icomApi/";
@@ -49,6 +49,31 @@ namespace icom.globales
 			"129,134,145",//Gray,
 			"111,145,44",//Cyan,
 			"145,88,123"//Magenta
+		};
+
+		public static string[] tipomaquinas = {
+			"Excavadora",
+			"Revolvedora",
+			"Trascabo",
+			"Barredora",
+			"Buldozer",
+			"Camion",
+			"Cargador",
+			"Criba",
+			"Extenedora",
+			"Generador",
+			"Motoconformadora",
+			"Neumatico",
+			"Perfiladora",
+			"Petrolizadora",
+			"Pipa",
+			"Recicladora",
+			"Retroexcavadora",
+			"Rodillo",
+			"Tracto",
+			"Trituradora",
+			"Vibrocompactador",
+			"Otros"
 		};
 
 	}

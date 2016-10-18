@@ -49,5 +49,7 @@
 	<string>com.gjgvinc.icom</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to the photo library</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This app needs access to the Calendar</string>
 </dict>
 </plist>

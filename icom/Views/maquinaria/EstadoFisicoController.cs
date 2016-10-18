@@ -9,6 +9,7 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
+using System.Drawing;
 
 namespace icom
 {
@@ -80,12 +81,34 @@ namespace icom
 
 				this.NavigationController.PopToViewController(viewft, true);
 			};
+
+			bajatecladoinputs();
 		}
 
-		public override void DidReceiveMemoryWarning()
+		private void bajatecladoinputs()
 		{
-			base.DidReceiveMemoryWarning();
-			// Release any cached data, images, etc that aren't in use.
+			UIToolbar toolbar;
+			UIBarButtonItem doneButton;
+
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtcalificacion.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtcalificacion.InputAccessoryView = toolbar;
+
+			toolbar = new UIToolbar(new RectangleF(0.0f, 0.0f, (float)this.View.Frame.Size.Width, 44.0f));
+			toolbar.Layer.BackgroundColor = UIColor.Blue.CGColor;
+			doneButton = new UIBarButtonItem(UIBarButtonSystemItem.Done, delegate { txtComentarios.EndEditing(true); });
+			toolbar.Items = new UIBarButtonItem[] { new UIBarButtonItem(UIBarButtonSystemItem.FlexibleSpace), doneButton };
+			this.txtComentarios.InputAccessoryView = toolbar;
+
+
+			txtmarca.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txttipo.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+			txtcapacidad.ShouldReturn += (txtUsuario) => { ((UITextField)txtUsuario).ResignFirstResponder(); return true; };
+
+
 		}
 	}
 }

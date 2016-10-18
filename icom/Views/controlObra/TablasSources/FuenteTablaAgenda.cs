@@ -108,6 +108,7 @@ namespace icom
 			}
 			tableView.EndUpdates();
 			tableView.DeselectRow(indexPath, true);
+
 		}
 
 		public override nfloat GetHeightForHeader(UITableView tableView, nint section)

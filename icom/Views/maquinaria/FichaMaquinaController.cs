@@ -106,15 +106,42 @@ namespace icom
 			lstefact = objfichamaquina.estadosfisicos;
 			lstfmact = objfichamaquina.filtros;
 
-			foreach (clsFiltrosMaquinas fm in lstfmact) {
-				switch (fm.idfiltro) {
-					case 1: txtFiltroMotor.Text = fm.medicion; break;
-					case 2: txtFiltroHid.Text = fm.medicion; break;
-					case 3: txtFiltroComb.Text = fm.medicion; break;
-					case 4: txtFiltroTrans.Text = fm.medicion; break;
-					case 5: txtFiltroAgua.Text = fm.medicion; break;
-					case 6: txtFiltroOtro.Text = fm.medicion; break;
-					default:  break;
+			if (lstfmact.Count == 0)
+			{
+				for (int f = 1; f <= 6; f++){
+					String nom = "";
+					switch (f) {
+						case 1: nom = "motor"; break;
+						case 2: nom = "hidraulico"; break;
+						case 3: nom = "combustible"; break;
+						case 4: nom = "transmision"; break;
+						case 5: nom = "agua"; break;
+						case 6: nom = "otro"; break;	
+					}
+					clsFiltrosMaquinas objfiltro = new clsFiltrosMaquinas { 
+						idfiltro = f,
+						nombre = nom,
+						medicion = "0",
+						comentario = ""
+					};
+					lstfmact.Add(objfiltro);
+
+				}
+
+			}
+			else {
+				foreach (clsFiltrosMaquinas fm in lstfmact)
+				{
+					switch (fm.idfiltro)
+					{
+						case 1: txtFiltroMotor.Text = fm.medicion; break;
+						case 2: txtFiltroHid.Text = fm.medicion; break;
+						case 3: txtFiltroComb.Text = fm.medicion; break;
+						case 4: txtFiltroTrans.Text = fm.medicion; break;
+						case 5: txtFiltroAgua.Text = fm.medicion; break;
+						case 6: txtFiltroOtro.Text = fm.medicion; break;
+						default: break;
+					}
 				}
 			}
 

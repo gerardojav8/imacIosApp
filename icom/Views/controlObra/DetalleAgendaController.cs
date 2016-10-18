@@ -231,6 +231,7 @@ namespace icom
 
 			btnAgregarCalendario.TouchUpInside += delegate {
 
+
 				App.Current.EventStore.RequestAccess(EKEntityType.Event, (bool granted, NSError err) =>
 				{
 					if (granted) {

@@ -227,26 +227,16 @@ namespace icom
 					UIImage imgmaq = null;
 					String strtipomaq = "";
 
-					if (maquina.IdTipoMaquina == Consts.Excabadora)
-					{
-						imgmaq = UIImage.FromFile("excabadora.png");
-						strtipomaq = "Excabadora";
+					switch (maquina.IdTipoMaquina) {
+						case 1: imgmaq = UIImage.FromFile("excabadora.png"); break;
+						case 2: imgmaq = UIImage.FromFile("revolvedora.png"); break;
+						case 3: imgmaq = UIImage.FromFile("trascabo.png"); break;
+						default: imgmaq = UIImage.FromFile("trascabo.png"); break;
+						
 					}
-					else if (maquina.IdTipoMaquina == Consts.Revolvedora)
-					{
-						imgmaq = UIImage.FromFile("revolvedora.png");
-						strtipomaq = "Revolvedora";
-					}
-					else if (maquina.IdTipoMaquina == Consts.Trascabo)
-					{
-						imgmaq = UIImage.FromFile("trascabo.png");
-						strtipomaq = "Trascabo";
-					}
-					else {
-						imgmaq = null;
-						strtipomaq = "";
-					}
-
+				    
+					strtipomaq = Consts.tipomaquinas[maquina.IdTipoMaquina-1];
+									
 					String leyenda = "Marca: " + maquina.marca + "   Modelo: " + maquina.modelo;
 
 					UIImage imagesem;
@@ -311,7 +301,7 @@ namespace icom
 
 				imageView.Frame = new CGRect(4, 4, 50, 50);
 				headingLabel.Frame = new CGRect(70, 4, ContentView.Bounds.Width - 63, 25);
-				imageView2.Frame = new CGRect(250, 6, 25, 25);
+				imageView2.Frame = new CGRect(255, 6, 25, 25);
 				subheadingLabel.Frame = new CGRect(70, 32, 500, 20);
 			}
 
