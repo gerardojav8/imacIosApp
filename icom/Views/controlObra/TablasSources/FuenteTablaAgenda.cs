@@ -49,7 +49,9 @@ namespace icom
 			int insertPos = index + 1;
 			for (int i = 1; i <= cant; i++)
 			{
+				
 				tableView.InsertRows(new[] { NSIndexPath.FromRowSection(insertPos++, 0) }, UITableViewRowAnimation.Fade);
+
 			}
 
 
@@ -109,6 +111,11 @@ namespace icom
 			tableView.EndUpdates();
 			tableView.DeselectRow(indexPath, true);
 
+			if ((int)currentExpandedIndex == 11)
+			{
+				tableView.ScrollToRow(NSIndexPath.FromRowSection(11 +LstDatosAgenda.ElementAt((int)currentExpandedIndex).lstEventos.Count, 0), UITableViewScrollPosition.Bottom, true);
+			}
+
 		}
 
 		public override nfloat GetHeightForHeader(UITableView tableView, nint section)
@@ -156,6 +163,8 @@ namespace icom
 
 
 				cell.Accessory = UITableViewCellAccessory.None;
+
+
 
 				return cell;
 			}
